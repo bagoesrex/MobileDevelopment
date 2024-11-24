@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/mainBoard">
+
+    <fragment
+        android:id="@+id/mainBoard"
+        android:name="com.example.skincure.ui.mainboard.MainBoard"
+        android:label="fragment_main_board"
+        tools:layout="@layout/fragment_main_board" />
+
+</navigation>
