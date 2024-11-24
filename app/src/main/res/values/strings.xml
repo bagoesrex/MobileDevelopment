@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">SkinCure</string>
     <string name="project_on_progress">Project on Progress!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_tittle">SkinCure</string>
+    <string name="app_description">Kesehatan Dengan Perawatan</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="main_ic">main_ic</string>
 </resources>
