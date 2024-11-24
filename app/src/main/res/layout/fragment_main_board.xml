@@ -1,14 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary"
     tools:context=".ui.mainboard.MainBoard">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ImageView
+        android:id="@+id/main_image_view"
+        android:layout_width="370dp"
+        android:layout_height="370dp"
+        android:layout_above="@id/main_card_view"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        android:contentDescription="@string/main_ic"
+        android:src="@drawable/main_board_ic" />
 
-</FrameLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/main_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="-20dp"
+        app:cardBackgroundColor="@color/secondary"
+        app:cardCornerRadius="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="13dp">
+
+            <TextView
+                android:id="@+id/tittle_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/app_tittle"
+                android:textColor="@color/primary"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/description_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tittle_text_view"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="@string/app_description"
+                android:textColor="@color/black"
+                android:textSize="17sp"
+                android:textStyle="italic" />
+
+            <Button
+                android:id="@+id/login_button"
+                style="@style/RoundedButton"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/description_text_view"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/primary"
+                android:text="@string/login"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/signup_button"
+                style="@style/RoundedButton"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/login_button"
+                android:backgroundTint="@color/primary"
+                android:text="@string/signup"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

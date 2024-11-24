@@ -1,4 +1,7 @@
 package com.example.skincure.ui.mainboard
 
-class MainBoardViewModel {
+import androidx.lifecycle.ViewModel
+
+class MainBoardViewModel : ViewModel() {
+
 }
