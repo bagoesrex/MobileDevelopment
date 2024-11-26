@@ -8,4 +8,23 @@
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
     <string name="main_ic">main_ic</string>
+    <string name="login_with_google">Log in with</string>
+    <string name="google_logo">Google logo</string>
+    <string name="no_account"><![CDATA[No account? <a>Sign up</a>]]></string>
+    <string name="have_account"><![CDATA[Already have account? <a>Log in</a>]]></string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="create_account">Create account</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up_with">Sign up with</string>
+    <string name="confirm">Confirm</string>
+    <string name="otp">OTP\n</string>
+    <string name="sent_to_otp">Enter the 6-digit code we sent to \nskincure@example.com</string>
+    <string name="resend_code">Resend Code</string>
+    <string name="setting">Pengaturan</string>
+    <string name="log_out">Log Out</string>
+    <string name="information">Information</string>
+    <string name="contact_us">Contact Us</string>
 </resources>
