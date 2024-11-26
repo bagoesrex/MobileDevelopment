@@ -21,11 +21,59 @@
         android:id="@+id/login"
         android:name="com.example.skincure.ui.login.Login"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_to_signUp"
+            app:destination="@id/signUp" />
+        <action
+            android:id="@+id/action_login_to_otp"
+            app:destination="@id/otp" />
+        <action
+            android:id="@+id/action_login_to_home"
+            app:destination="@id/home" />
+
+    </fragment>
     <fragment
         android:id="@+id/signUp"
         android:name="com.example.skincure.ui.signup.SignUp"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUp_to_home"
+            app:destination="@id/home" />
+        <action
+            android:id="@+id/action_signUp_to_login"
+            app:destination="@id/login" />
+        <action
+            android:id="@+id/action_signUp_to_otp"
+            app:destination="@id/otp" />
+    </fragment>
+    <fragment
+        android:id="@+id/home"
+        android:name="com.example.skincure.ui.home.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_settings"
+            app:destination="@id/settings" />
+    </fragment>
+    <fragment
+        android:id="@+id/otp"
+        android:name="com.example.skincure.ui.otp.Otp"
+        android:label="fragment_otp"
+        tools:layout="@layout/fragment_otp" >
+        <action
+            android:id="@+id/action_otp_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.example.skincure.ui.setting.Settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settings_to_mainBoard"
+            app:destination="@id/mainBoard" />
+    </fragment>
 
 </navigation>
