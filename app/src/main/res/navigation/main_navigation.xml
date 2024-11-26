@@ -9,6 +9,23 @@
         android:id="@+id/mainBoard"
         android:name="com.example.skincure.ui.mainboard.MainBoard"
         android:label="fragment_main_board"
-        tools:layout="@layout/fragment_main_board" />
+        tools:layout="@layout/fragment_main_board" >
+        <action
+            android:id="@+id/action_mainBoard_to_login"
+            app:destination="@id/login" />
+        <action
+            android:id="@+id/action_mainBoard_to_signUp"
+            app:destination="@id/signUp" />
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.skincure.ui.login.Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/signUp"
+        android:name="com.example.skincure.ui.signup.SignUp"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" />
 
 </navigation>
