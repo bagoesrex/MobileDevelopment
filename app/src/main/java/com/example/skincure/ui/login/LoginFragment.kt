@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentLoginBinding
 
-class Login : Fragment() {
+class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
@@ -23,7 +23,12 @@ class Login : Fragment() {
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
 
+        setupView()
 
+        return binding.root
+    }
+
+    private fun setupView() {
         binding.loginButton.apply {
             setOnClickListener {
                 findNavController().navigate(R.id.action_login_to_otp)
@@ -44,7 +49,5 @@ class Login : Fragment() {
                 findNavController().navigate(R.id.action_login_to_signUp)
             }
         }
-
-        return binding.root
     }
 }

@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentOtpBinding
 
-class Otp : Fragment() {
+class OtpFragment : Fragment() {
 
     private lateinit var binding: FragmentOtpBinding
     private val viewModel: OtpViewModel by viewModels()
@@ -21,12 +21,16 @@ class Otp : Fragment() {
     ): View {
         binding = FragmentOtpBinding.inflate(inflater, container, false)
 
+        setupView()
+
+        return binding.root
+    }
+
+    private fun setupView() {
         binding.confirmButton.apply {
             setOnClickListener {
                 findNavController().navigate(R.id.action_otp_to_home)
             }
         }
-
-        return binding.root
     }
 }

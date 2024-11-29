@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentSignUpBinding
 
-class SignUp : Fragment() {
+class SignUpFragment : Fragment() {
 
     private lateinit var binding: FragmentSignUpBinding
     private val viewModel: SignUpViewModel by viewModels()
@@ -25,6 +25,12 @@ class SignUp : Fragment() {
     ): View {
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
 
+        setupView()
+
+        return binding.root
+    }
+
+    private fun setupView() {
         binding.registerButton.apply {
             setOnClickListener {
                 findNavController().navigate(R.id.action_signUp_to_otp)
@@ -33,7 +39,7 @@ class SignUp : Fragment() {
 
         binding.googleRegisterButton.apply{
             setOnClickListener {
-//                viewModel.signInWithGoogle(requireActivity())
+                // viewModel.signInWithGoogle(requireActivity())
                 findNavController().navigate(R.id.action_signUp_to_home)
             }
         }
@@ -45,6 +51,5 @@ class SignUp : Fragment() {
                 findNavController().navigate(R.id.action_signUp_to_login)
             }
         }
-        return binding.root
     }
 }
