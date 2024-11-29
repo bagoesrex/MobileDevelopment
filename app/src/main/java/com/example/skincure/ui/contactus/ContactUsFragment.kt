@@ -5,23 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentContactUsBinding
-import com.example.skincure.databinding.FragmentHomeBinding
-import com.example.skincure.ui.home.HomeViewModel
 
 class ContactUsFragment : Fragment() {
 
-    private lateinit var binding: FragmentContactUsBinding
-    private val viewModel: HomeViewModel by viewModels()
+    private var _binding: FragmentContactUsBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: ContactUsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentContactUsBinding.inflate(inflater, container, false)
+        _binding = FragmentContactUsBinding.inflate(inflater, container, false)
 
         setupView()
 
@@ -29,6 +28,18 @@ class ContactUsFragment : Fragment() {
     }
 
     private fun setupView() {
+        (requireActivity() as AppCompatActivity).apply {
+            setSupportActionBar(binding.toolbarId.toolbar)
+            supportActionBar?.apply {
+                title = getString(R.string.contact_us)
+                setDisplayHomeAsUpEnabled(true)
+                setHomeAsUpIndicator(R.drawable.ic_back)
+            }
+        }
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

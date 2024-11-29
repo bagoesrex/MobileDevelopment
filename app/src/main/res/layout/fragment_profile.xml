@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileFragment">
 
-<!--    <include-->
-<!--        android:id="@+id/toolbar_id"-->
-<!--        layout="@layout/toolbar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <include
+        android:id="@+id/toolbar_id"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
@@ -24,8 +24,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingClass" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

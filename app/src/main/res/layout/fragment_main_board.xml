@@ -19,6 +19,7 @@
 
         android:contentDescription="@string/main_ic"
         android:src="@drawable/ic_mainboard"
+        app:layout_constraintBottom_toTopOf="@+id/main_card_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

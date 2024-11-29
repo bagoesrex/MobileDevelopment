@@ -74,6 +74,14 @@
         <action
             android:id="@+id/action_settings_to_mainBoard"
             app:destination="@id/mainBoard" />
+        <action
+            android:id="@+id/action_settings_to_contactUs"
+            app:destination="@id/contactUs" />
     </fragment>
+    <fragment
+        android:id="@+id/contactUs"
+        android:name="com.example.skincure.ui.contactus.ContactUsFragment"
+        android:label="fragment_contact_us"
+        tools:layout="@layout/fragment_contact_us" />
 
 </navigation>
