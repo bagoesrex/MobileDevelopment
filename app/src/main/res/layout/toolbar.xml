@@ -7,4 +7,7 @@
     android:elevation="4dp"
     android:title="@string/app_name"
     android:textAlignment="center"
-    app:titleTextColor="@color/white" />
+    android:background="@color/primary"
+    app:titleTextColor="@color/black" />
+
+<!-- Toolbar Background Sementara -->

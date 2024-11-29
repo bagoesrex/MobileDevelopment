@@ -1,6 +1,5 @@
 package com.example.skincure.ui.signup
 
-
 import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.text.Html
@@ -15,7 +14,8 @@ import com.example.skincure.databinding.FragmentSignUpBinding
 
 class SignUpFragment : Fragment() {
 
-    private lateinit var binding: FragmentSignUpBinding
+    private var _binding: FragmentSignUpBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: SignUpViewModel by viewModels()
 
 
@@ -23,7 +23,7 @@ class SignUpFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentSignUpBinding.inflate(inflater, container, false)
+        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
 
         setupView()
 
@@ -51,5 +51,10 @@ class SignUpFragment : Fragment() {
                 findNavController().navigate(R.id.action_signUp_to_login)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

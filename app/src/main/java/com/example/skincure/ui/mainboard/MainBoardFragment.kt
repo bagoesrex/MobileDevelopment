@@ -9,18 +9,18 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentMainBoardBinding
-import com.example.skincure.ui.login.LoginViewModel
 
 class MainBoardFragment : Fragment() {
 
-    private lateinit var binding : FragmentMainBoardBinding
+    private var _binding: FragmentMainBoardBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: MainBoardViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentMainBoardBinding.inflate(inflater, container, false)
+        _binding = FragmentMainBoardBinding.inflate(inflater, container, false)
 
         setupView()
 
@@ -35,5 +35,10 @@ class MainBoardFragment : Fragment() {
         binding.signupButton.setOnClickListener{
             findNavController().navigate(R.id.action_mainBoard_to_signUp)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

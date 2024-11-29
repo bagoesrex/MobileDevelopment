@@ -13,31 +13,40 @@ import com.example.skincure.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
 
-    private lateinit var binding: FragmentSettingsBinding
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentSettingsBinding.inflate(inflater, container, false)
-
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         setupView()
-
         return binding.root
     }
 
     private fun setupView() {
-        // toolbar
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        binding.backButton.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
-        binding.logoutButton.apply {
-            setOnClickListener {
-                findNavController().navigate(R.id.action_settings_to_mainBoard)
+        (requireActivity() as AppCompatActivity).apply {
+            setSupportActionBar(binding.toolbarId.toolbar)
+            supportActionBar?.apply {
+                title = getString(R.string.setting)
+                setDisplayHomeAsUpEnabled(true)
+                setHomeAsUpIndicator(R.drawable.ic_back)
             }
         }
+
+        binding.contactButton.setOnClickListener {
+            findNavController().navigate(R.id.action_settings_to_contactUs)
+        }
+
+        binding.logoutButton.setOnClickListener {
+            findNavController().navigate(R.id.action_settings_to_mainBoard)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -63,6 +63,7 @@ dependencies {
     //viewmodel
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.fragment.ktx)
 
     //picasso
     implementation (libs.picasso)

@@ -14,14 +14,15 @@ import com.example.skincure.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
-    private lateinit var binding: FragmentLoginBinding
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         setupView()
 
@@ -49,5 +50,10 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_login_to_signUp)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
