@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentSettingsBinding
 
-class Settings : Fragment() {
+class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
     private val viewModel: SettingsViewModel by viewModels()
@@ -22,7 +22,13 @@ class Settings : Fragment() {
     ): View {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
-//        toolbar
+        setupView()
+
+        return binding.root
+    }
+
+    private fun setupView() {
+        // toolbar
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         binding.backButton.setOnClickListener {
             findNavController().navigateUp()
@@ -33,7 +39,5 @@ class Settings : Fragment() {
                 findNavController().navigate(R.id.action_settings_to_mainBoard)
             }
         }
-
-        return binding.root
     }
 }
