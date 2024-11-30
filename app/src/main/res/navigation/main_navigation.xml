@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainBoard"
-        android:name="com.example.skincure.ui.mainboard.MainBoard"
+        android:name="com.example.skincure.ui.mainboard.MainBoardFragment"
         android:label="fragment_main_board"
         tools:layout="@layout/fragment_main_board" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/login"
-        android:name="com.example.skincure.ui.login.Login"
+        android:name="com.example.skincure.ui.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -35,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUp"
-        android:name="com.example.skincure.ui.signup.SignUp"
+        android:name="com.example.skincure.ui.signup.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/home"
-        android:name="com.example.skincure.ui.home.Home"
+        android:name="com.example.skincure.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -59,7 +59,7 @@
     </fragment>
     <fragment
         android:id="@+id/otp"
-        android:name="com.example.skincure.ui.otp.Otp"
+        android:name="com.example.skincure.ui.otp.OtpFragment"
         android:label="fragment_otp"
         tools:layout="@layout/fragment_otp" >
         <action
@@ -68,12 +68,20 @@
     </fragment>
     <fragment
         android:id="@+id/settings"
-        android:name="com.example.skincure.ui.setting.Settings"
+        android:name="com.example.skincure.ui.setting.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" >
         <action
             android:id="@+id/action_settings_to_mainBoard"
             app:destination="@id/mainBoard" />
+        <action
+            android:id="@+id/action_settings_to_contactUs"
+            app:destination="@id/contactUs" />
     </fragment>
+    <fragment
+        android:id="@+id/contactUs"
+        android:name="com.example.skincure.ui.contactus.ContactUsFragment"
+        android:label="fragment_contact_us"
+        tools:layout="@layout/fragment_contact_us" />
 
 </navigation>

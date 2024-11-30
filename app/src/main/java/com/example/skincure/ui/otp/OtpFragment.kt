@@ -10,23 +10,33 @@ import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentOtpBinding
 
-class Otp : Fragment() {
+class OtpFragment : Fragment() {
 
-    private lateinit var binding: FragmentOtpBinding
+    private var _binding: FragmentOtpBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: OtpViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentOtpBinding.inflate(inflater, container, false)
+        _binding = FragmentOtpBinding.inflate(inflater, container, false)
 
+        setupView()
+
+        return binding.root
+    }
+
+    private fun setupView() {
         binding.confirmButton.apply {
             setOnClickListener {
                 findNavController().navigate(R.id.action_otp_to_home)
             }
         }
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

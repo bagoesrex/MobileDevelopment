@@ -63,6 +63,7 @@ dependencies {
     //viewmodel
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation (libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.fragment.ktx)
 
     //picasso
     implementation (libs.picasso)
@@ -70,5 +71,8 @@ dependencies {
     //navigation
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx)
+
+    //circleimageview
+    implementation (libs.circleimageview)
 
 }
