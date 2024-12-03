@@ -34,6 +34,7 @@ class InformationFragment : Fragment() {
                 title = getString(R.string.information)
                 setDisplayHomeAsUpEnabled(true)
                 setHomeAsUpIndicator(R.drawable.ic_back)
+
             }
         }
     }

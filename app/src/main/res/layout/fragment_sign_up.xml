@@ -58,8 +58,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/name"
+            android:paddingEnd="48dp"
             android:inputType="textPersonName"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="RtlSymmetry,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -99,12 +100,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ed_login_email"
+            android:id="@+id/ed_register_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
+            android:paddingEnd="48dp"
             android:inputType="textEmailAddress"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="RtlSymmetry,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -138,15 +140,17 @@
         app:layout_constraintEnd_toEndOf="@+id/emailEditTextLayout"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/emailEditTextLayout"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        tools:ignore="PrivateResource">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ed_login_password"
+            android:id="@+id/ed_register_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
+            android:paddingEnd="48dp"
             android:inputType="textPassword"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="RtlSymmetry,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -180,15 +184,17 @@
         app:layout_constraintEnd_toEndOf="@+id/passwordEditTextLayout"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/passwordEditTextLayout"
-        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout">
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout"
+        tools:ignore="PrivateResource">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/ed_login_confirmation"
+            android:id="@+id/ed_register_confirmation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
+            android:paddingEnd="48dp"
             android:inputType="textPassword"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="RtlSymmetry,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton

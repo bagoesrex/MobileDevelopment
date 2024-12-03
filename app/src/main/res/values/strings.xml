@@ -35,4 +35,15 @@
     <string name="news">News</string>
     <string name="news_detail">News Detail</string>
     <string name="favorite">Favorite</string>
+    <string name="your_web_client_id">489481028538-fq637i5ggk0qpghuigu47tck96nhocoe.apps.googleusercontent.com</string>
+    <string name="tunggu">Mohon Tunggu...</string>
+    <string name="invalid_email">Email tidak valid!</string>
+    <string name="password_minimum_length">Password minimal 8 karakter!</string>
+    <string name="profile_update_failed">Gagal mengupdate profile</string>
+    <string name="name_required">Nama tidak boleh kosong</string>
+    <string name="user_name_not_loaded">Nama user gagal  di load</string>
+    <string name="resend_verification">Resend Email Verification</string>
+    <string name="verify_email">Email Verification</string>
+    <string name="kami_telah_mengirimkan_kode_verifikasi_ke_silakan_cek_email_anda">Kami telah mengirimkan kode verifikasi ke %1$s. Silakan cek email Anda.</string>
+    <string name="ganti_profile">Ganti Profile</string>
 </resources>

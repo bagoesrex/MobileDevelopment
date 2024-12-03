@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.otp.OtpFragment">
 
     <TextView
@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="108dp"
-        android:text="@string/otp"
+        android:text="@string/verify_email"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,170 +23,49 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="@string/sent_to_otp"
+        android:text=""
         android:textAlignment="center"
-        android:textColor="?attr/android:textColor"
         android:textSize="20sp"
-        android:textStyle="italic"
+        android:layout_marginHorizontal="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <TextView
-        android:id="@+id/resendCodeText"
+    <Button
+        android:id="@+id/resendCodeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/resend_code"
-        android:textColor="?attr/android:textColor"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:focusable="true"
-        android:clickable="true"
-        android:background="?attr/selectableItemBackground"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:layout_marginTop="24dp"
+        android:text="@string/resend_verification"
+        android:backgroundTint="@color/primary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textDescription" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="284dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="16dp"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/verificationAnimation"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/confirmButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:boxBackgroundColor="@color/glass"
-            app:boxBackgroundMode="outline">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/otpDigit1"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:gravity="center"
-                android:importantForAccessibility="yes"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textColor="@android:color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:boxBackgroundColor="@color/glass"
-            app:boxBackgroundMode="outline">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/otpDigit2"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:gravity="center"
-                android:importantForAccessibility="yes"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textColor="@android:color/black"
-                tools:ignore="DuplicateSpeakableTextCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:boxBackgroundColor="@color/glass"
-            app:boxBackgroundMode="outline">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/otpDigit3"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:gravity="center"
-                android:importantForAccessibility="yes"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textColor="@android:color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:boxBackgroundColor="@color/glass"
-            app:boxBackgroundMode="outline">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/otpDigit4"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:gravity="center"
-                android:importantForAccessibility="yes"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textColor="@android:color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:boxBackgroundColor="@color/glass"
-            app:boxBackgroundMode="outline">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/otpDigit5"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:gravity="center"
-                android:importantForAccessibility="yes"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textColor="@android:color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            app:boxBackgroundColor="@color/glass"
-            app:boxBackgroundMode="outline">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/otpDigit6"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:gravity="center"
-                android:importantForAccessibility="yes"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textColor="@android:color/black" />
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
+        app:layout_constraintTop_toBottomOf="@+id/resendCodeButton"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/verification_animation" />
 
     <Button
         android:id="@+id/confirmButton"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_gravity="center"
+        android:layout_marginTop="24dp"
+        android:text="@string/confirm"
         android:backgroundTint="@color/primary"
         android:elevation="8dp"
-        android:text="@string/confirm"
-        android:textColor="?attr/colorOnSecondary"
         app:cornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.087" />
-
+        app:layout_constraintTop_toBottomOf="@+id/resendCodeButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,18 +10,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentSettingsBinding
+import com.google.firebase.auth.FirebaseAuth
 
 class SettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SettingsViewModel by viewModels()
+    private lateinit var auth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        auth = FirebaseAuth.getInstance()
         setupView()
         return binding.root
     }
@@ -41,6 +44,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.logoutButton.setOnClickListener {
+            auth.signOut()
             findNavController().navigate(R.id.action_settings_to_mainBoard)
         }
     }

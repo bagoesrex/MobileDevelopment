@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -75,4 +76,15 @@ dependencies {
     //circleimageview
     implementation (libs.circleimageview)
 
+    //firebase authentication
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth.ktx)
+    implementation (libs.firebase.appcheck.playintegrity)
+    implementation (libs.play.services.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.gms.play.services.auth)
+    implementation(libs.googleid)
+
+    //animation lottie
+    implementation (libs.lottie)
 }
