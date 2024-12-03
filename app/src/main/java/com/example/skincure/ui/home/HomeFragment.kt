@@ -35,16 +35,22 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupView() {
-        binding.settingButton.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_settings)
-        }
-
-        binding.buttonProfile.setOnClickListener {
+        binding.settingCard.apply {
+            setOnClickListener {
+                findNavController().navigate(R.id.action_home_to_settings)
+            }
+        binding.profileButton.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_profile)
         }
     }
 
-    private fun setupObserver() {
+        binding.cameraCard.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_camera)
+        }
+
+        val user = FirebaseAuth.getInstance().currentUser
+
+        private fun setupObserver() {
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             showLoading(isLoading)
         }
@@ -54,7 +60,7 @@ class HomeFragment : Fragment() {
                 val displayName = user.displayName
                 val namePref = pref.getUserName()
                 val welcomeMessage = "Hi, ${displayName ?: namePref}"
-                binding.userName.text = welcomeMessage
+                binding.usernameTextView.text = welcomeMessage
 
                 val photoUrl = user.photoUrl
                 Log.d("HomeFragment", "Photo URL: $photoUrl")
@@ -67,10 +73,10 @@ class HomeFragment : Fragment() {
                         .centerCrop()
                         .into(binding.buttonProfile)
                 } else {
-                    binding.buttonProfile.setImageResource(R.drawable.ic_person)
+                    binding.profileButton.setImageResource(R.drawable.ic_person)
                 }
             } else {
-                binding.userName.text = buildString {
+                binding.usernameTextView.text = buildString {
                     append("Hi, Pengguna")
                 }
                 binding.buttonProfile.setImageResource(R.drawable.ic_person)

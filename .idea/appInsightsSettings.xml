@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.skincure" />
+                  <option name="mobileSdkAppId" value="1:489481028538:android:b925053a34d739cd6b5383" />
+                  <option name="projectId" value="skin-cure-5e449" />
+                  <option name="projectNumber" value="489481028538" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

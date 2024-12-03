@@ -46,6 +46,12 @@
     <string name="verify_email">Email Verification</string>
     <string name="kami_telah_mengirimkan_kode_verifikasi_ke_silakan_cek_email_anda">Kami telah mengirimkan kode verifikasi ke %1$s. Silakan cek email Anda.</string>
     <string name="ganti_profile">Ganti Profile</string>
+    <string name="camera_tittle">Capture or Upload Photo</string>
+    <string name="failed_open_camera">Failed to Open Camera</string>
+    <string name="failed_take_picture">Failed to Take Picture</string>
+    <string name="permission_request_granted">Permission granted</string>
+    <string name="permission_request_denied">Permission denied</string>
+    <string name="result_detail">Result Detail</string>
     <string name="information_1">SkinCure is a capstone project in the field of health innovation. The goal is to develop a mobile application capable of automatically detecting facial skin diseases and providing recommendations for treatment options and information on possible causes.</string>
     <string name="information_2">SkinCure works with Machine Learning technology which is able to analyze facial images to detect certain types of acne or skin problems. After analysis, the app provides treatment suggestions and information regarding common causes of detected skin conditions.</string>
     <string name="information_3">SkinCure uses an artificial intelligence model trained on skin datasets to provide accurate analysis results, but it is not 100% perfect. The results of the analysis are an initial guide; For further diagnosis and treatment, we recommend consulting a professional or dermatologist.</string>
