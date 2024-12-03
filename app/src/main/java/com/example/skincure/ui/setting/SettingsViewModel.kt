@@ -5,13 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.skincure.data.pref.UserPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(private val pref: UserPreferences) : ViewModel() {
+class SettingsViewModel : ViewModel() {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
     private val _isLoggingOut = MutableLiveData<Boolean>()
@@ -28,7 +27,6 @@ class SettingsViewModel(private val pref: UserPreferences) : ViewModel() {
 
             _isLoggingOut.value = true
             try {
-                pref.clearToken()
                 auth.signOut()
                 delay(500)
                 _logoutSuccess.value = true
