@@ -21,6 +21,9 @@
             app:destination="@id/home"
             app:popUpTo="@id/mainBoard"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_mainBoard_to_otp"
+            app:destination="@id/otp" />
     </fragment>
     <fragment
         android:id="@+id/login"
@@ -92,6 +95,13 @@
         <action
             android:id="@+id/action_settings_to_contactUs"
             app:destination="@id/contactUs" />
+        <action
+            android:id="@+id/action_settings_to_information"
+            app:destination="@id/information" />
+        <action
+            android:id="@+id/action_mainBoard_to_home"
+            app:destination="@id/home" />
+
     </fragment>
     <fragment
         android:id="@+id/contactUs"
@@ -103,5 +113,11 @@
         android:name="com.example.skincure.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/information"
+        android:name="com.example.skincure.ui.information.InformationFragment"
+        android:label="fragment_information"
+        tools:layout="@layout/fragment_information" />
+
 
 </navigation>

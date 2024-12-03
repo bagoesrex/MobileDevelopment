@@ -8,6 +8,6 @@
     android:title="@string/app_name"
     android:textAlignment="center"
     android:background="@color/primary"
-    app:titleTextColor="@color/black" />
+    app:titleTextColor="@color/white" />
 
 <!-- Toolbar Background Sementara -->
