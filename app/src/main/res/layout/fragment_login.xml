@@ -59,10 +59,10 @@
             android:id="@+id/ed_login_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingEnd="48dp"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            tools:ignore="RtlSymmetry,SpeakableTextPresentCheck" />
+            android:paddingEnd="48dp"
+            tools:ignore="RtlSymmetry,SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -106,7 +106,8 @@
             android:hint="@string/password"
             android:inputType="textPassword"
             android:paddingEnd="48dp"
-            tools:ignore="RtlSymmetry,SpeakableTextPresentCheck" />
+            android:textColorHint="@color/primary"
+            tools:ignore="RtlSymmetry,SpeakableTextPresentCheck,DuplicateSpeakableTextCheck,TextContrastCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -157,7 +158,7 @@
             android:contentDescription="@string/google_logo"
             android:focusable="true"
             android:src="@drawable/ic_google"
-            tools:ignore="TouchTargetSizeCheck" />
+            tools:ignore="TouchTargetSizeCheck,ImageContrastCheck" />
     </LinearLayout>
 
     <View

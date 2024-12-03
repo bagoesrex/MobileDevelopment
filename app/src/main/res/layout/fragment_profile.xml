@@ -25,32 +25,135 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingClass" />
+        tools:ignore="MissingClass"
+        android:alpha="0"
+        tools:alpha="100"/>
 
     <TextView
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:fontFamily="sans-serif-black"
         android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
+        android:textColor="?attr/android:textColor"
+        app:layout_constraintBottom_toTopOf="@+id/button_galeri"
+        app:layout_constraintEnd_toEndOf="@+id/button_galeri"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="@+id/button_galeri"
         app:layout_constraintTop_toBottomOf="@+id/profile_image"
-        app:layout_constraintVertical_bias="0.058" />
+        app:layout_constraintVertical_bias="0.219"
+        android:alpha="0"
+        tools:alpha="100"/>
 
-    <Button
+    <TextView
         android:id="@+id/button_galeri"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
         android:text="@string/ganti_profile"
+        android:textColor="@color/primary"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_name"
-        app:layout_constraintVertical_bias="0.127" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        app:layout_constraintVertical_bias="0.075"
+        android:alpha="0"
+        tools:alpha="100"/>
+
+    <TextView
+        android:id="@+id/delete_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/delete_image"
+        android:textColor="#DD2C00"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/button_galeri"
+        app:layout_constraintStart_toStartOf="@+id/button_galeri"
+        app:layout_constraintTop_toBottomOf="@+id/button_galeri"
+        android:alpha="0"
+        tools:alpha="100"/>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/button_save"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="36dp"
+        android:backgroundTint="@color/primary"
+        android:text="@string/save"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textInputEditTextAge"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textInputEditTextAge"
+        android:alpha="0"
+        tools:alpha="100"/>
+
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/name"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/delete_image"
+        android:alpha="0"
+        tools:alpha="100"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/textInputEditTextName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:minHeight="48dp"
+        android:text=""
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvName"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:ignore="SpeakableTextPresentCheck"
+        android:alpha="0"
+        tools:alpha="100"/>
+
+    <TextView
+        android:id="@+id/tvUmur"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/umur"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/textInputEditTextName"
+        app:layout_constraintHorizontal_bias="0.349"
+        app:layout_constraintStart_toStartOf="@+id/textInputEditTextName"
+        app:layout_constraintTop_toBottomOf="@+id/textInputEditTextName"
+        android:alpha="0"
+        tools:alpha="100"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/textInputEditTextAge"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:minHeight="48dp"
+        android:text="@string/zero"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/tvUmur"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tvUmur"
+        app:layout_constraintTop_toBottomOf="@+id/tvUmur"
+        android:alpha="0"
+        tools:alpha="100"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

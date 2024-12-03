@@ -7,6 +7,15 @@
     android:background="@color/secondary"
     tools:context=".ui.home.HomeFragment">
 
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="124dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="148dp"
+        android:src="@drawable/skincure_logo"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tittle_layout"
         android:layout_width="match_parent"
@@ -16,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/image_logo">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/username_text_view"

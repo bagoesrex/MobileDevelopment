@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
+import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.data.repository.AuthRepository
 import com.example.skincure.databinding.FragmentLoginBinding
 import com.example.skincure.utils.createLoadingDialog
@@ -54,10 +55,16 @@ class LoginFragment : Fragment() {
         val authRepository = AuthRepository(auth)
 
         viewModel = LoginViewModel(authRepository)
+
+        setupListeners()
+
+        observeLoginState()
+    }
+
+    private fun setupListeners() {
         binding.loginButton.setOnClickListener {
             val email = binding.edLoginEmail.text.toString().trim()
             val password = binding.edLoginPassword.text.toString().trim()
-
             if (validateInput(email, password)) {
                 viewModel.loginUser(email, password)
             }
@@ -74,7 +81,6 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_login_to_signUp)
             }
         }
-        observeLoginState()
     }
 
     private fun observeLoginState() {
@@ -110,6 +116,7 @@ class LoginFragment : Fragment() {
                 handleSignIn(result)
             } catch (e: GetCredentialException) {
                 showLoading(false)
+                showToast(requireContext(), e.message.toString(), Toast.LENGTH_SHORT)
                 Log.d("Error", e.message.toString())
             }
         }
@@ -144,15 +151,26 @@ class LoginFragment : Fragment() {
     private fun updateUI(currentUser: FirebaseUser?) {
         showLoading(false)
         if (currentUser != null) {
-            if (currentUser.isEmailVerified) {
-                showToast(
-                    requireContext(),
-                    "Selamat datang ${currentUser.displayName ?: "User"}",
-                    Toast.LENGTH_SHORT
-                )
-                findNavController().navigate(R.id.action_login_to_home)
-            } else {
-                sendVerificationEmail(currentUser)
+            currentUser.getIdToken(true).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val userPreferences = UserPreferences(requireContext())
+                    val idToken = task.result?.token
+                    idToken?.let {
+                        userPreferences.saveToken(it)
+                    }
+                    if (currentUser.isEmailVerified) {
+                        showToast(
+                            requireContext(),
+                            "Selamat datang ${currentUser.displayName ?: "User"}",
+                            Toast.LENGTH_SHORT
+                        )
+                        findNavController().navigate(R.id.action_login_to_home)
+                    } else {
+                        sendVerificationEmail(currentUser)
+                    }
+                } else {
+                    showError("Gagal mengambil ID token")
+                }
             }
         } else {
             Toast.makeText(requireContext(), "Authentication failed.", Toast.LENGTH_SHORT).show()
@@ -212,7 +230,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun showError(message: String) {
-        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+        showToast(requireContext(), message, Snackbar.LENGTH_LONG)
     }
 
     override fun onDestroyView() {
