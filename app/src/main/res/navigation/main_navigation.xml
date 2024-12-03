@@ -69,7 +69,10 @@
         <action
             android:id="@+id/action_home_to_profile"
             app:destination="@id/profile" />
-    </fragment>
+        <action
+            android:id="@+id/action_home_to_camera"
+            app:destination="@id/camera" />
+     </fragment>
     <fragment
         android:id="@+id/otp"
         android:name="com.example.skincure.ui.otp.OtpFragment"
@@ -103,5 +106,27 @@
         android:name="com.example.skincure.ui.profile.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/camera"
+        android:name="com.example.skincure.ui.camera.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" >
+        <action
+            android:id="@+id/action_camera_to_resultDetailFragment"
+            app:destination="@id/resultDetail" >
+            <argument
+                android:name="imageUri"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/resultDetail"
+        android:name="com.example.skincure.ui.result_detail.ResultDetailFragment"
+        android:label="fragment_result_detail"
+        tools:layout="@layout/fragment_result_detail" >
+    <argument
+        android:name="imageUri"
+        app:argType="string" />
+    </fragment>
 
 </navigation>

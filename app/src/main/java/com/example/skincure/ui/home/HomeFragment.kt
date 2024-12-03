@@ -37,14 +37,18 @@ class HomeFragment : Fragment() {
 //            }
 //        })
 
-        binding.settingButton.apply {
+        binding.settingCard.apply {
             setOnClickListener {
                 findNavController().navigate(R.id.action_home_to_settings)
             }
         }
 
-        binding.buttonProfile.setOnClickListener {
+        binding.profileButton.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_profile)
+        }
+
+        binding.cameraCard.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_camera)
         }
 
         val user = FirebaseAuth.getInstance().currentUser
@@ -53,10 +57,10 @@ class HomeFragment : Fragment() {
             if (task.isSuccessful) {
                 val updatedUser = FirebaseAuth.getInstance().currentUser
                 val displayName = updatedUser?.displayName
-                val welcomeMessage = "Selamat datang ${displayName ?: "Pengguna"}"
-                binding.userName.text = welcomeMessage
+                val welcomeMessage = "Hi, ${displayName ?: "Pengguna"}"
+                binding.usernameTextView.text = welcomeMessage
             } else {
-                binding.userName.text = getString(R.string.user_name_not_loaded)
+                binding.usernameTextView.text = getString(R.string.user_name_not_loaded)
             }
         }
     }

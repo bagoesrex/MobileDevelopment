@@ -46,4 +46,10 @@
     <string name="verify_email">Email Verification</string>
     <string name="kami_telah_mengirimkan_kode_verifikasi_ke_silakan_cek_email_anda">Kami telah mengirimkan kode verifikasi ke %1$s. Silakan cek email Anda.</string>
     <string name="ganti_profile">Ganti Profile</string>
+    <string name="camera_tittle">Capture or Upload Photo</string>
+    <string name="failed_open_camera">Failed to Open Camera</string>
+    <string name="failed_take_picture">Failed to Take Picture</string>
+    <string name="permission_request_granted">Permission granted</string>
+    <string name="permission_request_denied">Permission denied</string>
+    <string name="result_detail">Result Detail</string>
 </resources>
