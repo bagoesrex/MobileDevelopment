@@ -45,4 +45,5 @@
     <string name="resend_verification">Resend Email Verification</string>
     <string name="verify_email">Email Verification</string>
     <string name="kami_telah_mengirimkan_kode_verifikasi_ke_silakan_cek_email_anda">Kami telah mengirimkan kode verifikasi ke %1$s. Silakan cek email Anda.</string>
+    <string name="ganti_profile">Ganti Profile</string>
 </resources>

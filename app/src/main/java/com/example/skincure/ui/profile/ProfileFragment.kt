@@ -17,7 +17,6 @@ import com.example.skincure.R
 import com.example.skincure.databinding.FragmentProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.auth.userProfileChangeRequest
 import com.squareup.picasso.Picasso
 
 class ProfileFragment : Fragment() {
