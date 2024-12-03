@@ -6,4 +6,6 @@
     <color name="red">#FF0000</color>
     <color name="primary">#227B94</color>
     <color name="secondary">#F5FFFF</color>
+    <color name="bg_card_light">#FFFBFB</color>
+    <color name="bg_card_dark">#413F3F</color>
 </resources>

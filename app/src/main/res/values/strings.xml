@@ -10,8 +10,8 @@
     <string name="main_ic">main_ic</string>
     <string name="login_with_google">Log in with</string>
     <string name="google_logo">Google logo</string>
-    <string name="no_account"><![CDATA[No account? <a>Sign up</a>]]></string>
-    <string name="have_account"><![CDATA[Already have account? <a>Log in</a>]]></string>
+    <string name="no_account"><![CDATA[No account? <font color="#DCB991"><a>Sign up</a></font>]]></string>
+    <string name="have_account"><![CDATA[Already have account? <font color="#DCB991"><a>Log in</a></font>]]></string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="log_in">Log in</string>
@@ -29,14 +29,14 @@
     <string name="contact_us">Contact Us</string>
     <string name="nama">Nama</string>
     <string name="description">Description</string>
-    <string name="please_enter_description">Silahkan masukan pesan...</string>
+    <string name="please_enter_description">Silahkan masukan pesan…</string>
     <string name="send">Kirim</string>
     <string name="profile">Profile</string>
     <string name="news">News</string>
     <string name="news_detail">News Detail</string>
     <string name="favorite">Favorite</string>
     <string name="your_web_client_id">489481028538-fq637i5ggk0qpghuigu47tck96nhocoe.apps.googleusercontent.com</string>
-    <string name="tunggu">Mohon Tunggu...</string>
+    <string name="tunggu">Mohon Tunggu…</string>
     <string name="invalid_email">Email tidak valid!</string>
     <string name="password_minimum_length">Password minimal 8 karakter!</string>
     <string name="profile_update_failed">Gagal mengupdate profile</string>
@@ -46,4 +46,16 @@
     <string name="verify_email">Email Verification</string>
     <string name="kami_telah_mengirimkan_kode_verifikasi_ke_silakan_cek_email_anda">Kami telah mengirimkan kode verifikasi ke %1$s. Silakan cek email Anda.</string>
     <string name="ganti_profile">Ganti Profile</string>
+    <string name="information_1">SkinCure is a capstone project in the field of health innovation. The goal is to develop a mobile application capable of automatically detecting facial skin diseases and providing recommendations for treatment options and information on possible causes.</string>
+    <string name="information_2">SkinCure works with Machine Learning technology which is able to analyze facial images to detect certain types of acne or skin problems. After analysis, the app provides treatment suggestions and information regarding common causes of detected skin conditions.</string>
+    <string name="information_3">SkinCure uses an artificial intelligence model trained on skin datasets to provide accurate analysis results, but it is not 100% perfect. The results of the analysis are an initial guide; For further diagnosis and treatment, we recommend consulting a professional or dermatologist.</string>
+    <string name="umur">Umur</string>
+    <string name="delete_image">Delete foto profile image</string>
+    <string name="save">Simpan</string>
+    <string name="zero">0</string>
+    <string name="hi_user">Hi, Pengguna</string>
+    <string name="sub_tittle">Jaga Kesehatan dengan Perawatan</string>
+    <string name="what_is_skincure">What is SkinCure?</string>
+    <string name="how_does_the_skincure_app_work">How does the SkinCure app work?</string>
+    <string name="are_the_analysis_results_100_accurate">Are the analysis results 100% accurate?</string>
 </resources>

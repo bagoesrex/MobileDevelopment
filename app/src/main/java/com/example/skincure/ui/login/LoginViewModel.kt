@@ -22,11 +22,15 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
     fun loginUser(email: String, password: String) {
         _loginState.value = LoginState.Loading
         viewModelScope.launch {
-            val result = authRepository.loginWithEmailPassword(email, password)
-            if (result.isSuccess) {
-                _loginState.value = LoginState.Success(result.getOrNull()!!)
-            } else {
-                _loginState.value = LoginState.Error(result.exceptionOrNull()?.message ?: "Unknown error")
+            try {
+                val result = authRepository.loginWithEmailPassword(email, password)
+                if (result.isSuccess) {
+                    _loginState.value = LoginState.Success(result.getOrNull()!!)
+                } else {
+                    _loginState.value = LoginState.Error(result.exceptionOrNull()?.message ?: "Unknown error")
+                }
+            } catch (e: Exception) {
+                _loginState.value = LoginState.Error(e.message ?: "Unknown error")
             }
         }
     }
@@ -34,11 +38,15 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
     fun loginWithGoogle(idToken: String) {
         _loginState.value = LoginState.Loading
         viewModelScope.launch {
-            val result = authRepository.authWithGoogle(idToken)
-            if (result.isSuccess) {
-                _loginState.value = LoginState.Success(result.getOrNull()!!)
-            } else {
-                _loginState.value = LoginState.Error(result.exceptionOrNull()?.message ?: "Unknown error")
+            try {
+                val result = authRepository.authWithGoogle(idToken)
+                if (result.isSuccess) {
+                    _loginState.value = LoginState.Success(result.getOrNull()!!)
+                } else {
+                    _loginState.value = LoginState.Error(result.exceptionOrNull()?.message ?: "Unknown error")
+                }
+            } catch (e: Exception) {
+                _loginState.value = LoginState.Error(e.message ?: "Unknown error")
             }
         }
     }

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentInformationBinding
 
@@ -34,7 +35,9 @@ class InformationFragment : Fragment() {
                 title = getString(R.string.information)
                 setDisplayHomeAsUpEnabled(true)
                 setHomeAsUpIndicator(R.drawable.ic_back)
-
+                binding.toolbarId.toolbar.setNavigationOnClickListener {
+                    binding.root.findNavController().popBackStack()
+                }
             }
         }
     }

@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
+import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.data.repository.AuthRepository
 import com.example.skincure.databinding.FragmentSignUpBinding
 import com.example.skincure.utils.createLoadingDialog
@@ -180,6 +181,12 @@ class SignUpFragment : Fragment() {
             binding.edRegisterName.error = getString(R.string.name_required)
             binding.edRegisterName.requestFocus()
             return
+        }
+
+        val token = user?.getIdToken(false)?.result?.token
+        token?.let {
+            val userPreferences = UserPreferences(requireContext())
+            userPreferences.saveToken(it)
         }
 
         user?.let {
