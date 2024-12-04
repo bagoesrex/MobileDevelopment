@@ -64,4 +64,6 @@
     <string name="what_is_skincure">What is SkinCure?</string>
     <string name="how_does_the_skincure_app_work">How does the SkinCure app work?</string>
     <string name="are_the_analysis_results_100_accurate">Are the analysis results 100% accurate?</string>
+    <string name="test_description">Terdapat tanda-tanda adanya perubahan warna kulit, seperti Vitiligo. suatu kondisi autoimun yang menyebabkan hilangnya pigmen di beberapa area kulit, Bercak biasanya muncul di wajah, tangan, lengan, kaki, atau area tubuh yang sering terpapar matahari. Pertimbangkan krim kortikosteroid atau imunomodulator (sesuai resep dokter) untuk membantu mengurangi penyebaran dan memulihkan warna kulit. dan jika perlu, konsultasikan dengan ahli dermatologi untuk tindakan lebih lanjut.</string>
+    <string name="test_name">Cacar</string>
 </resources>

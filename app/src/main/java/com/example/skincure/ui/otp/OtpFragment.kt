@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentOtpBinding
+import com.example.skincure.di.Injection
+import com.example.skincure.ui.ViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -17,6 +20,9 @@ class OtpFragment : Fragment() {
 
     private var _binding: FragmentOtpBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: OtpViewModel by viewModels {
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
     private lateinit var auth: FirebaseAuth
     private lateinit var userEmail: String
     private var emailVerified = false

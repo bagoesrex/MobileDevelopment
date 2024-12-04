@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 
-class ProfileViewModel : ViewModel() {
+class ProfileViewModel() : ViewModel() {
 
     fun updateProfileImage(photoUri: Uri, onSuccess: () -> Unit, onError: () -> Unit) {
         val user = FirebaseAuth.getInstance().currentUser

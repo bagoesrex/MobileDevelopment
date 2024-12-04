@@ -25,17 +25,22 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentCameraBinding
 import com.example.skincure.utils.createCustomTempFile
 import androidx.navigation.fragment.findNavController
+import com.example.skincure.di.Injection
+import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.utils.showToast
 
 class CameraFragment : Fragment() {
 
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: CameraViewModel by viewModels()
+    private val viewModel: CameraViewModel by viewModels{
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private var imageCapture: ImageCapture? = null
     private val TAG = "CameraFragment"
@@ -66,6 +71,9 @@ class CameraFragment : Fragment() {
                 title = getString(R.string.camera_tittle)
                 setDisplayHomeAsUpEnabled(true)
                 setHomeAsUpIndicator(R.drawable.ic_back)
+                binding.toolbarId.toolbar.setNavigationOnClickListener {
+                    binding.root.findNavController().popBackStack()
+                }
             }
         }
 
