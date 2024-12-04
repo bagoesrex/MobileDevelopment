@@ -20,6 +20,8 @@ import androidx.navigation.findNavController
 import com.example.skincure.R
 import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentProfileBinding
+import com.example.skincure.di.Injection
+import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.utils.createLoadingDialog
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
@@ -28,7 +30,9 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileViewModel by viewModels{
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
     private lateinit var auth: FirebaseAuth
     private lateinit var userPreferences: UserPreferences
     private var loadingDialog: AlertDialog? = null

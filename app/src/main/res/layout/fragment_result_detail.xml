@@ -46,6 +46,7 @@
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -54,19 +55,12 @@
             android:textSize="14sp" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/score_prediction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-light"
             android:text="Score Prediction :"
             android:textSize="14sp" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:text="Gejala Penyakit :"
-            android:textSize="14sp" />
-
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
@@ -77,6 +71,7 @@
             android:textSize="20sp" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

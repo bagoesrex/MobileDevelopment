@@ -13,6 +13,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentSettingsBinding
+import com.example.skincure.di.Injection
+import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.utils.createLoadingDialog
 import com.example.skincure.utils.showConfirmationDialog
 import com.example.skincure.utils.showToast
@@ -21,7 +23,9 @@ class SettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: SettingsViewModel by viewModels()
+    private val viewModel: SettingsViewModel by viewModels {
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
     private var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(

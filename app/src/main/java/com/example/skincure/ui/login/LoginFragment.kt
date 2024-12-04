@@ -16,12 +16,14 @@ import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.data.pref.UserPreferences
-import com.example.skincure.data.repository.AuthRepository
 import com.example.skincure.databinding.FragmentLoginBinding
+import com.example.skincure.di.Injection
+import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.utils.createLoadingDialog
 import com.example.skincure.utils.showToast
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -36,7 +38,9 @@ class LoginFragment : Fragment() {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: LoginViewModel
+    private val viewModel: LoginViewModel by viewModels {
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
     private lateinit var auth: FirebaseAuth
     private var loadingDialog: AlertDialog? = null
 
@@ -52,9 +56,6 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
-        val authRepository = AuthRepository(auth)
-
-        viewModel = LoginViewModel(authRepository)
 
         setupListeners()
 

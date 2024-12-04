@@ -12,13 +12,17 @@ import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentMainBoardBinding
+import com.example.skincure.di.Injection
+import com.example.skincure.ui.ViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
 
 class MainBoardFragment : Fragment() {
 
     private var _binding: FragmentMainBoardBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MainBoardViewModel by viewModels()
+    private val viewModel: MainBoardViewModel by viewModels {
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
     private lateinit var auth : FirebaseAuth
     private lateinit var userPreferences: UserPreferences
 

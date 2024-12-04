@@ -10,12 +10,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentContactUsBinding
+import com.example.skincure.di.Injection
+import com.example.skincure.ui.ViewModelFactory
 
 class ContactUsFragment : Fragment() {
 
     private var _binding: FragmentContactUsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ContactUsViewModel by viewModels()
+    private val viewModel: ContactUsViewModel by viewModels{
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

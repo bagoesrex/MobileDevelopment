@@ -9,12 +9,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentNewsDetailBinding
+import com.example.skincure.di.Injection
+import com.example.skincure.ui.ViewModelFactory
 
 class NewsDetailFragment : Fragment() {
 
     private var _binding: FragmentNewsDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: NewsDetailViewModel by viewModels()
+    private val viewModel: NewsDetailViewModel by viewModels {
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
