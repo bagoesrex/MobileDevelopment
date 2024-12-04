@@ -39,18 +39,17 @@ class HomeFragment : Fragment() {
             setOnClickListener {
                 findNavController().navigate(R.id.action_home_to_settings)
             }
-        binding.profileButton.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_profile)
+            binding.profileButton.setOnClickListener {
+                findNavController().navigate(R.id.action_home_to_profile)
+            }
+
+            binding.cameraCard.setOnClickListener {
+                findNavController().navigate(R.id.action_home_to_camera)
+            }
         }
     }
 
-        binding.cameraCard.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_camera)
-        }
-
-        val user = FirebaseAuth.getInstance().currentUser
-
-        private fun setupObserver() {
+    private fun setupObserver() {
         viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
             showLoading(isLoading)
         }
@@ -61,7 +60,6 @@ class HomeFragment : Fragment() {
                 val namePref = pref.getUserName()
                 val welcomeMessage = "Hi, ${displayName ?: namePref}"
                 binding.usernameTextView.text = welcomeMessage
-
                 val photoUrl = user.photoUrl
                 Log.d("HomeFragment", "Photo URL: $photoUrl")
                 if (photoUrl != null) {
@@ -71,7 +69,7 @@ class HomeFragment : Fragment() {
                         .error(R.drawable.ic_person)
                         .fit()
                         .centerCrop()
-                        .into(binding.buttonProfile)
+                        .into(binding.profileButton)
                 } else {
                     binding.profileButton.setImageResource(R.drawable.ic_person)
                 }
@@ -79,7 +77,7 @@ class HomeFragment : Fragment() {
                 binding.usernameTextView.text = buildString {
                     append("Hi, Pengguna")
                 }
-                binding.buttonProfile.setImageResource(R.drawable.ic_person)
+                binding.profileButton.setImageResource(R.drawable.ic_person)
             }
         }
     }
