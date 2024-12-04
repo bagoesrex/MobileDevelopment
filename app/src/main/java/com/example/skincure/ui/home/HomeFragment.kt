@@ -12,6 +12,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentHomeBinding
+import com.example.skincure.di.Injection
+import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.utils.createLoadingDialog
 import com.squareup.picasso.Picasso
 
@@ -19,7 +21,9 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels{
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
     private var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(
