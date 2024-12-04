@@ -117,6 +117,7 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
+        android:id="@+id/camera"
         android:name="com.example.skincure.ui.camera.CameraFragment"
         android:label="fragment_camera"
         tools:layout="@layout/fragment_camera" >
@@ -137,6 +138,7 @@
         android:name="imageUri"
         app:argType="string" />
     </fragment>
+    <fragment
         android:id="@+id/information"
         android:name="com.example.skincure.ui.information.InformationFragment"
         android:label="fragment_information"
