@@ -90,13 +90,13 @@ class CameraFragment : Fragment() {
         ActivityResultContracts.PickVisualMedia()
     ) { uri: Uri? ->
         if (uri != null) {
-            showToast(requireContext(), "Photo Selected")
+            showToast(requireContext(), getString(R.string.photo_selected))
             val bundle = Bundle().apply {
                 putString(EXTRA_CAMERAX_IMAGE, uri.toString())
             }
             findNavController().navigate(R.id.action_camera_to_resultDetailFragment, bundle)
         } else {
-            showToast(requireContext(), "Photo Failed")
+            showToast(requireContext(), getString(R.string.photo_failed))
         }
     }
 
@@ -167,11 +167,11 @@ class CameraFragment : Fragment() {
                         putString(EXTRA_CAMERAX_IMAGE, output.savedUri.toString())
                     }
                     findNavController().navigate(R.id.action_camera_to_resultDetailFragment, bundle)
-                    showToast(requireContext(), "Image Captured")
+                    showToast(requireContext(), getString(R.string.image_captured))
                 }
 
                 override fun onError(exc: ImageCaptureException) {
-                    showToast(requireContext(), "Captured Error")
+                    showToast(requireContext(), getString(R.string.capture_error))
                     Log.e(TAG, "onError: ${exc.message}")
                 }
             }

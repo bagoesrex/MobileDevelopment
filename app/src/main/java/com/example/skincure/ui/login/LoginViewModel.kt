@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.skincure.data.repository.AuthRepository
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
@@ -27,13 +29,20 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
                 if (result.isSuccess) {
                     _loginState.value = LoginState.Success(result.getOrNull()!!)
                 } else {
-                    _loginState.value = LoginState.Error(result.exceptionOrNull()?.message ?: "Unknown error")
+                    val exception = result.exceptionOrNull()
+                    val errorMessage = when (exception) {
+                        is FirebaseAuthInvalidCredentialsException -> "Invalid credentials. Please check your email or password."
+                        is FirebaseAuthInvalidUserException -> "User does not exist. Please check your email."
+                        else -> exception?.message ?: "Unknown error"
+                    }
+                    _loginState.value = LoginState.Error(errorMessage)
                 }
             } catch (e: Exception) {
                 _loginState.value = LoginState.Error(e.message ?: "Unknown error")
             }
         }
     }
+
 
     fun loginWithGoogle(idToken: String) {
         _loginState.value = LoginState.Loading

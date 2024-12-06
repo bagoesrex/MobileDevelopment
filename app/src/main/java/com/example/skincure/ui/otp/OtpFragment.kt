@@ -58,7 +58,6 @@ class OtpFragment : Fragment() {
             sendEmailVerification()
         }
     }
-
     private fun checkEmailVerification() {
         val user = auth.currentUser
         user?.reload()?.addOnCompleteListener { task ->
@@ -67,23 +66,23 @@ class OtpFragment : Fragment() {
                 if (emailVerified) {
                     Toast.makeText(
                         requireContext(),
-                        "Email telah diverifikasi!",
+                        getString(R.string.email_verified),
                         Toast.LENGTH_SHORT
                     ).show()
                     findNavController().navigate(R.id.action_otp_to_home)
                 } else {
-                    val verificationMessage = "Email verifikasi telah di kirim ke $userEmail"
+                    val verificationMessage = getString(R.string.email_verification_sent, userEmail)
                     binding.textDescription.text = verificationMessage
                     Toast.makeText(
                         requireContext(),
-                        "Email $userEmail Belum Terverifikasi.",
+                        getString(R.string.email_not_verified, userEmail),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "Gagal memverifikasi: ${task.exception?.message}",
+                    getString(R.string.verification_failed, task.exception?.message),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -95,7 +94,7 @@ class OtpFragment : Fragment() {
         if (!canResendEmail) {
             Toast.makeText(
                 requireContext(),
-                "Tunggu beberapa saat sebelum mencoba lagi.",
+                getString(R.string.wait_before_retry),
                 Toast.LENGTH_SHORT
             ).show()
             return
@@ -105,14 +104,14 @@ class OtpFragment : Fragment() {
             if (task.isSuccessful) {
                 Toast.makeText(
                     requireContext(),
-                    "Email verifikasi telah dikirim.",
+                    getString(R.string.email_sent_success),
                     Toast.LENGTH_SHORT
                 ).show()
                 startCooldownTimer()
             } else {
                 Toast.makeText(
                     requireContext(),
-                    "Gagal mengirim email: ${task.exception?.message}",
+                    getString(R.string.email_sent_failed, task.exception?.message),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -128,22 +127,17 @@ class OtpFragment : Fragment() {
         cooldownTimer = object : CountDownTimer(cooldownTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val secondsLeft = millisUntilFinished / 1000
-                binding.resendCodeButton.text = buildString {
-                    append("Tunggu ")
-                    append(secondsLeft)
-                    append(" detik")
-                }
+                binding.resendCodeButton.text = getString(R.string.wait_seconds, secondsLeft)
             }
 
             override fun onFinish() {
                 canResendEmail = true
                 binding.resendCodeButton.isEnabled = true
-                binding.resendCodeButton.text = buildString {
-                    append("Kirim Ulang Email Verifikasi")
-                }
+                binding.resendCodeButton.text = getString(R.string.resend_email)
             }
         }.start()
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

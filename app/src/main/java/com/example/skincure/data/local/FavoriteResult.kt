@@ -9,5 +9,5 @@ data class FavoriteResult(
     val diseaseName: String,
     val predictionScore: Float?,
     val description: String,
-    val imageUri: String
+    val imageUri: String?
 )

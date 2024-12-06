@@ -1,5 +1,6 @@
 package com.example.skincure.ui.login
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
@@ -8,6 +9,7 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.credentials.CredentialManager
@@ -29,7 +31,6 @@ import com.example.skincure.utils.showToast
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
@@ -71,6 +72,11 @@ class LoginFragment : Fragment() {
             }
         }
 
+        binding.forgotPassword.setOnClickListener {
+            showForgotPasswordDialog()
+        }
+
+
         binding.googleLoginButton.setOnClickListener {
             signIn()
         }
@@ -92,20 +98,20 @@ class LoginFragment : Fragment() {
                     showLoading(false)
                     updateUI(state.user)
                 }
+
                 is LoginViewModel.LoginState.Error -> {
                     showLoading(false)
-                    showError(state.message)
+                    val errorMessage = state.message
+                    showError(errorMessage)
                 }
             }
         }
     }
 
-
     private fun signIn() {
         val credentialManager = CredentialManager.create(requireContext())
         val googleIdOption = GetGoogleIdOption.Builder().setFilterByAuthorizedAccounts(false)
             .setServerClientId(getString(R.string.your_web_client_id)).build()
-
         val request = GetCredentialRequest.Builder().addCredentialOption(googleIdOption).build()
         showLoading(true)
         lifecycleScope.launch {
@@ -117,7 +123,11 @@ class LoginFragment : Fragment() {
                 handleSignIn(result)
             } catch (e: GetCredentialException) {
                 showLoading(false)
-                showToast(requireContext(), e.message.toString(), Toast.LENGTH_SHORT)
+                if (e.message?.contains("user cancelled the selector", true) == true) {
+                    showError(getString(R.string.google_login_cancelled))
+                } else {
+                    showError(e.message.toString())
+                }
                 Log.d("Error", e.message.toString())
             }
         }
@@ -134,20 +144,21 @@ class LoginFragment : Fragment() {
                         viewModel.loginWithGoogle(googleIdTokenCredential.idToken)
                     } catch (e: GoogleIdTokenParsingException) {
                         showLoading(false)
-                        Log.e(TAG, "Received an invalid google id token response", e)
+                        showError(getString(R.string.error_invalid_google_id_token, e.message))
                     }
                 } else {
                     showLoading(false)
-                    Log.e(TAG, "Kredensial tidak valid")
+                    showError(getString(R.string.error_invalid_credential_type))
                 }
             }
 
             else -> {
                 showLoading(false)
-                Log.e(TAG, "Kredensial tidak valid")
+                showError(getString(R.string.error_unknown_credential_type))
             }
         }
     }
+
 
     private fun updateUI(currentUser: FirebaseUser?) {
         showLoading(false)
@@ -160,57 +171,86 @@ class LoginFragment : Fragment() {
                         userPreferences.saveToken(it)
                     }
                     if (currentUser.isEmailVerified) {
-                        showToast(
-                            requireContext(),
-                            "Selamat datang ${currentUser.displayName ?: "User"}",
-                            Toast.LENGTH_SHORT
-                        )
+                        val displayName = currentUser.displayName ?: "User"
+                        val welcomeMessage = getString(R.string.welcome_user, displayName)
+                        showToast(requireContext(), welcomeMessage, Toast.LENGTH_SHORT)
                         findNavController().navigate(R.id.action_login_to_home)
                     } else {
                         sendVerificationEmail(currentUser)
                     }
                 } else {
-                    showError("Gagal mengambil ID token")
+                    showError(getString(R.string.id_token_failed))
                 }
             }
         } else {
-            Toast.makeText(requireContext(), "Authentication failed.", Toast.LENGTH_SHORT).show()
+            showError(getString(R.string.auth_failed))
         }
     }
+
 
     private fun sendVerificationEmail(user: FirebaseUser) {
         user.sendEmailVerification().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 findNavController().navigate(R.id.action_login_to_otp)
             } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Gagal mengirim email verifikasi: ${task.exception?.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                val errorMessage = task.exception?.message.orEmpty()
+                showError(getString(R.string.email_verification_failed, errorMessage))
             }
         }
-    }
-
-    companion object {
-        private const val TAG = "LoginFragment"
     }
 
     private fun validateInput(email: String, password: String): Boolean {
         return when {
             !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                binding.edLoginEmail.error = "Email tidak valid"
+                binding.edLoginEmail.error = getString(R.string.invalid_email)
                 binding.edLoginEmail.requestFocus()
                 false
             }
 
             password.isEmpty() || password.length < 8 -> {
-                binding.edLoginPassword.error = "Password minimal 8 karakter"
+                binding.edLoginPassword.error = getString(R.string.password_minimum_length)
                 binding.edLoginPassword.requestFocus()
                 false
             }
 
             else -> true
+        }
+    }
+
+    @SuppressLint("MissingInflatedId")
+    private fun showForgotPasswordDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val view =
+            LayoutInflater.from(requireContext()).inflate(R.layout.dialog_forgot_password, null)
+        builder.setView(view)
+        val emailInput = view.findViewById<EditText>(R.id.edForgotEmail)
+        builder.setPositiveButton(getString(R.string.send)) { dialog, _ ->
+            val email = emailInput.text.toString().trim()
+            if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                sendPasswordResetEmail(email)
+            } else {
+                showError(getString(R.string.invalid_email))
+            }
+            dialog.dismiss()
+        }
+        builder.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+            dialog.dismiss()
+        }
+        builder.create().show()
+    }
+
+    private fun sendPasswordResetEmail(email: String) {
+        showLoading(true)
+        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            showLoading(false)
+            if (task.isSuccessful) {
+                val successMessage = getString(R.string.password_reset_email_sent, email)
+                Toast.makeText(requireContext(), successMessage, Toast.LENGTH_LONG).show()
+            } else {
+                val errorMessage = task.exception?.message.orEmpty()
+                val failureMessage = getString(R.string.password_reset_email_failed, errorMessage)
+                Toast.makeText(requireContext(), failureMessage, Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -231,7 +271,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun showError(message: String) {
-        showToast(requireContext(), message, Snackbar.LENGTH_LONG)
+        showToast(requireContext(), message, Toast.LENGTH_LONG)
     }
 
     override fun onDestroyView() {

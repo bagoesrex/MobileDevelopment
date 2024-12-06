@@ -1,5 +1,6 @@
 package com.example.skincure.ui.signup
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
@@ -61,11 +62,11 @@ class SignUpFragment : Fragment() {
         observeSignUpState()
     }
 
+
     private fun observeSignUpState() {
         viewModel.signUpState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is SignUpViewModel.SignUpState.Loading -> showLoading(true)
-
                 is SignUpViewModel.SignUpState.Success -> {
                     showLoading(false)
                     val user = state.user
@@ -81,24 +82,17 @@ class SignUpFragment : Fragment() {
                                     findNavController().navigate(R.id.action_signUp_to_otp)
                                 }
                             } else {
-                                showToast(
-                                    requireContext(),
-                                    "Gagal mengirim email verifikasi.",
-                                    Toast.LENGTH_SHORT
-                                )
+                                showError(getString(R.string.failed_send_verification_email))
                             }
                         }
                     }
                 }
-
                 is SignUpViewModel.SignUpState.Error -> {
                     showLoading(false)
-                    showToast(requireContext(), state.message, Toast.LENGTH_SHORT)
-                    binding.edRegisterEmail.error = "Email sudah terdaftar"
+                    binding.edRegisterEmail.error = getString(R.string.email_already_registered)
                     binding.edRegisterEmail.requestFocus()
                     showError(state.message)
                 }
-
                 else -> showLoading(false)
             }
         }
@@ -106,13 +100,16 @@ class SignUpFragment : Fragment() {
 
 
     private fun setupView() {
+        setupFieldValidation()
         binding.registerButton.apply {
             setOnClickListener {
                 setOnClickListener {
+                    val name = binding.edRegisterName.text.toString().trim()
                     val email = binding.edRegisterEmail.text.toString().trim()
                     val password = binding.edRegisterPassword.text.toString().trim()
+                    val confirmPassword = binding.edRegisterConfirmation.text.toString().trim()
 
-                    if (!validateInput(email, password)) return@setOnClickListener
+                    if (!validateInput(name, email, password, confirmPassword)) return@setOnClickListener
 
                     viewModel.signUpUser(email, password)
                 }
@@ -164,41 +161,35 @@ class SignUpFragment : Fragment() {
                         viewModel.signUpWithGoogle(googleIdTokenCredential.idToken)
                     } catch (e: GoogleIdTokenParsingException) {
                         showLoading(false)
-                        Log.e(TAG, "Received an invalid google id token response", e)
+                        showError(getString(R.string.error_invalid_google_id_token, e.message))
                     }
                 } else {
                     showLoading(false)
-                    Log.e(TAG, "Kredensial tidak valid")
+                    showError(getString(R.string.error_invalid_credential_type))
                 }
             }
 
             else -> {
                 showLoading(false)
-                Log.e(TAG, "Kredensial tidak valid")
+                showError(getString(R.string.error_unknown_credential_type))
             }
         }
     }
 
+    @SuppressLint("StringFormatInvalid")
     private fun updateUI(user: FirebaseUser?, name: String) {
-        if (name.isBlank()) {
-            binding.edRegisterName.error = getString(R.string.name_required)
-            binding.edRegisterName.requestFocus()
-            return
-        }
-
         val token = user?.getIdToken(false)?.result?.token
         token?.let {
             val userPreferences = UserPreferences(requireContext())
             userPreferences.saveToken(it)
         }
-
         user?.let {
             val profileUpdates = userProfileChangeRequest { displayName = name }
             it.updateProfile(profileUpdates).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d(TAG, "Profile updated successfully with name: $name")
+                    Log.d(TAG, getString(R.string.profile_updated_successfully, name))
                 } else {
-                    Log.e(TAG, "Profile update failed: ${task.exception?.message}")
+                    Log.e(TAG, getString(R.string.profile_update_failed, task.exception?.message))
                 }
             }
         }
@@ -207,31 +198,88 @@ class SignUpFragment : Fragment() {
             if (user.isEmailVerified) {
                 showToast(
                     requireContext(),
-                    "Selamat datang ${user.displayName ?: "User"}",
+                    getString(
+                        R.string.welcome_message,
+                        user.displayName ?: getString(R.string.user)
+                    ),
                     Toast.LENGTH_SHORT
                 )
                 findNavController().navigate(R.id.action_login_to_home)
             }
         } else {
-            Toast.makeText(requireContext(), "Authentication failed.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.authentication_failed),
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
-    private fun validateInput(email: String, password: String): Boolean {
+    private fun validateInput(
+        name: String,
+        email: String,
+        password: String,
+        confirmPassword: String,
+    ): Boolean {
         return when {
+            name.isEmpty() -> {
+                binding.edRegisterName.error = getString(R.string.name_required)
+                binding.edRegisterName.requestFocus()
+            }
             !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
                 binding.edRegisterEmail.error = getString(R.string.invalid_email)
                 binding.edRegisterEmail.requestFocus()
                 false
             }
-
             password.length < 8 -> {
                 binding.edRegisterPassword.error = getString(R.string.password_minimum_length)
                 binding.edRegisterPassword.requestFocus()
                 false
             }
-
+            confirmPassword.isBlank() || confirmPassword != password -> {
+                binding.edRegisterConfirmation.error = getString(R.string.password_mismatch)
+                binding.edRegisterConfirmation.requestFocus()
+                false
+            }
             else -> true
+        }
+    }
+
+    private fun setupFieldValidation() {
+        binding.edRegisterName.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val name = binding.edRegisterName.text.toString().trim()
+                if (name.isEmpty()) {
+                    binding.edRegisterName.error = getString(R.string.name_required)
+                }
+            }
+        }
+        binding.edRegisterEmail.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val email = binding.edRegisterEmail.text.toString().trim()
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    binding.edRegisterEmail.error = getString(R.string.invalid_email)
+                }
+            }
+        }
+
+        binding.edRegisterPassword.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val password = binding.edRegisterPassword.text.toString().trim()
+                if (password.length < 8) {
+                    binding.edRegisterPassword.error = getString(R.string.password_minimum_length)
+                }
+            }
+        }
+
+        binding.edRegisterConfirmation.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val password = binding.edRegisterPassword.text.toString().trim()
+                val confirmPassword = binding.edRegisterConfirmation.text.toString().trim()
+                if (confirmPassword != password) {
+                    binding.edRegisterConfirmation.error = getString(R.string.password_mismatch)
+                }
+            }
         }
     }
 

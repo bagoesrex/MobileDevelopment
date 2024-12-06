@@ -66,12 +66,12 @@ class MainBoardFragment : Fragment() {
 
     private fun showEmailVerificationPrompt() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Verifikasi Email")
-            .setMessage("Email Anda belum diverifikasi. Silakan periksa kotak masuk email Anda untuk tautan verifikasi.")
-            .setPositiveButton("Lanjutkan Verifikasi") { _, _ ->
+            .setTitle(getString(R.string.verification_email_title))
+            .setMessage(getString(R.string.verification_email_message))
+            .setPositiveButton(getString(R.string.verification_email_positive_button)) { _, _ ->
                 findNavController().navigate(R.id.action_mainBoard_to_otp)
             }
-            .setNegativeButton("Batal", null)
+            .setNegativeButton(getString(R.string.verification_email_negative_button), null)
             .show()
     }
 

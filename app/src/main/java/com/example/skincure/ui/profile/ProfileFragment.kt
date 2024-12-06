@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -23,6 +22,7 @@ import com.example.skincure.databinding.FragmentProfileBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.utils.createLoadingDialog
+import com.example.skincure.utils.showToast
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
@@ -30,7 +30,7 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ProfileViewModel by viewModels{
+    private val viewModel: ProfileViewModel by viewModels {
         ViewModelFactory(Injection.provideRepository(requireContext()))
     }
     private lateinit var auth: FirebaseAuth
@@ -78,11 +78,7 @@ class ProfileFragment : Fragment() {
                 saveUserPreferences(name, age)
                 updateProfileName(name)
             } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Nama dan umur tidak boleh kosong",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(getString(R.string.name_and_age_empty))
             }
         }
         playAnimation()
@@ -103,21 +99,13 @@ class ProfileFragment : Fragment() {
         viewModel.updateProfileImage(
             photoUri = photoUri,
             onSuccess = {
-                Toast.makeText(
-                    requireContext(),
-                    "Foto Profil berhasil diperbarui",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(getString(R.string.profile_image_update_success))
                 binding.profileImage.setImageURI(photoUri)
                 showLoading(false)
             },
             onError = {
                 showLoading(false)
-                Toast.makeText(
-                    requireContext(),
-                    "Gagal memperbarui foto profil",
-                    Toast.LENGTH_SHORT
-                ).show()
+                showToast(getString(R.string.profile_image_update_failed))
             }
         )
     }
@@ -127,30 +115,27 @@ class ProfileFragment : Fragment() {
             newName = newName,
             onSuccess = {
                 binding.userName.text = newName
-                Log.d("ProfileCheck", "Updated name: $newName")
                 showLoading(false)
             },
             onError = {
                 showLoading(false)
-                Toast.makeText(requireContext(), "Gagal memperbarui nama", Toast.LENGTH_SHORT)
-                    .show()
+                showToast(getString(R.string.update_name_failed))
             }
         )
     }
+
 
     private fun deleteProfileImage() {
         showLoading(true)
         viewModel.deleteProfileImage(
             onSuccess = {
-                Toast.makeText(requireContext(), "Foto Profil berhasil dihapus", Toast.LENGTH_SHORT)
-                    .show()
+                showToast(getString(R.string.profile_image_delete_success))
                 binding.profileImage.setImageResource(R.drawable.ic_person)
                 showLoading(false)
             },
             onError = {
                 showLoading(false)
-                Toast.makeText(requireContext(), "Gagal menghapus foto profil", Toast.LENGTH_SHORT)
-                    .show()
+                showToast(getString(R.string.profile_image_delete_failed))
             }
         )
     }
@@ -165,10 +150,10 @@ class ProfileFragment : Fragment() {
             val displayName = it.displayName
             val photoUrl = it.photoUrl
 
-            val userName = " ${displayName ?: "Pengguna"}"
+            val userName = " ${displayName ?: "User"}"
             binding.userName.text = userName
 
-            binding.textInputEditTextName.setText(displayName ?: "Pengguna")
+            binding.textInputEditTextName.setText(displayName ?: "User")
 
             if (photoUrl != null) {
                 Picasso.get()
@@ -186,7 +171,7 @@ class ProfileFragment : Fragment() {
     private fun saveUserPreferences(name: String, age: Int) {
         val preferences = userPreferences
         preferences.saveUser(name, age)
-        Toast.makeText(requireContext(), "Data berhasil disimpan", Toast.LENGTH_SHORT).show()
+        showToast(getString(R.string.data_saved))
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -196,6 +181,10 @@ class ProfileFragment : Fragment() {
         } else {
             loadingDialog?.dismiss()
         }
+    }
+
+    private fun showToast(message: String) {
+        showToast(requireContext(), message)
     }
 
     override fun onDestroyView() {

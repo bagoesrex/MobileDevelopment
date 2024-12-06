@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "489481028538",
-    "project_id": "skin-cure-5e449",
-    "storage_bucket": "skin-cure-5e449.firebasestorage.app"
+    "project_number": "1002330865172",
+    "project_id": "skincure-442717",
+    "storage_bucket": "skincure-442717.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:489481028538:android:b925053a34d739cd6b5383",
+        "mobilesdk_app_id": "1:1002330865172:android:2c95a0d83e1bb95959f101",
         "android_client_info": {
           "package_name": "com.example.skincure"
         }
       },
       "oauth_client": [
         {
-          "client_id": "489481028538-fq637i5ggk0qpghuigu47tck96nhocoe.apps.googleusercontent.com",
+          "client_id": "1002330865172-1qfaai51rtt1snk42j8bps67b9shiv6r.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.skincure",
-            "certificate_hash": "ee3a4c142b063533f5a6c7d501a3a9ff0ae15bb9"
+            "certificate_hash": "0f00addfd57e295cec5b41b57da7e50f2f66999c"
           }
         },
         {
-          "client_id": "489481028538-j1p4gg5sieqjrqm81qc8p1qkkaj9ogmj.apps.googleusercontent.com",
+          "client_id": "1002330865172-mbduv4llte0c5fiuufmm0h1ptdhhke3a.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBtKWoetrKHfSdHno60dxtzwWt5A3oOPnM"
+          "current_key": "AIzaSyBbvkpN8n4crMXZvNeQMvgyas-do0OaF6k"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "489481028538-fq637i5ggk0qpghuigu47tck96nhocoe.apps.googleusercontent.com",
+              "client_id": "1002330865172-mbduv4llte0c5fiuufmm0h1ptdhhke3a.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
