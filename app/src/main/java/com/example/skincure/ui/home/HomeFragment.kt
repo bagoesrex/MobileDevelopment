@@ -73,7 +73,6 @@ class HomeFragment : Fragment() {
                 val welcomeMessage = "Hi, ${displayName ?: namePref}"
                 binding.usernameTextView.text = welcomeMessage
                 val photoUrl = user.photoUrl
-                Log.d("HomeFragment", "Photo URL: $photoUrl")
                 if (photoUrl != null) {
                     Picasso.get()
                         .load(photoUrl)
@@ -82,13 +81,9 @@ class HomeFragment : Fragment() {
                         .fit()
                         .centerCrop()
                         .into(binding.profileButton)
-                } else {
-                    binding.profileButton.setImageResource(R.drawable.ic_person)
                 }
             } else {
-                binding.usernameTextView.text = buildString {
-                    append("Hi, Pengguna")
-                }
+                binding.usernameTextView.text = getString(R.string.welcome_text)
                 binding.profileButton.setImageResource(R.drawable.ic_person)
             }
         }

@@ -1,7 +1,6 @@
 package com.example.skincure.ui.setting
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,7 +62,7 @@ class SettingsFragment : Fragment() {
         binding.logoutButton.setOnClickListener {
             showConfirmationDialog(
                 requireContext(),
-                "Are you sure you want to logout?",
+                getString(R.string.confirm_logout),
                 onConfirm = {
                     viewModel.logout()
                 },
@@ -94,10 +93,8 @@ class SettingsFragment : Fragment() {
         if (isLoading) {
             loadingDialog = loadingDialog ?: createLoadingDialog(requireContext())
             loadingDialog?.show()
-            Log.d("SettingsFragment", "Loading dialog shown")
         } else {
             loadingDialog?.dismiss()
-            Log.d("SettingsFragment", "Loading dialog dismissed")
         }
     }
 

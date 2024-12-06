@@ -8,4 +8,5 @@
     <color name="secondary">#F5FFFF</color>
     <color name="bg_card_light">#FFFBFB</color>
     <color name="bg_card_dark">#413F3F</color>
+    <color name="dark_yellow">#DCB991</color>
 </resources>

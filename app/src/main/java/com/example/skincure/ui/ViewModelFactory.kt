@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.data.repository.AuthRepository
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.camera.CameraViewModel
