@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 data class FavoriteResult(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val diseaseName: String,
-    val predictionScore: Float,
+    val predictionScore: Float?,
     val description: String,
-    val imageUri: String?
+    val imageUri: String
 )

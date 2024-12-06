@@ -50,6 +50,14 @@ class HomeFragment : Fragment() {
             binding.cameraCard.setOnClickListener {
                 findNavController().navigate(R.id.action_home_to_camera)
             }
+
+            binding.newsCard.setOnClickListener {
+                findNavController().navigate(R.id.action_home_to_news)
+            }
+
+            binding.favoriteCard.setOnClickListener {
+                findNavController().navigate(R.id.action_home_to_favorite)
+            }
         }
     }
 

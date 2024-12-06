@@ -57,7 +57,9 @@ class ResultDetailFragment : Fragment() {
         val imageUriString = arguments?.getString(EXTRA_CAMERAX_IMAGE)
         val imageUri: Uri? = imageUriString?.let { Uri.parse(it) }
 
-        Log.d("ResultDetailFragment", "Image URI: $imageUriString")
+        val name = arguments?.getString(EXTRA_NAME) ?: "null name"
+        val score = arguments?.getFloat(EXTRA_SCORE) ?: "null score"
+        val description = arguments?.getString(EXTRA_DESCRIPTION) ?: "null desc"
 
         imageUri?.let {
             Picasso.get()
@@ -66,21 +68,17 @@ class ResultDetailFragment : Fragment() {
                 .into(binding.resultImageView)
         }
 
-        //testing
-        val name = getString(R.string.test_name)
-        val score = 75.2321F
-        val description= getString(R.string.test_description)
-        binding.name.text = buildString {
+        binding.nameTextView.text = buildString {
             append("Hasil analsisis: ")
             append(name)
             append(" ")
         }
-        binding.scorePrediction.text = buildString{
+        binding.scorePredictionTextView.text = buildString{
             append("Score Prediciton:")
             append(score)
             append("%")
         }
-        binding.description.text = description
+        binding.descriptionTextView.text = description
 
     }
 
@@ -144,5 +142,8 @@ class ResultDetailFragment : Fragment() {
     companion object {
         const val EXTRA_CAMERAX_IMAGE = "CameraX Image"
         private const val TAG = "ResultDetailFragment"
+        const val EXTRA_NAME = "Name"
+        const val EXTRA_DESCRIPTION = "Description"
+        const val EXTRA_SCORE = "Score"
     }
 }
