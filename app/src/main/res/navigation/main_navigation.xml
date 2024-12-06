@@ -75,7 +75,13 @@
         <action
             android:id="@+id/action_home_to_camera"
             app:destination="@id/camera" />
-     </fragment>
+        <action
+            android:id="@+id/action_home_to_news"
+            app:destination="@id/news" />
+        <action
+            android:id="@+id/action_home_to_favorite"
+            app:destination="@id/favorite" />
+    </fragment>
     <fragment
         android:id="@+id/otp"
         android:name="com.example.skincure.ui.otp.OtpFragment"
@@ -143,4 +149,27 @@
         android:name="com.example.skincure.ui.information.InformationFragment"
         android:label="fragment_information"
         tools:layout="@layout/fragment_information" />
+    <fragment
+        android:id="@+id/news"
+        android:name="com.example.skincure.ui.news.NewsFragment"
+        android:label="fragment_news"
+        tools:layout="@layout/fragment_news" >
+        <action
+            android:id="@+id/action_news_to_newsDetail"
+            app:destination="@id/newsDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/favorite"
+        android:name="com.example.skincure.ui.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favorite_to_resultDetail"
+            app:destination="@id/resultDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsDetail"
+        android:name="com.example.skincure.ui.news_detail.NewsDetailFragment"
+        android:label="fragment_news_detail"
+        tools:layout="@layout/fragment_news_detail" />
 </navigation>
