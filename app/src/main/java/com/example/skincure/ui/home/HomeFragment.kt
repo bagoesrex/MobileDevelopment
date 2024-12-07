@@ -1,7 +1,6 @@
 package com.example.skincure.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,14 +14,18 @@ import com.example.skincure.databinding.FragmentHomeBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.utils.createLoadingDialog
+import com.example.skincure.utils.isInternetAvailable
+import com.example.skincure.utils.showToast
 import com.squareup.picasso.Picasso
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HomeViewModel by viewModels{
-        ViewModelFactory(Injection.provideRepository(requireContext()))
+    private val viewModel: HomeViewModel by viewModels {
+        ViewModelFactory(
+            Injection.provideRepository(requireContext()),
+        )
     }
     private var loadingDialog: AlertDialog? = null
 
@@ -34,7 +37,10 @@ class HomeFragment : Fragment() {
 
         setupView()
         setupObserver()
-
+        if (!isInternetAvailable(requireContext())) {
+            showToast(requireContext(), getString(R.string.no_internet))
+            return binding.root
+        }
         return binding.root
     }
 
@@ -67,10 +73,11 @@ class HomeFragment : Fragment() {
         }
         viewModel.user.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                val pref = UserPreferences(requireContext())
                 val displayName = user.displayName
-                val namePref = pref.getUserName()
-                val welcomeMessage = "Hi, ${displayName ?: namePref}"
+                val welcomeMessage = buildString {
+                    append("Hi, ")
+                    append(displayName)
+                }
                 binding.usernameTextView.text = welcomeMessage
                 val photoUrl = user.photoUrl
                 if (photoUrl != null) {
@@ -83,7 +90,10 @@ class HomeFragment : Fragment() {
                         .into(binding.profileButton)
                 }
             } else {
-                binding.usernameTextView.text = getString(R.string.welcome_text)
+                val pref = UserPreferences(requireContext())
+                val namePref = pref.getUserName()
+                val welcomeMessage = "Hi, ${namePref?.ifEmpty { getString(R.string.welcome_text) }}"
+                binding.usernameTextView.text = welcomeMessage
                 binding.profileButton.setImageResource(R.drawable.ic_person)
             }
         }
@@ -97,6 +107,7 @@ class HomeFragment : Fragment() {
             loadingDialog?.dismiss()
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

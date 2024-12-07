@@ -124,4 +124,6 @@
     <string name="confirm_logout">"Apakah Anda yakin ingin keluar?"</string>
     <string name="check_your_skin">Periksa Kulit Anda</string>
     <string name="favorite_result">Hasil Favorit</string>
+    <string name="no_internet">Koneksi Internet Tidak Ada</string>
+    <string name="string_reset_password">Kirim Email untuk Atur Ulang Kata Sandi</string>
 </resources>

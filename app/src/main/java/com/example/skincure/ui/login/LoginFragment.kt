@@ -79,6 +79,9 @@ class LoginFragment : Fragment() {
 
         binding.googleLoginButton.setOnClickListener {
             signIn()
+            val name = auth.currentUser?.displayName
+            val userPreferences = UserPreferences(requireContext())
+            userPreferences.saveNameSignUp(name.toString())
         }
 
         binding.registerButton.apply {
