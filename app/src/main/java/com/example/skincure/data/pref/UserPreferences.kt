@@ -21,11 +21,18 @@ class UserPreferences(context: Context) {
             apply()
         }
     }
+
+    fun saveNameSignUp(name: String) {
+        sharedPreferences.edit().apply {
+            putString(USER_NAME_KEY, name)
+            apply()
+        }
+    }
     fun getUserName(): String? {
         return sharedPreferences.getString(USER_NAME_KEY, null)
     }
     fun getUserAge(): Int {
-        return sharedPreferences.getInt(USER_AGE_KEY, -1) // Default ke -1 jika belum diset
+        return sharedPreferences.getInt(USER_AGE_KEY, 0)
     }
 
     // Menyimpan token

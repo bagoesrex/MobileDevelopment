@@ -71,6 +71,9 @@ class SignUpFragment : Fragment() {
                     showLoading(false)
                     val user = state.user
                     if (state.isGoogleSignIn) {
+                        val name = auth.currentUser?.displayName
+                        val userPreferences = UserPreferences(requireContext())
+                        userPreferences.saveNameSignUp(name.toString())
                         // Daftar dengan google
                         findNavController().navigate(R.id.action_signUp_to_home)
                     } else {
@@ -185,6 +188,8 @@ class SignUpFragment : Fragment() {
         }
         user?.let {
             val profileUpdates = userProfileChangeRequest { displayName = name }
+            val userPreferences = UserPreferences(requireContext())
+            userPreferences.saveNameSignUp(name)
             it.updateProfile(profileUpdates).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, getString(R.string.profile_updated_successfully, name))

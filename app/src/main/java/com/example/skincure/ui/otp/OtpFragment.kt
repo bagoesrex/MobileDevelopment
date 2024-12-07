@@ -58,33 +58,40 @@ class OtpFragment : Fragment() {
             sendEmailVerification()
         }
     }
+
     private fun checkEmailVerification() {
         val user = auth.currentUser
         user?.reload()?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 emailVerified = user.isEmailVerified
                 if (emailVerified) {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.email_verified),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    context?.let {
+                        Toast.makeText(
+                            it,
+                            getString(R.string.email_verified),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     findNavController().navigate(R.id.action_otp_to_home)
                 } else {
                     val verificationMessage = getString(R.string.email_verification_sent, userEmail)
                     binding.textDescription.text = verificationMessage
+                    context?.let {
+                        Toast.makeText(
+                            it,
+                            getString(R.string.email_not_verified, userEmail),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } else {
+                context?.let {
                     Toast.makeText(
-                        requireContext(),
-                        getString(R.string.email_not_verified, userEmail),
+                        it,
+                        getString(R.string.verification_failed, task.exception?.message),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.verification_failed, task.exception?.message),
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
     }
@@ -92,28 +99,34 @@ class OtpFragment : Fragment() {
     private fun sendEmailVerification() {
         val user: FirebaseUser? = auth.currentUser
         if (!canResendEmail) {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.wait_before_retry),
-                Toast.LENGTH_SHORT
-            ).show()
-            return
+            context?.let {
+                Toast.makeText(
+                    it,
+                    getString(R.string.wait_before_retry),
+                    Toast.LENGTH_SHORT
+                ).show()
+                return
+            }
         }
 
         user?.sendEmailVerification()?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.email_sent_success),
-                    Toast.LENGTH_SHORT
-                ).show()
+                context?.let {
+                    Toast.makeText(
+                        it,
+                        getString(R.string.email_sent_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
                 startCooldownTimer()
             } else {
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.email_sent_failed, task.exception?.message),
-                    Toast.LENGTH_SHORT
-                ).show()
+                context?.let {
+                    Toast.makeText(
+                        it,
+                        getString(R.string.email_sent_failed, task.exception?.message),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
     }

@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
+import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentSettingsBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
@@ -65,6 +66,8 @@ class SettingsFragment : Fragment() {
                 getString(R.string.confirm_logout),
                 onConfirm = {
                     viewModel.logout()
+                    val userPreferences = UserPreferences(requireContext())
+                    userPreferences.clearToken()
                 },
                 onCancel = {
 
