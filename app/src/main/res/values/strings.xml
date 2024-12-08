@@ -127,4 +127,6 @@
     <string name="favorite_result">Favorite Result</string>
     <string name="no_internet">No Internet Connection</string>
     <string name="string_reset_password">Send Email to Reset Password</string>
+    <string name="invalid_input">Check your input again!</string>
+    <string name="required_field">Field cannot be empty</string>
 </resources>
