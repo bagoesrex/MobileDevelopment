@@ -3,33 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/mainBoard">
+    app:startDestination="@id/welcome">
 
     <fragment
         android:id="@+id/mainBoard"
         android:name="com.example.skincure.ui.mainboard.MainBoardFragment"
         android:label="fragment_main_board"
-        tools:layout="@layout/fragment_main_board" >
+        tools:layout="@layout/fragment_main_board">
         <action
             android:id="@+id/action_mainBoard_to_login"
             app:destination="@id/login" />
         <action
             android:id="@+id/action_mainBoard_to_signUp"
             app:destination="@id/signUp" />
-        <action
-            android:id="@+id/action_mainBoard_to_home"
-            app:destination="@id/home"
-            app:popUpTo="@id/mainBoard"
-            app:popUpToInclusive="true"/>
-        <action
-            android:id="@+id/action_mainBoard_to_otp"
-            app:destination="@id/otp" />
     </fragment>
     <fragment
         android:id="@+id/login"
         android:name="com.example.skincure.ui.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_login_to_signUp"
             app:destination="@id/signUp" />
@@ -48,12 +40,12 @@
         android:id="@+id/signUp"
         android:name="com.example.skincure.ui.signup.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" >
+        tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_signUp_to_home"
             app:destination="@id/home"
             app:popUpTo="@id/mainBoard"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_signUp_to_login"
             app:destination="@id/login" />
@@ -65,7 +57,7 @@
         android:id="@+id/home"
         android:name="com.example.skincure.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_home_to_settings"
             app:destination="@id/settings" />
@@ -86,7 +78,7 @@
         android:id="@+id/otp"
         android:name="com.example.skincure.ui.otp.OtpFragment"
         android:label="fragment_otp"
-        tools:layout="@layout/fragment_otp" >
+        tools:layout="@layout/fragment_otp">
         <action
             android:id="@+id/action_otp_to_home"
             app:destination="@id/home"
@@ -97,7 +89,7 @@
         android:id="@+id/settings"
         android:name="com.example.skincure.ui.setting.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settings_to_mainBoard"
             app:destination="@id/mainBoard" />
@@ -126,10 +118,10 @@
         android:id="@+id/camera"
         android:name="com.example.skincure.ui.camera.CameraFragment"
         android:label="fragment_camera"
-        tools:layout="@layout/fragment_camera" >
+        tools:layout="@layout/fragment_camera">
         <action
             android:id="@+id/action_camera_to_resultDetailFragment"
-            app:destination="@id/resultDetail" >
+            app:destination="@id/resultDetail">
             <argument
                 android:name="imageUri"
                 app:argType="string" />
@@ -139,10 +131,10 @@
         android:id="@+id/resultDetail"
         android:name="com.example.skincure.ui.result_detail.ResultDetailFragment"
         android:label="fragment_result_detail"
-        tools:layout="@layout/fragment_result_detail" >
-    <argument
-        android:name="imageUri"
-        app:argType="string" />
+        tools:layout="@layout/fragment_result_detail">
+        <argument
+            android:name="imageUri"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/information"
@@ -153,7 +145,7 @@
         android:id="@+id/news"
         android:name="com.example.skincure.ui.news.NewsFragment"
         android:label="fragment_news"
-        tools:layout="@layout/fragment_news" >
+        tools:layout="@layout/fragment_news">
         <action
             android:id="@+id/action_news_to_newsDetail"
             app:destination="@id/newsDetail" />
@@ -162,7 +154,7 @@
         android:id="@+id/favorite"
         android:name="com.example.skincure.ui.favorite.FavoriteFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" >
+        tools:layout="@layout/fragment_favorite">
         <action
             android:id="@+id/action_favorite_to_resultDetail"
             app:destination="@id/resultDetail" />
@@ -172,4 +164,25 @@
         android:name="com.example.skincure.ui.news_detail.NewsDetailFragment"
         android:label="fragment_news_detail"
         tools:layout="@layout/fragment_news_detail" />
+    <fragment
+        android:id="@+id/welcome"
+        android:name="com.example.skincure.ui.welcome.WelcomeFragment"
+        android:label="fragment_welcome"
+        tools:layout="@layout/fragment_welcome">
+        <action
+            android:id="@+id/action_welcome_to_mainBoard"
+            app:destination="@id/mainBoard"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_welcome_to_home"
+            app:destination="@id/home"
+            app:popUpTo="@id/welcome"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_welcome_to_otp"
+            app:destination="@id/otp" />
+    </fragment>
 </navigation>

@@ -4,21 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primary"
+    android:background="@drawable/background_gradient"
     tools:context=".ui.mainboard.MainBoardFragment">
 
     <ImageView
         android:id="@+id/main_image_view"
         android:layout_width="370dp"
         android:layout_height="370dp"
-        android:layout_above="@id/main_card_view"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:layout_margin="20dp"
-
+        android:src="@drawable/ic_app_vector_filleds"
         android:contentDescription="@string/main_ic"
-        android:src="@drawable/ic_mainboard"
         app:layout_constraintBottom_toTopOf="@+id/main_card_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -28,12 +23,12 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/main_card_view"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="260dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="-20dp"
         app:cardBackgroundColor="@color/secondary"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -42,23 +37,26 @@
 
             <TextView
                 android:id="@+id/tittle_text_view"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="@string/app_tittle"
+                android:textAlignment="center"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="WELCOME TO SKINCURE"
                 android:textColor="@color/primary"
-                android:textSize="25sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/description_text_view"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tittle_text_view"
-                android:layout_centerHorizontal="true"
+                android:textAlignment="center"
                 android:layout_marginTop="5dp"
+                android:paddingHorizontal="10dp"
+                android:fontFamily="sans-serif-light"
                 android:text="@string/app_description"
-                android:textColor="@color/black"
+                android:textColor="@color/primary"
                 android:textSize="17sp"
                 android:textStyle="italic" />
 
@@ -66,22 +64,29 @@
                 android:id="@+id/login_button"
                 style="@style/RoundedButton"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:layout_below="@id/description_text_view"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/primary"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:text="@string/login"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/signup_button"
+                app:strokeColor="@color/primary"
+                app:strokeWidth="1dp"
                 style="@style/RoundedButton"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="55dp"
                 android:layout_below="@id/login_button"
-                android:backgroundTint="@color/primary"
+                android:backgroundTint="@color/white"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:text="@string/signup"
-                android:textSize="15sp" />
+                android:textColor="@color/primary"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
