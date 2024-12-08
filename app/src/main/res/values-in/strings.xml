@@ -126,4 +126,6 @@
     <string name="favorite_result">Hasil Favorit</string>
     <string name="no_internet">Koneksi Internet Tidak Ada</string>
     <string name="string_reset_password">Kirim Email untuk Atur Ulang Kata Sandi</string>
+    <string name="invalid_input">Cek kembali input anda!</string>
+    <string name="required_field">Field tidak boleh kosong</string>
 </resources>

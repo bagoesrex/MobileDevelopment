@@ -67,7 +67,7 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             val email = binding.edLoginEmail.text.toString().trim()
             val password = binding.edLoginPassword.text.toString().trim()
-            if (validateInput(email, password)) {
+            if (validateInput()) {
                 viewModel.loginUser(email, password)
             }
         }
@@ -202,22 +202,12 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun validateInput(email: String, password: String): Boolean {
-        return when {
-            !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                binding.edLoginEmail.error = getString(R.string.invalid_email)
-                binding.edLoginEmail.requestFocus()
-                false
-            }
-
-            password.isEmpty() || password.length < 8 -> {
-                binding.edLoginPassword.error = getString(R.string.password_minimum_length)
-                binding.edLoginPassword.requestFocus()
-                false
-            }
-
-            else -> true
+    private fun validateInput(): Boolean {
+        binding.apply {
+            return edLoginEmail.isValid() &&
+                    edLoginPassword.isValid()
         }
+
     }
 
     @SuppressLint("MissingInflatedId")
