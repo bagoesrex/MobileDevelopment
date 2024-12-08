@@ -23,17 +23,12 @@ class MainBoardFragment : Fragment() {
     private val viewModel: MainBoardViewModel by viewModels {
         ViewModelFactory(Injection.provideRepository(requireContext()))
     }
-    private lateinit var auth : FirebaseAuth
-    private lateinit var userPreferences: UserPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMainBoardBinding.inflate(inflater, container, false)
-
-        auth = FirebaseAuth.getInstance()
-        userPreferences = UserPreferences(requireContext())
 
         setupView()
         return binding.root
@@ -47,37 +42,6 @@ class MainBoardFragment : Fragment() {
         binding.signupButton.setOnClickListener{
             findNavController().navigate(R.id.action_mainBoard_to_signUp)
         }
-    }
-
-    private fun checkUserStatus() {
-        val token = userPreferences.getToken()
-        val currentUser = auth.currentUser
-
-        if (token != null && currentUser != null) {
-            if (currentUser.isEmailVerified) {
-                findNavController().navigate(R.id.action_mainBoard_to_home)
-            } else {
-                showEmailVerificationPrompt()
-            }
-        } else {
-            Log.d("Auth", "Token atau pengguna tidak valid")
-        }
-    }
-
-    private fun showEmailVerificationPrompt() {
-        AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.verification_email_title))
-            .setMessage(getString(R.string.verification_email_message))
-            .setPositiveButton(getString(R.string.verification_email_positive_button)) { _, _ ->
-                findNavController().navigate(R.id.action_mainBoard_to_otp)
-            }
-            .setNegativeButton(getString(R.string.verification_email_negative_button), null)
-            .show()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        checkUserStatus()
     }
 
     override fun onDestroyView() {

@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.skincure" />
-                  <option name="mobileSdkAppId" value="1:489481028538:android:b925053a34d739cd6b5383" />
-                  <option name="projectId" value="skin-cure-5e449" />
-                  <option name="projectNumber" value="489481028538" />
+                  <option name="mobileSdkAppId" value="1:1002330865172:android:2c95a0d83e1bb95959f101" />
+                  <option name="projectId" value="skincure-442717" />
+                  <option name="projectNumber" value="1002330865172" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
