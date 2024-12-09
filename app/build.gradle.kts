@@ -103,4 +103,7 @@ dependencies {
     implementation (libs.androidx.room.runtime)
     ksp (libs.androidx.room.compiler)
     implementation (libs.room.ktx)
+
+    //shimmer
+    implementation (libs.shimmer)
 }

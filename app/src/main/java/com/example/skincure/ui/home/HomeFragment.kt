@@ -28,7 +28,6 @@ class HomeFragment : Fragment() {
             Injection.provideRepository(requireContext()),
         )
     }
-    private var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -109,10 +108,10 @@ class HomeFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
-            loadingDialog = loadingDialog ?: createLoadingDialog(requireContext())
-            loadingDialog?.show()
+            binding.shimmerLayout.visibility = View.VISIBLE
         } else {
-            loadingDialog?.dismiss()
+            binding.shimmerLayout.visibility = View.GONE
+            binding.tittleLayout.visibility = View.VISIBLE
         }
     }
 
