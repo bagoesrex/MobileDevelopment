@@ -88,6 +88,7 @@ dependencies {
     implementation(libs.androidx.credentials)
     implementation(libs.gms.play.services.auth)
     implementation(libs.googleid)
+    implementation(libs.firebase.firestore.ktx)
 
     //animation lottie
     implementation (libs.lottie)
@@ -96,6 +97,7 @@ dependencies {
     implementation(libs.androidx.camera.camera2)
     implementation(libs.androidx.camera.lifecycle)
     implementation(libs.androidx.camera.view)
+    implementation (libs.guava)
 
     //room
     implementation (libs.androidx.room.runtime)

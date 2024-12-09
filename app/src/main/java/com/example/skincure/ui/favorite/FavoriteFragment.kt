@@ -7,10 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.skincure.R
-import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.databinding.FragmentFavoriteBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
@@ -36,6 +36,12 @@ class FavoriteFragment : Fragment() {
 
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getAllFavorite()
+    }
+
 
     private fun setupView() {
         (requireActivity() as AppCompatActivity).apply {
@@ -65,23 +71,11 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun setupObserver() {
-        // testing
-        val favList = listOf(
-            FavoriteResult(
-                diseaseName = "Acne",
-                predictionScore = 0.98f,
-                description = "Kotlin has become one of the most popular programming languages for Android development.",
-                imageUri = "https://static.vecteezy.com/system/resources/previews/033/662/051/non_2x/cartoon-lofi-young-manga-style-girl-while-listening-to-music-in-the-rain-ai-generative-photo.jpg",
-            ),
-            FavoriteResult(
-                diseaseName = "Cacar",
-                predictionScore = 0.98f,
-                description = "Android 14 introduces several new features that enhance user experience and developer productivity.",
-                imageUri = "https://cdn.pixabay.com/photo/2023/11/15/13/55/woman-8390124_640.jpg",
-            )
-        )
-
-        favAdapter.submitList(favList)
+        viewModel.favoriteList.observe(viewLifecycleOwner, Observer { favList ->
+            favList?.let {
+                favAdapter.submitList(it)
+            }
+        })
     }
 
     companion object {
