@@ -59,7 +59,7 @@ class ViewModelFactory(
                 HomeViewModel() as T
             }
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
-                FavoriteViewModel() as T
+                FavoriteViewModel(repository) as T
             }
             modelClass.isAssignableFrom(ContactUsViewModel::class.java) -> {
                 ContactUsViewModel() as T
