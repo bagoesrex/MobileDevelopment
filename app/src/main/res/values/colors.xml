@@ -11,4 +11,5 @@
     <color name="dark_yellow">#DCB991</color>
     <color name="gray">#F5FFFF</color>
     <color name="black_custom">#1E687D</color>
+    <color name="shimmer_color">#E0E0E0</color>
 </resources>
