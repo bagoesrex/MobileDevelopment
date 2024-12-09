@@ -60,6 +60,7 @@ class ResultDetailFragment : Fragment() {
         val name = arguments?.getString(EXTRA_NAME) ?: "null name"
         val score = arguments?.getFloat(EXTRA_SCORE) ?: "null score"
         val description = arguments?.getString(EXTRA_DESCRIPTION) ?: "null desc"
+        val timestamp = arguments?.getString(EXTRA_DATE) ?: "null date"
 
         imageUri?.let {
             Picasso.get()
@@ -77,6 +78,10 @@ class ResultDetailFragment : Fragment() {
             append("Score Prediciton:")
             append(score)
             append("%")
+        }
+        binding.timestampTextView.text = buildString{
+            append("Created At:")
+            append(timestamp)
         }
         binding.descriptionTextView.text = description
 
@@ -145,5 +150,6 @@ class ResultDetailFragment : Fragment() {
         const val EXTRA_NAME = "Name"
         const val EXTRA_DESCRIPTION = "Description"
         const val EXTRA_SCORE = "Score"
+        const val EXTRA_DATE = "Date"
     }
 }
