@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:layout_marginBottom="10dp"
+    android:backgroundTint="@color/white"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp"
+    app:strokeColor="@color/primary"
+    app:strokeWidth="2dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/history_image_view"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_person"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/history_image_view"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tittle_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:text="Ini Judul" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/description_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="start"
+                android:justificationMode="inter_word"
+                android:maxLines="3"
+                android:paddingVertical="5dp"
+                android:text="Kamu sering merasa tidak percaya diri karena pori-pori membesar? Ada beberapa kandungan skincare untuk mengecilkan pori-pori yang mungkin perlu kamu pahami agar tidak salah beli produk."
+                android:textSize="14sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/created_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="end|center_vertical"
+                android:maxLines="1"
+                android:text="25 December 2024"
+                android:textSize="12sp"
+                android:textStyle="italic" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

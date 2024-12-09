@@ -73,6 +73,9 @@
         <action
             android:id="@+id/action_home_to_favorite"
             app:destination="@id/favorite" />
+        <action
+            android:id="@+id/action_home_to_history"
+            app:destination="@id/history" />
     </fragment>
     <fragment
         android:id="@+id/otp"
@@ -184,5 +187,14 @@
         <action
             android:id="@+id/action_welcome_to_otp"
             app:destination="@id/otp" />
+    </fragment>
+    <fragment
+        android:id="@+id/history"
+        android:name="com.example.skincure.ui.history.HistoryFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_history_to_resultDetail"
+            app:destination="@id/resultDetail" />
     </fragment>
 </navigation>

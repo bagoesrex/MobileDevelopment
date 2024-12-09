@@ -129,4 +129,5 @@
     <string name="string_reset_password">Send Email to Reset Password</string>
     <string name="invalid_input">Check your input again!</string>
     <string name="required_field">Field cannot be empty</string>
+    <string name="history">History</string>
 </resources>
