@@ -61,12 +61,10 @@ class ResultDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupView()
-        if (!isDataSaved) {
-            saveDataToFirestore()
-            isDataSaved = true
-        }
+
         if (name.isNotEmpty() && description.isNotEmpty()) {
             observeData()
+
         } else {
             uploadImage()
             observeViewModel()
@@ -119,6 +117,11 @@ class ResultDetailFragment : Fragment() {
             append(formattedDate)
         }
         binding.descriptionTextView.text = description
+
+        if (!isDataSaved) {
+            saveDataToFirestore()
+            isDataSaved = true
+        }
     }
 
     private fun observeViewModel() {
