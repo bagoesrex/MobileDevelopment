@@ -13,12 +13,15 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.example.skincure.R
+import com.example.skincure.data.Result
 import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.databinding.FragmentResultDetailBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
+import com.example.skincure.utils.dateFormatter
 import com.example.skincure.utils.reduceFileImage
 import com.example.skincure.utils.uriToFile
 import com.google.firebase.auth.FirebaseAuth
@@ -28,8 +31,6 @@ import com.squareup.picasso.Picasso
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import com.example.skincure.data.Result
-import com.example.skincure.utils.dateFormatter
 
 class ResultDetailFragment : Fragment() {
 
@@ -71,6 +72,7 @@ class ResultDetailFragment : Fragment() {
         }
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun setupView() {
         (requireActivity() as AppCompatActivity).apply {
             setSupportActionBar(binding.toolbarId.toolbar)
@@ -101,7 +103,15 @@ class ResultDetailFragment : Fragment() {
         description = arguments?.getString(EXTRA_DESCRIPTION) ?: description
         timestampString = arguments?.getString(EXTRA_DATE) ?: timestampString
 
-
+        val imageUriFromArguments = arguments?.getString(EXTRA_CAMERAX_IMAGE)
+        imageUriFromArguments?.let {
+            viewModel.getResultByImageUri(it).observe(viewLifecycleOwner) { result ->
+                if (result != null) {
+                    isSaved = true
+                    saveMenuItem.icon = resources.getDrawable(R.drawable.ic_save, null)
+                }
+            }
+        }
     }
 
     private fun observeData() {
@@ -136,9 +146,11 @@ class ResultDetailFragment : Fragment() {
                     timestampString = response.createdAt
                     observeData()
                 }
+
                 is Result.Error -> {
                     Log.e(TAG, "Upload failed: ${result.error}")
                 }
+
                 is Result.Loading -> {
                 }
             }
@@ -192,6 +204,8 @@ class ResultDetailFragment : Fragment() {
             uploadTask.addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener { uri ->
                     val imageUrl = uri.toString()
+                    viewModel.setImageUrl(imageUrl)
+
                     val userId = auth.currentUser?.uid
                     val diseaseName = name
                     val description = description
@@ -237,22 +251,21 @@ class ResultDetailFragment : Fragment() {
         }
     }
 
-
     private fun saveDataToRoom() {
-        val imageUri = arguments?.getString(EXTRA_CAMERAX_IMAGE)
-        if (imageUri != null) {
-            //testing
-            val result = FavoriteResult(
-                id = 0,
-                imageUri = imageUri,
-                diseaseName = getString(R.string.test_name),
-                description = getString(R.string.test_description),
-                timestamp = System.currentTimeMillis()
-            )
-            viewModel.insertResult(result)
-        } else {
-            Log.e(TAG, "image uri null.")
-        }
+        viewModel.imageUrl.observe(viewLifecycleOwner, Observer { imageUri ->
+            if (imageUri != null) {
+                val result = FavoriteResult(
+                    id = 0,
+                    imageUri = imageUri,
+                    diseaseName = name,
+                    description = description,
+                    timestamp = System.currentTimeMillis()
+                )
+                viewModel.insertResult(result)
+            } else {
+                Log.e(TAG, "image uri null.")
+            }
+        })
     }
 
     private fun deleteDataFromRoom() {

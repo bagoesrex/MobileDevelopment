@@ -47,6 +47,17 @@ class ResultDetailViewModel(private var repository: Repository) : ViewModel() {
         }
     }
 
+    fun getResultByImageUri(imageUri: String): LiveData<FavoriteResult?> {
+        return repository.getResultByImageUri(imageUri)
+    }
+
+    private val _imageUrl = MutableLiveData<String>()
+    val imageUrl: LiveData<String> get() = _imageUrl
+
+    fun setImageUrl(url: String) {
+        _imageUrl.value = url
+    }
+
     fun deleteByImageUri(
         imageUri: String,
         onResult: (FavoriteResult?) -> Unit

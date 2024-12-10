@@ -1,6 +1,7 @@
 package com.example.skincure.data.repository
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.data.local.FavoriteResultDao
 import com.example.skincure.data.remote.response.PredictUploadResponse
@@ -62,6 +63,10 @@ class Repository(
 
     suspend fun deleteByImageUri(imageUri: String): FavoriteResult? {
         return dao.deleteByImageUri(imageUri)
+    }
+
+    fun getResultByImageUri(imageUri: String): LiveData<FavoriteResult?> {
+        return dao.getResultByImageUri(imageUri)
     }
 
     suspend fun updateResult(result: FavoriteResult) {
