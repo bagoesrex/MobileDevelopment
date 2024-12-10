@@ -1,5 +1,15 @@
 package com.example.skincure.data.remote.retrofit
 
-interface ApiService {
+import com.example.skincure.data.remote.response.PredictUploadResponse
+import okhttp3.MultipartBody
+import retrofit2.http.Multipart
+import retrofit2.http.POST
+import retrofit2.http.Part
 
+interface ApiService {
+    @Multipart
+    @POST("api/predict")
+    suspend fun predictUpload(
+        @Part file: MultipartBody.Part,
+    ): PredictUploadResponse
 }

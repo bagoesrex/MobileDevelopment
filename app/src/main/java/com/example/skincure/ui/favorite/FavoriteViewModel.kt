@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.skincure.data.local.FavoriteResult
-import com.example.skincure.data.repository.AuthRepository
+import com.example.skincure.data.repository.Repository
 import kotlinx.coroutines.launch
 
-class FavoriteViewModel(private val repository: AuthRepository) : ViewModel() {
+class FavoriteViewModel(private val repository: Repository) : ViewModel() {
     private val _favoriteList = MutableLiveData<List<FavoriteResult>>()
     val favoriteList: LiveData<List<FavoriteResult>> = _favoriteList
 

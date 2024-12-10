@@ -20,10 +20,16 @@ import com.example.skincure.databinding.FragmentResultDetailBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.utils.DateUtils
+import com.example.skincure.utils.reduceFileImage
+import com.example.skincure.utils.uriToFile
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import com.example.skincure.data.Result
 
 class ResultDetailFragment : Fragment() {
 
@@ -37,6 +43,12 @@ class ResultDetailFragment : Fragment() {
     private var isDataSaved = false
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
+
+    private var currentImageUri: Uri? = null
+
+    private var name: String = ""
+    private var description: String = ""
+    private var timestampString: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +64,11 @@ class ResultDetailFragment : Fragment() {
         if (!isDataSaved) {
             saveDataToFirestore()
             isDataSaved = true
+        }
+        if (name.isNotEmpty() && description.isNotEmpty()) {
+            observeData()
+        } else {
+            observeViewModel()
         }
     }
 
@@ -72,31 +89,71 @@ class ResultDetailFragment : Fragment() {
         val imageUriString = arguments?.getString(EXTRA_CAMERAX_IMAGE)
         val imageUri: Uri? = imageUriString?.let { Uri.parse(it) }
 
-        val name = arguments?.getString(EXTRA_NAME) ?: "null name"
-        val description = arguments?.getString(EXTRA_DESCRIPTION) ?: "null desc"
-        val timestampString = arguments?.getString(EXTRA_DATE) ?: "null date"
-        val timestamp = timestampString.toLongOrNull() ?: 0L
-        val formattedDate = DateUtils.formatTimestamp(timestamp)
-
-        imageUri?.let {
+        currentImageUri = imageUri
+        currentImageUri?.let {
             Picasso.get()
                 .load(it)
                 .placeholder(R.drawable.ic_gallery)
                 .into(binding.resultImageView)
+            uploadImage()
         }
+
+        name = arguments?.getString(EXTRA_NAME) ?: name
+        description = arguments?.getString(EXTRA_DESCRIPTION) ?: description
+        timestampString = arguments?.getString(EXTRA_DATE) ?: timestampString
+
+
+    }
+
+    private fun observeData() {
+        val timestamp = timestampString.toLongOrNull() ?: 0L
+        val formattedDate = DateUtils.formatTimestamp(timestamp)
 
         binding.nameTextView.text = buildString {
             append("Hasil analsisis: ")
             append(name)
-            append(" ")
         }
-
         binding.timestampTextView.text = buildString {
             append("Created At:")
-
             append(formattedDate)
         }
         binding.descriptionTextView.text = description
+    }
+
+    private fun observeViewModel() {
+        viewModel.predictUploadResult.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Success -> {
+                    val response = result.data
+
+                    name = response.result
+                    description = response.description
+
+                    timestampString = response.createdAt
+                    observeData()
+                }
+                is Result.Error -> {
+                    Log.e(TAG, "Upload failed: ${result.error}")
+                }
+                is Result.Loading -> {
+                }
+            }
+        }
+    }
+
+    private fun uploadImage() {
+        currentImageUri?.let { uri ->
+            val file = uriToFile(uri, requireActivity())
+            val compressedFile = file.reduceFileImage()
+
+            val photoRequestBody = compressedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val photoMultipart =
+                MultipartBody.Part.createFormData("file", compressedFile.name, photoRequestBody)
+
+            viewModel.predictUpload(photoMultipart)
+        } ?: run {
+            Log.e(TAG, "currentImageUri is null. Cannot upload image.")
+        }
 
     }
 
@@ -127,16 +184,16 @@ class ResultDetailFragment : Fragment() {
             val storageReference = FirebaseStorage.getInstance().reference
             val imageRef = storageReference.child("images/${System.currentTimeMillis()}.jpg")
             val uploadTask = imageRef.putFile(Uri.parse(imageUri))
-            uploadTask.addOnSuccessListener { taskSnapshot ->
+
+            uploadTask.addOnSuccessListener {
                 imageRef.downloadUrl.addOnSuccessListener { uri ->
                     val imageUrl = uri.toString()
                     val userId = auth.currentUser?.uid
 
-
                     val resultData = mapOf(
                         "imageUri" to imageUrl,
-                        "diseaseName" to getString(R.string.test_name),
-                        "description" to getString(R.string.test_description),
+                        "diseaseName" to if (isAdded) getString(R.string.test_name) else "Unknown",
+                        "description" to if (isAdded) getString(R.string.test_description) else "Unknown",
                         "timestamp" to System.currentTimeMillis()
                     )
 
@@ -149,38 +206,30 @@ class ResultDetailFragment : Fragment() {
                                     historyRef.add(resultData)
                                         .addOnSuccessListener { documentReference ->
                                             Log.d(
-                                                "ResultDetailFragment",
+                                                TAG,
                                                 "Data saved to Firestore with ID: ${documentReference.id}"
                                             )
                                         }
                                         .addOnFailureListener { e ->
-                                            Log.e(
-                                                "ResultDetailFragment",
-                                                "Error saving data to Firestore",
-                                                e
-                                            )
+                                            Log.e(TAG, "Error saving data to Firestore", e)
                                         }
                                 } else {
-                                    Log.d(
-                                        "ResultDetailFragment",
-                                        "Data already exists, not adding again."
-                                    )
+                                    Log.d(TAG, "Data already exists, not adding again.")
                                 }
                             }
                             .addOnFailureListener { e ->
-                                Log.e(
-                                    "ResultDetailFragment",
-                                    "Error checking data existence in Firestore",
-                                    e
-                                )
+                                Log.e(TAG, "Error checking data existence in Firestore", e)
                             }
                     } ?: run {
-                        Log.e("ResultDetailFragment", "User not logged in!")
+                        Log.e(TAG, "User not logged in!")
                     }
                 }
+            }.addOnFailureListener { e ->
+                Log.e(TAG, "Error uploading image to Firestore", e)
             }
         }
     }
+
 
     private fun saveDataToRoom() {
         val imageUri = arguments?.getString(EXTRA_CAMERAX_IMAGE)
@@ -213,16 +262,16 @@ class ResultDetailFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     companion object {
         const val EXTRA_CAMERAX_IMAGE = "CameraX Image"
         private const val TAG = "ResultDetailFragment"
         const val EXTRA_NAME = "Name"
         const val EXTRA_DESCRIPTION = "Description"
         const val EXTRA_DATE = "Date"
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

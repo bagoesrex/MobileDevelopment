@@ -1,17 +1,19 @@
 package com.example.skincure.data.remote.retrofit
 
+import android.util.Log
 import com.example.skincure.data.pref.UserPreferences
-import com.squareup.picasso.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.example.skincure.BuildConfig
+
 
 class ApiConfig {
     companion object {
 
-//        private const val BASE_URL = BuildConfig.BASE_URL
+        private const val BASE_URL = BuildConfig.BASE_URL
 
         fun getApiService(userPreferences: UserPreferences): ApiService {
             val loggingInterceptor =
@@ -24,6 +26,8 @@ class ApiConfig {
 
             val authInterceptor = Interceptor { chain ->
                 val token = userPreferences.getToken() ?: ""
+
+                Log.d("iniTokens", token)
 
                 val req = chain.request()
                 val requestHeaders = req.newBuilder()
@@ -38,7 +42,7 @@ class ApiConfig {
                 .build()
 
             val retrofit = Retrofit.Builder()
-//                .baseUrl(BASE_URL)
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

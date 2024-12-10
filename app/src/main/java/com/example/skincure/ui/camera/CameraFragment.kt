@@ -57,11 +57,7 @@ class CameraFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (allPermissionsGranted()) {
-            startCamera()
-        } else {
-            requestPermissionLauncher.launch(REQUIRED_PERMISSION)
-        }
+        checkPermissionsAndStartCamera()
     }
 
     private fun setupView() {
@@ -99,6 +95,20 @@ class CameraFragment : Fragment() {
             showToast(requireContext(), getString(R.string.photo_failed))
         }
     }
+
+    private fun checkPermissionsAndStartCamera() {
+        if (allPermissionsGranted()) {
+            startCamera()
+        } else if (shouldShowRequestPermissionRationale(REQUIRED_PERMISSION)) {
+            showToast(
+                requireContext(),
+                getString(R.string.permission_request_granted))
+            requestPermissionLauncher.launch(REQUIRED_PERMISSION)
+        } else {
+            requestPermissionLauncher.launch(REQUIRED_PERMISSION)
+        }
+    }
+
 
     private fun allPermissionsGranted() =
         ContextCompat.checkSelfPermission(
@@ -163,10 +173,13 @@ class CameraFragment : Fragment() {
             ContextCompat.getMainExecutor(requireContext()),
             object : ImageCapture.OnImageSavedCallback {
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                    val savedUri = output.savedUri ?: Uri.fromFile(photoFile)
                     val bundle = Bundle().apply {
-                        putString(EXTRA_CAMERAX_IMAGE, output.savedUri.toString())
+                        putString(EXTRA_CAMERAX_IMAGE, savedUri.toString())
                     }
-                    findNavController().navigate(R.id.action_camera_to_resultDetailFragment, bundle)
+                    if (findNavController().currentDestination?.id == R.id.camera) {
+                        findNavController().navigate(R.id.action_camera_to_resultDetailFragment, bundle)
+                    }
                     showToast(requireContext(), getString(R.string.image_captured))
                 }
 
