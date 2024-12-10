@@ -128,4 +128,5 @@
     <string name="string_reset_password">Kirim Email untuk Atur Ulang Kata Sandi</string>
     <string name="invalid_input">Cek kembali input anda!</string>
     <string name="required_field">Field tidak boleh kosong</string>
+    <string name="history">Riwayat</string>
 </resources>

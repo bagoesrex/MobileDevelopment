@@ -65,6 +65,9 @@ class ConfirmPasswordEditText @JvmOverloads constructor(
                 else -> null
             }
         }
+        addValidation { password ->
+            if (password.length >= 8) null else context.getString(R.string.password_mismatch)
+        }
     }
 
     internal fun setPasswordToMatch(password: String) {
