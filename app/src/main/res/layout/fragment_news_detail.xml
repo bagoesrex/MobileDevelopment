@@ -14,46 +14,63 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tittle_text_view"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="25dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:gravity="center_vertical"
-        android:text="News Detail"
-        android:textSize="20sp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar_id" />
+        app:layout_constraintTop_toBottomOf="@id/toolbar_id">
 
-    <ImageView
-        android:id="@+id/news_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="30dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tittle_text_view" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/description_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="sans-serif-light"
-        android:justificationMode="inter_word"
-        android:text="Ini Description"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/news_image_view" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tittle_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="25dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:gravity="center_vertical"
+                android:text="News Detail"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/news_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="30dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tittle_text_view" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/description_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-light"
+                android:justificationMode="inter_word"
+                android:text="Ini Description"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/news_image_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

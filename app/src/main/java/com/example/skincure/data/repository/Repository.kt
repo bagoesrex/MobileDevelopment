@@ -3,6 +3,7 @@ package com.example.skincure.data.repository
 import android.util.Log
 import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.data.local.FavoriteResultDao
+import com.example.skincure.data.remote.response.NewsResponse
 import com.example.skincure.data.remote.response.PredictUploadResponse
 import com.example.skincure.data.remote.retrofit.ApiService
 import com.google.firebase.auth.FirebaseAuth
@@ -96,7 +97,24 @@ class Repository(
         }
     }
 
-     companion object {
+    suspend fun getAllNews(
+    ): utilResult<NewsResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.getAllNews()
+
+                utilResult.Success(response)
+            } catch (e: IOException) {
+                utilResult.Error("Network error: ${e.message}")
+            } catch (e: HttpException) {
+                utilResult.Error("HTTP error: ${e.message}")
+            } catch (e: Exception) {
+                utilResult.Error("An unexpected error occurred: ${e.message}")
+            }
+        }
+    }
+
+    companion object {
 
         @Volatile
         private var instance: Repository? = null

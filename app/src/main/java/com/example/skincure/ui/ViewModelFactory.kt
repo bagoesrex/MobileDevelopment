@@ -51,7 +51,7 @@ class ViewModelFactory(
                 NewsDetailViewModel() as T
             }
             modelClass.isAssignableFrom(NewsViewModel::class.java) -> {
-                NewsViewModel() as T
+                NewsViewModel(repository) as T
             }
             modelClass.isAssignableFrom(MainBoardViewModel::class.java) -> {
                 MainBoardViewModel() as T
