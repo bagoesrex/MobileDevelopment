@@ -1,8 +1,13 @@
 package com.example.skincure.ui.result_detail
 
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
@@ -49,6 +54,7 @@ class ResultDetailFragment : Fragment() {
     private var name: String = ""
     private var description: String = ""
     private var timestampString: String = ""
+    private var score: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,8 +103,8 @@ class ResultDetailFragment : Fragment() {
         }
 
         name = arguments?.getString(EXTRA_NAME) ?: name
-        Log.d("ResultDetailFragment", "Name: $name")
         description = arguments?.getString(EXTRA_DESCRIPTION) ?: description
+        score = arguments?.getString(EXTRA_SCORE) ?: score
         timestampString = arguments?.getString(EXTRA_DATE) ?: timestampString
 
 
@@ -109,14 +115,35 @@ class ResultDetailFragment : Fragment() {
         val formattedDate = dateFormatter(timestamp)
 
         binding.nameTextView.text = buildString {
-            append("Hasil analsisis: ")
+            append("Hasil analysis: ")
             append(name)
         }
+        binding.scorePredictionTextView.text = buildString {
+            append("Prediction Score: ")
+            val score = score.toDoubleOrNull() ?: 0.0
+            append(score.toInt())
+            append("%")
+        }
         binding.timestampTextView.text = buildString {
-            append("Created At:")
+            append("Created At: ")
             append(formattedDate)
         }
-        binding.descriptionTextView.text = description
+
+        val result = description.replace(Regex("(Penyebab:|Pencegahan:|Pengobatan:|Penjelasan:)"), "\n$1")
+        val spannableString = SpannableString(result)
+        val regex = Regex("(Kondisi:|Penyebab:|Pencegahan:|Pengobatan:|Penjelasan:)")
+        val matches = regex.findAll(result)
+
+        for (match in matches) {
+            spannableString.setSpan(
+                StyleSpan(Typeface.BOLD),
+                match.range.first,
+                match.range.last + 1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+
+        binding.descriptionTextView.text = spannableString
 
         if (!isDataSaved) {
             saveDataToFirestore()
@@ -132,7 +159,7 @@ class ResultDetailFragment : Fragment() {
 
                     name = response.result
                     description = response.description
-
+                    score = response.score.toString()
                     timestampString = response.createdAt
                     observeData()
                 }
@@ -196,12 +223,14 @@ class ResultDetailFragment : Fragment() {
                     val diseaseName = name
                     val description = description
                     val timestamp = timestampString
+                    val score = score
 
                     val resultData = mapOf(
                         "imageUri" to imageUrl,
                         "diseaseName" to diseaseName,
                         "description" to description,
-                        "timestamp" to timestamp
+                        "timestamp" to timestamp,
+                        "score" to score
                     )
 
                     userId?.let {
@@ -275,6 +304,7 @@ class ResultDetailFragment : Fragment() {
         const val EXTRA_NAME = "Name"
         const val EXTRA_DESCRIPTION = "Description"
         const val EXTRA_DATE = "Date"
+        const val EXTRA_SCORE = "Score"
     }
 
     override fun onDestroyView() {

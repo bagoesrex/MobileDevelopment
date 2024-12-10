@@ -27,6 +27,13 @@ class HistoryAdapter(
             Picasso.get().load(imageUrl).into(binding.historyImageView)
             binding.createdTextView.text = formattedDate
 
+            binding.scoreTextView.text = buildString {
+                append("Prediction Score: ")
+                val score = (data["score"] as? String)?.toDoubleOrNull() ?: 0.0
+                append(score.toInt())
+                append("%")
+            }
+
             binding.root.setOnClickListener {
                 onItemClick(data)
             }

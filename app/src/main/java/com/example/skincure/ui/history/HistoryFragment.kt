@@ -53,9 +53,9 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setupObserver() {
-        viewModel.historyList.observe(viewLifecycleOwner) { favList ->
-            historyAdapter.submitList(favList)
-            Log.d("HistoryFragment", "History List: $favList")
+        viewModel.historyList.observe(viewLifecycleOwner) { histories ->
+            historyAdapter.submitList(histories)
+            Log.d("HistoryFragment", "History List: $histories")
         }
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             Log.e("HistoryFragment", errorMessage)
@@ -71,7 +71,8 @@ class HistoryFragment : Fragment() {
                 putString(EXTRA_CAMERAX_IMAGE, data["imageUri"] as? String)
                 putString(EXTRA_NAME, data["diseaseName"] as? String)
                 putString(EXTRA_DESCRIPTION, data["description"] as? String)
-                putString(EXTRA_DATE, (data["timestamp"] as? String).toString())
+                putString(EXTRA_DATE, data["timestamp"] as? String)
+                putString(EXTRA_SCORE, data["score"] as? String)
             }
             findNavController().navigate(R.id.action_history_to_resultDetail, bundle)
         }
@@ -83,6 +84,7 @@ class HistoryFragment : Fragment() {
         const val EXTRA_NAME = "Name"
         const val EXTRA_DESCRIPTION = "Description"
         const val EXTRA_DATE = "Date"
+        const val EXTRA_SCORE = "Score"
     }
 
     override fun onDestroyView() {
