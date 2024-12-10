@@ -5,26 +5,27 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.skincure.data.remote.response.NewsResponse
+import com.example.skincure.data.remote.response.NewsResponseItem
 import com.example.skincure.databinding.NewsItemBinding
+import com.example.skincure.utils.dateFormatter
 import com.squareup.picasso.Picasso
 
 class NewsAdapter(
-    private val onItemClick: (NewsResponse) -> Unit
-) : ListAdapter<NewsResponse, NewsAdapter.NewsViewHolder>(NewsDiffCallBack()) {
+    private val onItemClick: (NewsResponseItem) -> Unit
+) : ListAdapter<NewsResponseItem, NewsAdapter.NewsViewHolder>(NewsDiffCallBack()) {
 
     class NewsViewHolder(
         private val binding: NewsItemBinding,
-        private val onItemClick: (NewsResponse) -> Unit
+        private val onItemClick: (NewsResponseItem) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(news: NewsResponse) {
-            binding.tittleTextView.text = news.title
+        fun bind(news: NewsResponseItem) {
+            binding.tittleTextView.text = news.name
             binding.descriptionTextView.text = news.description
             Picasso.get()
-                .load(news.imageUrl)
+                .load(news.image)
                 .into(binding.newsImageView)
-            binding.dateTextView.text = news.createdAt
+            binding.dateTextView.text = dateFormatter(news.createdAt)
 
             binding.root.setOnClickListener {
                 onItemClick(news)
@@ -43,12 +44,12 @@ class NewsAdapter(
         holder.bind(news)
     }
 
-    class NewsDiffCallBack : DiffUtil.ItemCallback<NewsResponse>() {
-        override fun areItemsTheSame(oldItem: NewsResponse, newItem: NewsResponse): Boolean {
-            return oldItem.title == newItem.title
+    class NewsDiffCallBack : DiffUtil.ItemCallback<NewsResponseItem>() {
+        override fun areItemsTheSame(oldItem: NewsResponseItem, newItem: NewsResponseItem): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: NewsResponse, newItem: NewsResponse): Boolean {
+        override fun areContentsTheSame(oldItem: NewsResponseItem, newItem: NewsResponseItem): Boolean {
             return oldItem == newItem
         }
     }

@@ -1,7 +1,9 @@
 package com.example.skincure.data.remote.retrofit
 
+import com.example.skincure.data.remote.response.NewsResponse
 import com.example.skincure.data.remote.response.PredictUploadResponse
 import okhttp3.MultipartBody
+import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -12,4 +14,8 @@ interface ApiService {
     suspend fun predictUpload(
         @Part file: MultipartBody.Part,
     ): PredictUploadResponse
+
+    @GET("api/news")
+    suspend fun getAllNews(): NewsResponse
 }
+

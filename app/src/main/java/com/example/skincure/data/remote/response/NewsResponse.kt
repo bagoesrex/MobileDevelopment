@@ -1,8 +1,23 @@
 package com.example.skincure.data.remote.response
 
-data class NewsResponse(
-    val title: String,
-    val description: String,
-    val imageUrl: String,
-    val createdAt: String?,
+import com.google.gson.annotations.SerializedName
+
+typealias NewsResponse = List<NewsResponseItem>
+
+data class NewsResponseItem(
+
+	@field:SerializedName("imageUrl")
+	val image: String,
+
+	@field:SerializedName("createdAt")
+	val createdAt: String,
+
+	@field:SerializedName("name")
+	val name: String,
+
+	@field:SerializedName("description")
+	val description: String,
+
+	@field:SerializedName("id")
+	val id: String
 )
