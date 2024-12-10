@@ -8,14 +8,14 @@ import com.example.skincure.utils.DateUtils
 import com.squareup.picasso.Picasso
 
 class HistoryAdapter(
-    private val onItemClick: (Map<String, Any>) -> Unit
+    private val onItemClick: (Map<String, Any>) -> Unit,
 ) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     private val dataList = mutableListOf<Map<String, Any>>()
 
     class HistoryViewHolder(
         private val binding: HistoryItemBinding,
-        private val onItemClick: (Map<String, Any>) -> Unit
+        private val onItemClick: (Map<String, Any>) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(data: Map<String, Any>) {
             binding.tittleTextView.text = data["diseaseName"] as? String ?: "Unknown Disease"

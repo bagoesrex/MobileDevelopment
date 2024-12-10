@@ -56,7 +56,7 @@ class PasswordEditText @JvmOverloads constructor(
             }
         })
         addValidation { password ->
-            if (password.length >= 8) null else context.getString(R.string.password_mismatch)
+            if (password.length >= 8) null else context.getString(R.string.password_minimum_length)
         }
     }
 
