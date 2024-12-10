@@ -172,6 +172,8 @@ class LoginFragment : Fragment() {
                     val idToken = task.result?.token
                     idToken?.let {
                         userPreferences.saveToken(it)
+                        Log.d("token", it
+                        )
                     }
                     if (currentUser.isEmailVerified) {
                         val displayName = currentUser.displayName ?: "User"

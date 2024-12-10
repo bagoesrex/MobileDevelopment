@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.skincure.data.repository.AuthRepository
+import com.example.skincure.data.repository.Repository
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
-class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() {
+class SignUpViewModel(private val repository: Repository) : ViewModel() {
     private val _signUpState = MutableLiveData<SignUpState>()
     val signUpState: LiveData<SignUpState> get() = _signUpState
 
@@ -25,7 +25,7 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
         _signUpState.value = SignUpState.Loading
         viewModelScope.launch {
             try {
-                val result = authRepository.signUpWithEmailPassword(email, password)
+                val result = repository.signUpWithEmailPassword(email, password)
                 if (result.isSuccess) {
                     _signUpState.value = SignUpState.Success(result.getOrNull()!!, false)
                 } else {
@@ -46,7 +46,7 @@ class SignUpViewModel(private val authRepository: AuthRepository) : ViewModel() 
     fun signUpWithGoogle(idToken: String) {
         _signUpState.value = SignUpState.Loading
         viewModelScope.launch {
-            val result = authRepository.authWithGoogle(idToken)
+            val result = repository.authWithGoogle(idToken)
             if (result.isSuccess) {
                 _signUpState.value = SignUpState.Success(result.getOrNull()!!, true)
             } else {

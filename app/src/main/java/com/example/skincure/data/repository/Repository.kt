@@ -1,15 +1,26 @@
 package com.example.skincure.data.repository
 
+import android.util.Log
 import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.data.local.FavoriteResultDao
+import com.example.skincure.data.remote.response.PredictUploadResponse
+import com.example.skincure.data.remote.retrofit.ApiService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import okhttp3.MultipartBody
+import retrofit2.HttpException
+import java.io.IOException
+import kotlin.Result
+import com.example.skincure.data.Result as utilResult
 
-class AuthRepository(
+class Repository(
     private val auth: FirebaseAuth,
+    private val apiService: ApiService,
     private val dao: FavoriteResultDao
 ) {
 
@@ -61,16 +72,41 @@ class AuthRepository(
         return dao.getAllEvents()
     }
 
-    companion object {
+    suspend fun predictUpload(
+        photo: MultipartBody.Part,
+    ): utilResult<PredictUploadResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.predictUpload(photo)
+
+                if (response.statusCode == 200) {
+                    Log.d("responses", response.toString())
+                    utilResult.Success(response)
+                } else {
+                    Log.d("responsen", response.toString())
+                    utilResult.Error("error")
+                }
+            } catch (e: IOException) {
+                utilResult.Error("Network error: ${e.message}")
+            } catch (e: HttpException) {
+                utilResult.Error("HTTP error: ${e.message}")
+            } catch (e: Exception) {
+                utilResult.Error("An unexpected error occurred: ${e.message}")
+            }
+        }
+    }
+
+     companion object {
 
         @Volatile
-        private var instance: AuthRepository? = null
+        private var instance: Repository? = null
 
         fun getInstance(
             auth: FirebaseAuth,
+            apiService: ApiService,
             dao: FavoriteResultDao
-        ): AuthRepository = instance ?: synchronized(this) {
-            instance ?: AuthRepository(auth, dao)
+        ): Repository = instance ?: synchronized(this) {
+            instance ?: Repository(auth, apiService, dao)
         }.also { instance = it }
     }
 }
