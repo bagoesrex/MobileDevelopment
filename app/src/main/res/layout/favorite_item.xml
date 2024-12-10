@@ -60,7 +60,7 @@
                 android:textSize="14sp" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/score_text_view"
+                android:id="@+id/created_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:fontFamily="sans-serif-light"
