@@ -1,31 +1,30 @@
 package com.example.skincure.utils
 
 import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
-object DateUtils {
+fun dateFormatter(createdAt: String): String {
+    return try {
+        val inputFormat = SimpleDateFormat(
+            "yyyy-MM-dd'T'HH:mm:ss.SSSSSS",
+            Locale.US
+        )
+        inputFormat.timeZone = TimeZone.getTimeZone("UTC")
 
-    /**
-     * Fungsi untuk memformat timestamp ke dalam format tanggal tertentu
-     * @param timestamp Nilai waktu dalam milidetik (Long)
-     * @param format Format yang diinginkan (default: "yyyy-MM-dd HH:mm:ss")
-     * @return String hasil format tanggal
-     */
-    fun formatTimestamp(timestamp: Long, format: String = "yyyy-MM-dd HH:mm:ss"): String {
-        val date = Date(timestamp)
-        val formatter = SimpleDateFormat(format, Locale.getDefault())
-        return formatter.format(date)
-    }
+        val outputFormat = SimpleDateFormat(
+            "HH.mm | yyyy-MM-dd ",
+            Locale.getDefault()
+        )
+        outputFormat.timeZone = TimeZone.getDefault()
 
-    /**
-     * Fungsi untuk mendapatkan tanggal saat ini dalam format tertentu
-     * @param format Format yang diinginkan (default: "yyyy-MM-dd")
-     * @return String hasil format tanggal saat ini
-     */
-    fun getCurrentDate(format: String = "yyyy-MM-dd"): String {
-        val currentDate = Date()
-        val formatter = SimpleDateFormat(format, Locale.getDefault())
-        return formatter.format(currentDate)
+        val date = inputFormat.parse(createdAt)
+        if (date != null) {
+            outputFormat.format(date)
+        } else {
+            "Invalid date"
+        }
+    } catch (e: Exception) {
+        "Invalid date"
     }
 }

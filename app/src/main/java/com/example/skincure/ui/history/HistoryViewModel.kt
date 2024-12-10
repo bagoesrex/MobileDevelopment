@@ -25,8 +25,10 @@ class HistoryViewModel : ViewModel() {
                 .addOnSuccessListener { documents ->
                     val favList = mutableListOf<Map<String, Any>>()
                     for (document in documents) {
-                        favList.add(document.data)
+                        val data = document.data
+                        favList.add(data)
                     }
+
                     _historyList.value = favList
                 }
                 .addOnFailureListener { e ->
