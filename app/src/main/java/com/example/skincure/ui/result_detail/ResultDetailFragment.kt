@@ -19,6 +19,10 @@ import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.databinding.FragmentResultDetailBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
+import com.example.skincure.utils.DateUtils
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 
 class ResultDetailFragment : Fragment() {
@@ -30,14 +34,25 @@ class ResultDetailFragment : Fragment() {
     }
     private var isSaved: Boolean = false
     private lateinit var saveMenuItem: MenuItem
+    private var isDataSaved = false
+    private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentResultDetailBinding.inflate(inflater, container, false)
-        setupView()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupView()
+        if (!isDataSaved) {
+            saveDataToFirestore()
+            isDataSaved = true
+        }
     }
 
     private fun setupView() {
@@ -58,9 +73,10 @@ class ResultDetailFragment : Fragment() {
         val imageUri: Uri? = imageUriString?.let { Uri.parse(it) }
 
         val name = arguments?.getString(EXTRA_NAME) ?: "null name"
-        val score = arguments?.getFloat(EXTRA_SCORE) ?: "null score"
         val description = arguments?.getString(EXTRA_DESCRIPTION) ?: "null desc"
-        val timestamp = arguments?.getString(EXTRA_DATE) ?: "null date"
+        val timestampString = arguments?.getString(EXTRA_DATE) ?: "null date"
+        val timestamp = timestampString.toLongOrNull() ?: 0L
+        val formattedDate = DateUtils.formatTimestamp(timestamp)
 
         imageUri?.let {
             Picasso.get()
@@ -74,14 +90,11 @@ class ResultDetailFragment : Fragment() {
             append(name)
             append(" ")
         }
-        binding.scorePredictionTextView.text = buildString{
-            append("Score Prediciton:")
-            append(score)
-            append("%")
-        }
-        binding.timestampTextView.text = buildString{
+
+        binding.timestampTextView.text = buildString {
             append("Created At:")
-            append(timestamp)
+
+            append(formattedDate)
         }
         binding.descriptionTextView.text = description
 
@@ -108,6 +121,67 @@ class ResultDetailFragment : Fragment() {
         }
     }
 
+    private fun saveDataToFirestore() {
+        val imageUri = arguments?.getString(EXTRA_CAMERAX_IMAGE)
+        if (imageUri != null) {
+            val storageReference = FirebaseStorage.getInstance().reference
+            val imageRef = storageReference.child("images/${System.currentTimeMillis()}.jpg")
+            val uploadTask = imageRef.putFile(Uri.parse(imageUri))
+            uploadTask.addOnSuccessListener { taskSnapshot ->
+                imageRef.downloadUrl.addOnSuccessListener { uri ->
+                    val imageUrl = uri.toString()
+                    val userId = auth.currentUser?.uid
+
+
+                    val resultData = mapOf(
+                        "imageUri" to imageUrl,
+                        "diseaseName" to getString(R.string.test_name),
+                        "description" to getString(R.string.test_description),
+                        "timestamp" to System.currentTimeMillis()
+                    )
+
+                    userId?.let {
+                        val historyRef = db.collection("users").document(it).collection("history")
+                        historyRef.whereEqualTo("imageUri", imageUri)
+                            .get()
+                            .addOnSuccessListener { documents ->
+                                if (documents.isEmpty) {
+                                    historyRef.add(resultData)
+                                        .addOnSuccessListener { documentReference ->
+                                            Log.d(
+                                                "ResultDetailFragment",
+                                                "Data saved to Firestore with ID: ${documentReference.id}"
+                                            )
+                                        }
+                                        .addOnFailureListener { e ->
+                                            Log.e(
+                                                "ResultDetailFragment",
+                                                "Error saving data to Firestore",
+                                                e
+                                            )
+                                        }
+                                } else {
+                                    Log.d(
+                                        "ResultDetailFragment",
+                                        "Data already exists, not adding again."
+                                    )
+                                }
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e(
+                                    "ResultDetailFragment",
+                                    "Error checking data existence in Firestore",
+                                    e
+                                )
+                            }
+                    } ?: run {
+                        Log.e("ResultDetailFragment", "User not logged in!")
+                    }
+                }
+            }
+        }
+    }
+
     private fun saveDataToRoom() {
         val imageUri = arguments?.getString(EXTRA_CAMERAX_IMAGE)
         if (imageUri != null) {
@@ -116,8 +190,8 @@ class ResultDetailFragment : Fragment() {
                 id = 0,
                 imageUri = imageUri,
                 diseaseName = getString(R.string.test_name),
-                predictionScore = 75.2321F,
-                description = getString(R.string.test_description)
+                description = getString(R.string.test_description),
+                timestamp = System.currentTimeMillis()
             )
             viewModel.insertResult(result)
         } else {
@@ -149,7 +223,6 @@ class ResultDetailFragment : Fragment() {
         private const val TAG = "ResultDetailFragment"
         const val EXTRA_NAME = "Name"
         const val EXTRA_DESCRIPTION = "Description"
-        const val EXTRA_SCORE = "Score"
         const val EXTRA_DATE = "Date"
     }
 }

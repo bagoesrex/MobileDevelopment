@@ -89,6 +89,7 @@ dependencies {
     implementation(libs.gms.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.firebase.firestore.ktx)
+    implementation (libs.firebase.storage)
 
     //animation lottie
     implementation (libs.lottie)
