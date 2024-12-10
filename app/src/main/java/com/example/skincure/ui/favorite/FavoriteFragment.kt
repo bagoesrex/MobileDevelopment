@@ -1,6 +1,8 @@
 package com.example.skincure.ui.favorite
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,9 +72,15 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun setupObserver() {
+        binding.shimmerViewContainer.startShimmer()
         viewModel.favoriteList.observe(viewLifecycleOwner, Observer { favList ->
             favList?.let {
-                favAdapter.submitList(it)
+                Handler(Looper.getMainLooper()).postDelayed({
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.shimmerViewContainer.visibility = View.GONE
+                    binding.favsRecyclerView.visibility = View.VISIBLE
+                    favAdapter.submitList(it)
+                }, 500)
             }
         })
     }

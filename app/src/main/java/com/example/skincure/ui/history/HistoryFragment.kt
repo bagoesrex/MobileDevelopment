@@ -1,6 +1,8 @@
 package com.example.skincure.ui.history
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -53,11 +55,24 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setupObserver() {
+        binding.shimmerViewContainer.startShimmer()
         viewModel.historyList.observe(viewLifecycleOwner) { favList ->
-            historyAdapter.submitList(favList)
+            favList.let {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.shimmerViewContainer.visibility = View.GONE
+                    binding.historyRecyclerView.visibility = View.VISIBLE
+                    historyAdapter.submitList(it)
+                }, 500)
+            }
             Log.d("HistoryFragment", "History List: $favList")
         }
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            errorMessage.let {
+                binding.shimmerViewContainer.stopShimmer()
+                binding.shimmerViewContainer.visibility = View.GONE
+                binding.historyRecyclerView.visibility = View.GONE
+            }
             Log.e("HistoryFragment", errorMessage)
         }
         viewModel.fetchHistory()
