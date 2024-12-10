@@ -7,23 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentHistoryBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.skincure.di.Injection
+import com.example.skincure.ui.ViewModelFactory
 
 class HistoryFragment : Fragment() {
 
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
     private lateinit var historyAdapter: HistoryAdapter
+    private val viewModel: HistoryViewModel by viewModels {
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
 
@@ -49,33 +53,14 @@ class HistoryFragment : Fragment() {
     }
 
     private fun setupObserver() {
-        val db = FirebaseFirestore.getInstance()
-        val auth = FirebaseAuth.getInstance()
-        val userId = auth.currentUser?.uid
-
-        userId?.let {
-            // Ambil data dari Firestore collection users/{userId}/history
-            db.collection("users").document(it).collection("history")
-                .get()
-                .addOnSuccessListener { documents ->
-                    val favList = mutableListOf<Map<String, Any>>() // Menggunakan Map untuk data langsung
-
-                    for (document in documents) {
-                        val data = document.data // Ambil data langsung dari Firestore document
-                        favList.add(data)
-                    }
-
-                    // Kirim data ke adapter
-                    historyAdapter.submitList(favList)
-                }
-                .addOnFailureListener { e ->
-                    Log.e("Firestore", "Error getting documents", e)
-                }
-        } ?: run {
-            Log.e("Firestore", "User not logged in!")
+        viewModel.historyList.observe(viewLifecycleOwner) { favList ->
+            historyAdapter.submitList(favList)
         }
+        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            Log.e("HistoryFragment", errorMessage)
+        }
+        viewModel.fetchHistory()
     }
-
 
     private fun setupRecyclerView() {
         binding.historyRecyclerView.layoutManager = LinearLayoutManager(requireContext())

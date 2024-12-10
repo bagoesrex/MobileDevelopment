@@ -126,58 +126,41 @@ class ResultDetailFragment : Fragment() {
         if (imageUri != null) {
             val storageReference = FirebaseStorage.getInstance().reference
             val imageRef = storageReference.child("images/${System.currentTimeMillis()}.jpg")
-            val uploadTask = imageRef.putFile(Uri.parse(imageUri))
-            uploadTask.addOnSuccessListener { taskSnapshot ->
-                imageRef.downloadUrl.addOnSuccessListener { uri ->
-                    val imageUrl = uri.toString()
-                    val userId = auth.currentUser?.uid
-
-
-                    val resultData = mapOf(
-                        "imageUri" to imageUrl,
-                        "diseaseName" to getString(R.string.test_name),
-                        "description" to getString(R.string.test_description),
-                        "timestamp" to System.currentTimeMillis()
-                    )
-
-                    userId?.let {
-                        val historyRef = db.collection("users").document(it).collection("history")
-                        historyRef.whereEqualTo("imageUri", imageUri)
-                            .get()
-                            .addOnSuccessListener { documents ->
-                                if (documents.isEmpty) {
+            val userId = auth.currentUser?.uid
+            userId?.let {
+                val historyRef = db.collection("users").document(it).collection("history")
+                historyRef.whereEqualTo("imageUri", imageUri)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        if (documents.isEmpty) {
+                            val uploadTask = imageRef.putFile(Uri.parse(imageUri))
+                            uploadTask.addOnSuccessListener { taskSnapshot ->
+                                imageRef.downloadUrl.addOnSuccessListener { uri ->
+                                    val imageUrl = uri.toString()
+                                    val resultData = mapOf(
+                                        "imageUri" to imageUrl,
+                                        "diseaseName" to getString(R.string.test_name),
+                                        "description" to getString(R.string.test_description),
+                                        "timestamp" to System.currentTimeMillis()
+                                    )
                                     historyRef.add(resultData)
                                         .addOnSuccessListener { documentReference ->
-                                            Log.d(
-                                                "ResultDetailFragment",
-                                                "Data saved to Firestore with ID: ${documentReference.id}"
-                                            )
+                                            Log.d("ResultDetailFragment", "Data saved to Firestore with ID: ${documentReference.id}")
                                         }
                                         .addOnFailureListener { e ->
-                                            Log.e(
-                                                "ResultDetailFragment",
-                                                "Error saving data to Firestore",
-                                                e
-                                            )
+                                            Log.e("ResultDetailFragment", "Error saving data to Firestore", e)
                                         }
-                                } else {
-                                    Log.d(
-                                        "ResultDetailFragment",
-                                        "Data already exists, not adding again."
-                                    )
                                 }
                             }
-                            .addOnFailureListener { e ->
-                                Log.e(
-                                    "ResultDetailFragment",
-                                    "Error checking data existence in Firestore",
-                                    e
-                                )
-                            }
-                    } ?: run {
-                        Log.e("ResultDetailFragment", "User not logged in!")
+                        } else {
+                            Log.d("ResultDetailFragment", "Data already exists in Firestore, skipping upload.")
+                        }
                     }
-                }
+                    .addOnFailureListener { e ->
+                        Log.e("ResultDetailFragment", "Error checking Firestore for existing image", e)
+                    }
+            } ?: run {
+                Log.e("ResultDetailFragment", "User not logged in!")
             }
         }
     }
