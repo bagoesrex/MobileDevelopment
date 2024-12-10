@@ -55,6 +55,7 @@ class HistoryFragment : Fragment() {
     private fun setupObserver() {
         viewModel.historyList.observe(viewLifecycleOwner) { favList ->
             historyAdapter.submitList(favList)
+            Log.d("HistoryFragment", "History List: $favList")
         }
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             Log.e("HistoryFragment", errorMessage)
@@ -70,7 +71,7 @@ class HistoryFragment : Fragment() {
                 putString(EXTRA_CAMERAX_IMAGE, data["imageUri"] as? String)
                 putString(EXTRA_NAME, data["diseaseName"] as? String)
                 putString(EXTRA_DESCRIPTION, data["description"] as? String)
-                putString(EXTRA_DATE, (data["timestamp"] as? Number).toString())
+                putString(EXTRA_DATE, (data["timestamp"] as? String).toString())
             }
             findNavController().navigate(R.id.action_history_to_resultDetail, bundle)
         }

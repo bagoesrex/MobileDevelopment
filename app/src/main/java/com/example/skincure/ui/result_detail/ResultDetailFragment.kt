@@ -19,7 +19,6 @@ import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.databinding.FragmentResultDetailBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
-import com.example.skincure.utils.DateUtils
 import com.example.skincure.utils.reduceFileImage
 import com.example.skincure.utils.uriToFile
 import com.google.firebase.auth.FirebaseAuth
@@ -30,6 +29,7 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import com.example.skincure.data.Result
+import com.example.skincure.utils.dateFormatter
 
 class ResultDetailFragment : Fragment() {
 
@@ -68,6 +68,7 @@ class ResultDetailFragment : Fragment() {
         if (name.isNotEmpty() && description.isNotEmpty()) {
             observeData()
         } else {
+            uploadImage()
             observeViewModel()
         }
     }
@@ -95,10 +96,10 @@ class ResultDetailFragment : Fragment() {
                 .load(it)
                 .placeholder(R.drawable.ic_gallery)
                 .into(binding.resultImageView)
-            uploadImage()
         }
 
         name = arguments?.getString(EXTRA_NAME) ?: name
+        Log.d("ResultDetailFragment", "Name: $name")
         description = arguments?.getString(EXTRA_DESCRIPTION) ?: description
         timestampString = arguments?.getString(EXTRA_DATE) ?: timestampString
 
@@ -106,8 +107,8 @@ class ResultDetailFragment : Fragment() {
     }
 
     private fun observeData() {
-        val timestamp = timestampString.toLongOrNull() ?: 0L
-        val formattedDate = DateUtils.formatTimestamp(timestamp)
+        val timestamp = timestampString
+        val formattedDate = dateFormatter(timestamp)
 
         binding.nameTextView.text = buildString {
             append("Hasil analsisis: ")
@@ -189,12 +190,15 @@ class ResultDetailFragment : Fragment() {
                 imageRef.downloadUrl.addOnSuccessListener { uri ->
                     val imageUrl = uri.toString()
                     val userId = auth.currentUser?.uid
+                    val diseaseName = name
+                    val description = description
+                    val timestamp = timestampString
 
                     val resultData = mapOf(
                         "imageUri" to imageUrl,
-                        "diseaseName" to if (isAdded) getString(R.string.test_name) else "Unknown",
-                        "description" to if (isAdded) getString(R.string.test_description) else "Unknown",
-                        "timestamp" to System.currentTimeMillis()
+                        "diseaseName" to diseaseName,
+                        "description" to description,
+                        "timestamp" to timestamp
                     )
 
                     userId?.let {
