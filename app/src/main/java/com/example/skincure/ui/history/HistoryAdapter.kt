@@ -1,8 +1,10 @@
 package com.example.skincure.ui.history
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.skincure.databinding.HistoryItemBinding
 import com.example.skincure.utils.dateFormatter
@@ -10,9 +12,7 @@ import com.squareup.picasso.Picasso
 
 class HistoryAdapter(
     private val onItemClick: (Map<String, Any>) -> Unit,
-) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
-
-    private val dataList = mutableListOf<Map<String, Any>>()
+) : ListAdapter<Map<String, Any>, HistoryAdapter.HistoryViewHolder>(DIFF_CALLBACK) {
 
     class HistoryViewHolder(
         private val binding: HistoryItemBinding,
@@ -24,7 +24,11 @@ class HistoryAdapter(
             val imageUrl = data["imageUri"] as? String
             val timestamp = data["timestamp"] as? String
             val formattedDate = timestamp?.let { dateFormatter(it) }
-            Picasso.get().load(imageUrl).into(binding.historyImageView)
+            Picasso
+                .get()
+                .load(imageUrl)
+                .resize(400, 400)
+                .into(binding.historyImageView)
             binding.createdTextView.text = formattedDate
 
             binding.scoreTextView.text = buildString {
@@ -40,21 +44,32 @@ class HistoryAdapter(
         }
     }
 
-    fun submitList(newList: List<Map<String, Any>>) {
-        dataList.clear()
-        dataList.addAll(newList)
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val binding = HistoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HistoryViewHolder(binding, onItemClick)
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        val data = dataList[position]
+        val data = getItem(position)
         holder.bind(data)
     }
 
-    override fun getItemCount(): Int = dataList.size
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Map<String, Any>>() {
+            override fun areItemsTheSame(
+                oldItem: Map<String, Any>,
+                newItem: Map<String, Any>
+            ): Boolean {
+                return oldItem["id"] == newItem["id"]
+            }
+
+            @SuppressLint("DiffUtilEquals")
+            override fun areContentsTheSame(
+                oldItem: Map<String, Any>,
+                newItem: Map<String, Any>
+            ): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 }
