@@ -8,4 +8,16 @@
         <item name="textAllCaps">true</item>
     </style>
 
+    <style name="FABShapeAppearance" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/CustomFABShape</item>
+    </style>
+
+    <style name="FABColor" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/primary</item>
+    </style>
+
+    <style name="CustomFABShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50dp</item>
+    </style>
 </resources>

@@ -130,6 +130,7 @@
     <string name="invalid_input">Check your input again!</string>
     <string name="required_field">Field cannot be empty</string>
     <string name="history">History</string>
+    <string name="home">Home</string>
     <string name="delete_account">Delete account</string>
     <string name="confirm_delete_account">Are you sure you want to delete your account permanently?</string>
     <string name="deleted_account">Bye, Account successfully deleted</string>

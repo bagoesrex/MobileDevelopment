@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class PredictUploadResponse(
 
+	@field:SerializedName("confidence_score")
+	val score: Double,
+
 	@field:SerializedName("result")
 	val result: String,
 
