@@ -2,6 +2,7 @@ package com.example.skincure.ui.camera
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Outline
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +11,7 @@ import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,7 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -60,8 +63,23 @@ class CameraFragment : Fragment() {
         binding.backButton.setOnClickListener {
             findNavController().navigateUp()
         }
+
+        val previewView: PreviewView = binding.viewFinder
+        previewView.outlineProvider = RoundedOutlineProvider(cornerRadius = 50f)
+        previewView.clipToOutline = true
+
         binding.galleryLayout.setOnClickListener { startGallery() }
         binding.captureButton.setOnClickListener { takePhoto() }
+        binding.switchLayout.setOnClickListener { switchCamera() }
+    }
+
+    private fun switchCamera() {
+        cameraSelector = if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
+            CameraSelector.DEFAULT_FRONT_CAMERA
+        } else {
+            CameraSelector.DEFAULT_BACK_CAMERA
+        }
+        startCamera()
     }
 
     private fun startGallery() {
@@ -192,6 +210,12 @@ class CameraFragment : Fragment() {
 
                 imageCapture?.targetRotation = rotation
             }
+        }
+    }
+
+    class RoundedOutlineProvider(private val cornerRadius: Float) : ViewOutlineProvider() {
+        override fun getOutline(view: View, outline: Outline) {
+            outline.setRoundRect(0, 0, view.width, view.height, cornerRadius)
         }
     }
 
