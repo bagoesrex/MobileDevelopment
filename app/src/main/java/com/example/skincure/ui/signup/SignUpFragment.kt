@@ -1,5 +1,7 @@
 package com.example.skincure.ui.signup
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
@@ -8,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.credentials.CredentialManager
@@ -59,6 +62,8 @@ class SignUpFragment : Fragment() {
 
         setupView()
         observeSignUpState()
+
+        playAnimation()
     }
 
 
@@ -256,5 +261,58 @@ class SignUpFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun playAnimation() {
+        val title = ObjectAnimator.ofFloat(binding.title, View.ALPHA, 1f).setDuration(300)
+        val nameText = ObjectAnimator.ofFloat(binding.name, View.ALPHA, 1f).setDuration(300)
+        val nameInput = ObjectAnimator.ofFloat(binding.nameEditTextLayout, View.ALPHA, 1f).setDuration(300)
+        val emailText = ObjectAnimator.ofFloat(binding.email, View.ALPHA, 1f).setDuration(300)
+        val emailInput = ObjectAnimator.ofFloat(binding.emailEditTextLayout, View.ALPHA, 1f).setDuration(300)
+        val passwordText = ObjectAnimator.ofFloat(binding.password, View.ALPHA, 1f).setDuration(300)
+        val passwordInput = ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(300)
+        val passwordConfirmText = ObjectAnimator.ofFloat(binding.confirmPassword, View.ALPHA, 1f).setDuration(300)
+        val passwordConfirmInput = ObjectAnimator.ofFloat(binding.confirmationEditTextLayout, View.ALPHA, 1f).setDuration(300)
+        val line = ObjectAnimator.ofFloat(binding.line, View.ALPHA, 1f).setDuration(300)
+
+        val inputFields = AnimatorSet().apply {
+            playSequentially(nameText, nameInput, emailText, emailInput, passwordText, passwordInput,passwordConfirmText, passwordConfirmInput, line)
+        }
+
+        val registerButton = AnimatorSet().apply {
+            playTogether(
+                ObjectAnimator.ofFloat(binding.registerButton, View.ALPHA, 1f).setDuration(500),
+                ObjectAnimator.ofFloat(binding.registerButton, View.TRANSLATION_X, -300f, 0f).setDuration(700)
+            )
+        }
+
+        val googleLoginGroup = AnimatorSet().apply {
+            playTogether(
+                ObjectAnimator.ofFloat(binding.googleLoginGroup, View.ALPHA, 1f).setDuration(500),
+                ObjectAnimator.ofFloat(binding.googleLoginGroup, View.TRANSLATION_X, 300f, 0f).setDuration(700)
+            )
+        }
+
+        val loginButton = AnimatorSet().apply {
+            playTogether(
+                ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(500),
+                ObjectAnimator.ofFloat(binding.loginButton, View.TRANSLATION_Y, 300f, 0f).setDuration(700)
+            )
+        }
+
+        val buttons = AnimatorSet().apply {
+            playTogether(registerButton, googleLoginGroup, loginButton)
+        }
+
+
+        AnimatorSet().apply {
+            playSequentially(title, inputFields, buttons)
+            start()
+        }
+
+        AnimatorSet().apply {
+            playSequentially(title, inputFields, buttons)
+            start()
+        }
     }
 }
