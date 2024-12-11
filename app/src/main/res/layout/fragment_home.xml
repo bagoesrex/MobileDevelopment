@@ -33,6 +33,8 @@
             android:layout_height="75dp"
             android:layout_gravity="bottom"
             app:fabAlignmentMode="center"
+            android:background="@color/bottom_bar_color"
+            android:backgroundTint="@color/bottom_bar_color"
             app:fabAnchorMode="cradle"
             app:fabAnimationMode="scale"
             app:fabCradleMargin="10dp"

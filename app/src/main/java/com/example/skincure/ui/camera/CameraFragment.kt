@@ -3,7 +3,6 @@ package com.example.skincure.ui.camera
 import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,9 +10,6 @@ import android.view.OrientationEventListener
 import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowInsets
-import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -24,23 +20,18 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentCameraBinding
 import com.example.skincure.utils.createCustomTempFile
 import androidx.navigation.fragment.findNavController
-import com.example.skincure.di.Injection
-import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.utils.showToast
 
 class CameraFragment : Fragment() {
 
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: CameraViewModel by viewModels{
-        ViewModelFactory(Injection.provideRepository(requireContext()))
-    }
+
     private var cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
     private var imageCapture: ImageCapture? = null
     private val TAG = "CameraFragment"
@@ -51,8 +42,13 @@ class CameraFragment : Fragment() {
     ): View {
         _binding = FragmentCameraBinding.inflate(inflater, container, false)
 
-        setupView()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupView()
     }
 
     override fun onResume() {
@@ -151,11 +147,10 @@ class CameraFragment : Fragment() {
                 )
 
             } catch (exc: Exception) {
-                Toast.makeText(
+                showToast(
                     requireContext(),
                     getString(R.string.failed_open_camera),
-                    Toast.LENGTH_SHORT
-                ).show()
+                )
                 Log.e(TAG, "startCamera: ${exc.message}")
             }
         }, ContextCompat.getMainExecutor(requireContext()))
@@ -189,19 +184,6 @@ class CameraFragment : Fragment() {
                 }
             }
         )
-    }
-
-    private fun hideSystemUI() {
-        @Suppress("DEPRECATION")
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            requireActivity().window.insetsController?.hide(WindowInsets.Type.statusBars())
-        } else {
-            requireActivity().window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
-        }
-        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
     }
 
     private val orientationEventListener by lazy {

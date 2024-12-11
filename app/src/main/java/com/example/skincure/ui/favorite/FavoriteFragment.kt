@@ -49,9 +49,8 @@ class FavoriteFragment : Fragment() {
         (requireActivity() as AppCompatActivity).apply {
             setSupportActionBar(binding.toolbarId.toolbar)
             supportActionBar?.apply {
-                title = getString(R.string.favorite)
-                setDisplayHomeAsUpEnabled(true)
-                setHomeAsUpIndicator(R.drawable.ic_back)
+                title = ""
+                binding.toolbarId.toolbarTitle.text = getString(R.string.favorite)
             }
         }
     }
