@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.skincure.data.repository.Repository
 import com.example.skincure.di.Injection
-import com.example.skincure.ui.camera.CameraViewModel
 import com.example.skincure.ui.contactus.ContactUsViewModel
 import com.example.skincure.ui.dashboard.DashboardViewModel
 import com.example.skincure.ui.favorite.FavoriteViewModel
@@ -65,9 +64,6 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(ContactUsViewModel::class.java) -> {
                 ContactUsViewModel(repository) as T
-            }
-            modelClass.isAssignableFrom(CameraViewModel::class.java) -> {
-                CameraViewModel(repository) as T
             }
             modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
                 HistoryViewModel(repository) as T

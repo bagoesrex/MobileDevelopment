@@ -49,9 +49,8 @@ class FavoriteFragment : Fragment() {
         (requireActivity() as AppCompatActivity).apply {
             setSupportActionBar(binding.toolbarId.toolbar)
             supportActionBar?.apply {
-                title = getString(R.string.favorite)
-                setDisplayHomeAsUpEnabled(true)
-                setHomeAsUpIndicator(R.drawable.ic_back)
+                title = ""
+                binding.toolbarId.toolbarTitle.text = getString(R.string.favorite)
             }
         }
     }
@@ -64,7 +63,7 @@ class FavoriteFragment : Fragment() {
                 putString(EXTRA_CAMERAX_IMAGE, fav.imageUri)
                 putString(EXTRA_NAME, fav.diseaseName)
                 putString(EXTRA_DESCRIPTION, fav.description)
-                putLong(EXTRA_DATE, fav.timestamp as Long)
+                putLong(EXTRA_DATE, fav.timestamp)
             }
             findNavController().navigate(R.id.action_favorite_to_resultDetail, bundle)
         }

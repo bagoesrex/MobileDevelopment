@@ -16,7 +16,6 @@ import com.example.skincure.databinding.FragmentHistoryBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
-import com.example.skincure.data.Result
 
 class HistoryFragment : Fragment() {
 
@@ -54,12 +53,8 @@ class HistoryFragment : Fragment() {
         (requireActivity() as AppCompatActivity).apply {
             setSupportActionBar(binding.toolbarId.toolbar)
             supportActionBar?.apply {
-                title = getString(R.string.history)
-                setDisplayHomeAsUpEnabled(true)
-                setHomeAsUpIndicator(R.drawable.ic_back)
-                binding.toolbarId.toolbar.setNavigationOnClickListener {
-                    binding.root.findNavController().popBackStack()
-                }
+                title = ""
+                binding.toolbarId.toolbarTitle.text = getString(R.string.history)
             }
         }
     }
