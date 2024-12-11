@@ -6,6 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".ui.setting.SettingsFragment">
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/deleteUserButton"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_margin="20dp"
+        android:backgroundTint="@color/red"
+        android:text="@string/delete_account"
+        android:textAlignment="textStart"
+        android:textColor="?attr/colorOnSecondary"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_deleted"
+        app:iconGravity="textEnd"
+        app:iconPadding="200dp"
+        app:iconSize="25dp"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/logoutButton"
+        app:layout_constraintTop_toBottomOf="@+id/contactButton"
+        app:layout_constraintVertical_bias="0.169"
+        tools:layout_editor_absoluteX="20dp" />
+
     <include
         android:id="@+id/toolbar_id"
         layout="@layout/toolbar"
@@ -44,7 +64,6 @@
         app:iconPadding="30dp"
         app:iconSize="25dp"
         app:iconTint="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/logoutButton"
         app:layout_constraintTop_toBottomOf="@+id/informationButton"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="16dp" />

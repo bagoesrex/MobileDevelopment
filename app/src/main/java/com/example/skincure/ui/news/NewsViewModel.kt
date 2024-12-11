@@ -14,6 +14,9 @@ class NewsViewModel(private val repository: Repository) : ViewModel() {
     private val _newsResult = MutableLiveData<List<NewsResponseItem>>()
     val newsResult: LiveData<List<NewsResponseItem>> = _newsResult
 
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> get() = _error
+
     fun getAllNews() {
         viewModelScope.launch {
             when (val result = repository.getAllNews()) {
@@ -22,6 +25,7 @@ class NewsViewModel(private val repository: Repository) : ViewModel() {
                 }
                 is Result.Error -> {
                     _newsResult.value = emptyList()
+                    _error.value = result.error
                 }
                 Result.Loading -> TODO()
             }

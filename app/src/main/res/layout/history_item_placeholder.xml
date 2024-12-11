@@ -16,14 +16,14 @@
 
         <ImageView
             android:id="@+id/history_image_view"
-            android:layout_width="130dp"
+            android:layout_width="120dp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_person"
+            android:background="@drawable/shimmer_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.5" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -41,43 +41,34 @@
                 android:id="@+id/tittle_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:background="@drawable/shimmer_placeholder"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center_vertical"
-                android:maxLines="1"
-                android:text="Ini Judul" />
+                android:maxLines="1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/description_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginVertical="4dp"
+                android:background="@drawable/shimmer_placeholder"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="start"
                 android:justificationMode="inter_word"
                 android:maxLines="3"
-                android:text="Kamu sering merasa tidak percaya diri karena pori-pori membesar? Ada beberapa kandungan skincare untuk mengecilkan pori-pori yang mungkin perlu kamu pahami agar tidak salah beli produk."
-                android:textSize="14sp" />
+                android:paddingVertical="5dp"
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/score_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="15dp"
-                android:fontFamily="sans-serif-light"
-                android:gravity="end|center_vertical"
-                android:maxLines="1"
-                android:text="10"
-                android:textSize="12sp"
-                android:textStyle="italic" />
+                android:textSize="14sp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/created_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:background="@drawable/shimmer_placeholder"
                 android:fontFamily="sans-serif-light"
                 android:gravity="end|center_vertical"
                 android:maxLines="1"
-                android:text="25 December 2024"
                 android:textSize="12sp"
                 android:textStyle="italic" />
 

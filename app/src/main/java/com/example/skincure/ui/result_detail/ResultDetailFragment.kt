@@ -23,15 +23,15 @@ import androidx.navigation.findNavController
 import com.example.skincure.R
 import com.example.skincure.data.Result
 import com.example.skincure.data.local.FavoriteResult
+import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentResultDetailBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.utils.dateFormatter
 import com.example.skincure.utils.reduceFileImage
+import com.example.skincure.utils.showToast
 import com.example.skincure.utils.uriToFile
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -47,8 +47,6 @@ class ResultDetailFragment : Fragment() {
     private var isSaved: Boolean = false
     private lateinit var saveMenuItem: MenuItem
     private var isDataSaved = false
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
 
     private var currentImageUri: Uri? = null
 
@@ -185,19 +183,25 @@ class ResultDetailFragment : Fragment() {
     }
 
     private fun uploadImage() {
-        currentImageUri?.let { uri ->
-            val file = uriToFile(uri, requireActivity())
-            val compressedFile = file.reduceFileImage()
+        val userPreferences = UserPreferences(requireContext())
+        val authToken = userPreferences.getToken()
+        if (authToken != null) {
+            currentImageUri?.let { uri ->
+                val file = uriToFile(uri, requireActivity())
+                val compressedFile = file.reduceFileImage()
 
-            val photoRequestBody = compressedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            val photoMultipart =
-                MultipartBody.Part.createFormData("file", compressedFile.name, photoRequestBody)
+                val photoRequestBody =
+                    compressedFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
+                val photoMultipart =
+                    MultipartBody.Part.createFormData("file", compressedFile.name, photoRequestBody)
 
-            viewModel.predictUpload(photoMultipart)
-        } ?: run {
-            Log.e(TAG, "currentImageUri is null. Cannot upload image.")
+                viewModel.predictUpload(photoMultipart)
+            } ?: run {
+                Log.e(TAG, "currentImageUri is null. Cannot upload image.")
+            }
+        } else {
+            showToast(requireContext(), "EXPIRED TOKEN")
         }
-
     }
 
     @Deprecated("Deprecated in Java")
@@ -223,61 +227,35 @@ class ResultDetailFragment : Fragment() {
 
     private fun saveDataToFirestore() {
         val imageUri = arguments?.getString(EXTRA_CAMERAX_IMAGE)
-        if (imageUri != null) {
-            val storageReference = FirebaseStorage.getInstance().reference
-            val imageRef = storageReference.child("images/${System.currentTimeMillis()}.jpg")
-            val uploadTask = imageRef.putFile(Uri.parse(imageUri))
+        val userId = FirebaseAuth.getInstance().currentUser?.uid
+        val diseaseName = name
+        val description = description
+        val timestamp = timestampString
 
-            uploadTask.addOnSuccessListener {
-                imageRef.downloadUrl.addOnSuccessListener { uri ->
-                    val imageUrl = uri.toString()
-                    viewModel.setImageUrl(imageUrl)
+        if (imageUri != null && userId != null) {
 
-                    val userId = auth.currentUser?.uid
-                    val diseaseName = name
-                    val description = description
-                    val timestamp = timestampString
-                    val score = score
+            val uri = Uri.parse(imageUri)
+            if (isValidLocalUri(uri)) {
+                viewModel.saveImageAndDataToFirestore(
+                    imageUri = uri,
+                    diseaseName = diseaseName,
+                    description = description,
+                    timestamp = timestamp,
+                    userId = userId
+                )
+                viewModel.setImageUrl(uri.toString())
+            } else {
+                Log.e(TAG, "Invalid image URI: $imageUri")
 
-                    val resultData = mapOf(
-                        "imageUri" to imageUrl,
-                        "diseaseName" to diseaseName,
-                        "description" to description,
-                        "timestamp" to timestamp,
-                        "score" to score
-                    )
-
-                    userId?.let {
-                        val historyRef = db.collection("users").document(it).collection("history")
-                        historyRef.whereEqualTo("imageUri", imageUri)
-                            .get()
-                            .addOnSuccessListener { documents ->
-                                if (documents.isEmpty) {
-                                    historyRef.add(resultData)
-                                        .addOnSuccessListener { documentReference ->
-                                            Log.d(
-                                                TAG,
-                                                "Data saved to Firestore with ID: ${documentReference.id}"
-                                            )
-                                        }
-                                        .addOnFailureListener { e ->
-                                            Log.e(TAG, "Error saving data to Firestore", e)
-                                        }
-                                } else {
-                                    Log.d(TAG, "Data already exists, not adding again.")
-                                }
-                            }
-                            .addOnFailureListener { e ->
-                                Log.e(TAG, "Error checking data existence in Firestore", e)
-                            }
-                    } ?: run {
-                        Log.e(TAG, "User not logged in!")
-                    }
-                }
-            }.addOnFailureListener { e ->
-                Log.e(TAG, "Error uploading image to Firestore", e)
             }
+            viewModel.setImageUrl(uri.toString())
+        } else {
+            Log.e(TAG, "Image URI or User ID is null!")
         }
+    }
+
+    private fun isValidLocalUri(uri: Uri): Boolean {
+        return uri.scheme == "content" || uri.scheme == "file"
     }
 
     private fun saveDataToRoom() {

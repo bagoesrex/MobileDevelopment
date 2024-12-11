@@ -1,6 +1,7 @@
 package com.example.skincure
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -34,5 +35,29 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    override fun onStart() {
+        super.onStart()
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser != null) {
+            refreshAuthToken()
+        }
+    }
 
+    private fun refreshAuthToken() {
+        FirebaseAuth.getInstance().currentUser?.getIdToken(true)?.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val idToken = task.result?.token
+                if (idToken != null) {
+                    Log.d("HomeActivity", "Token refreshed: $idToken")
+                    updateTokenInApp(idToken)
+                }
+            } else {
+                Log.e("HomeActivity", "Failed to get updated token", task.exception)
+            }
+        }
+    }
+
+    private fun updateTokenInApp(token: String) {
+        userPreferences.saveToken(token)
+    }
 }
