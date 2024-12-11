@@ -70,10 +70,12 @@ class FavoriteFragment : Fragment() {
         viewModel.favoriteList.observe(viewLifecycleOwner, Observer { favList ->
             favList?.let {
                 Handler(Looper.getMainLooper()).postDelayed({
-                    binding.shimmerViewContainer.stopShimmer()
-                    binding.shimmerViewContainer.visibility = View.GONE
-                    binding.favsRecyclerView.visibility = View.VISIBLE
-                    favAdapter.submitList(it)
+                    _binding?.let { binding ->
+                        binding.shimmerViewContainer.stopShimmer()
+                        binding.shimmerViewContainer.visibility = View.GONE
+                        binding.favsRecyclerView.visibility = View.VISIBLE
+                        favAdapter.submitList(it)
+                    }
                 }, 500)
             }
         })
