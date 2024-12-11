@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.Spanned
 import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,11 +14,13 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.data.Result
 import com.example.skincure.data.local.FavoriteResult
@@ -31,7 +32,6 @@ import com.example.skincure.utils.dateFormatter
 import com.example.skincure.utils.reduceFileImage
 import com.example.skincure.utils.showToast
 import com.example.skincure.utils.uriToFile
-import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -46,7 +46,6 @@ class ResultDetailFragment : Fragment() {
     }
     private var isSaved: Boolean = false
     private lateinit var saveMenuItem: MenuItem
-    private var isDataSaved = false
 
     private var currentImageUri: Uri? = null
 
@@ -116,6 +115,14 @@ class ResultDetailFragment : Fragment() {
                 }
             }
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(R.id.action_resultDetail_to_home)
+                }
+            })
     }
 
     private fun observeData() {
@@ -143,7 +150,8 @@ class ResultDetailFragment : Fragment() {
             append(formattedDate)
         }
 
-        val result = description.replace(Regex("(Penyebab:|Pencegahan:|Pengobatan:|Penjelasan:)"), "\n$1")
+        val result =
+            description.replace(Regex("(Penyebab:|Pencegahan:|Pengobatan:|Penjelasan:)"), "\n$1")
         val spannableString = SpannableString(result)
         val regex = Regex("(Kondisi:|Penyebab:|Pencegahan:|Pengobatan:|Penjelasan:)")
         val matches = regex.findAll(result)
@@ -158,11 +166,6 @@ class ResultDetailFragment : Fragment() {
         }
 
         binding.descriptionTextView.text = spannableString
-
-        if (!isDataSaved) {
-            saveDataToFirestore()
-            isDataSaved = true
-        }
     }
 
     private fun observeViewModel() {
@@ -241,39 +244,6 @@ class ResultDetailFragment : Fragment() {
             }
             true
         }
-    }
-
-    private fun saveDataToFirestore() {
-        val imageUri = arguments?.getString(EXTRA_CAMERAX_IMAGE)
-        val userId = FirebaseAuth.getInstance().currentUser?.uid
-        val diseaseName = name
-        val description = description
-        val timestamp = timestampString
-
-        if (imageUri != null && userId != null) {
-
-            val uri = Uri.parse(imageUri)
-            if (isValidLocalUri(uri)) {
-                viewModel.saveImageAndDataToFirestore(
-                    imageUri = uri,
-                    diseaseName = diseaseName,
-                    description = description,
-                    timestamp = timestamp,
-                    userId = userId
-                )
-                viewModel.setImageUrl(uri.toString())
-            } else {
-                Log.e(TAG, "Invalid image URI: $imageUri")
-
-            }
-            viewModel.setImageUrl(uri.toString())
-        } else {
-            Log.e(TAG, "Image URI or User ID is null!")
-        }
-    }
-
-    private fun isValidLocalUri(uri: Uri): Boolean {
-        return uri.scheme == "content" || uri.scheme == "file"
     }
 
     private fun saveDataToRoom() {
