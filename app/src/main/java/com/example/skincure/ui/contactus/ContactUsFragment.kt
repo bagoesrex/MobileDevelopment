@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.example.skincure.data.Result
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentContactUsBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
+import com.example.skincure.utils.showToast
 
 class ContactUsFragment : Fragment() {
 
@@ -27,9 +30,14 @@ class ContactUsFragment : Fragment() {
     ): View {
         _binding = FragmentContactUsBinding.inflate(inflater, container, false)
 
-        setupView()
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupView()
+        setupObserver()
     }
 
     private fun setupView() {
@@ -41,6 +49,37 @@ class ContactUsFragment : Fragment() {
                 setHomeAsUpIndicator(R.drawable.ic_back)
                 binding.toolbarId.toolbar.setNavigationOnClickListener {
                     binding.root.findNavController().popBackStack()
+                }
+            }
+        }
+
+        binding.submitButton.setOnClickListener {
+            val email = binding.emailEditText.text.toString()
+            val name = binding.nameEditText.text.toString()
+            val message = binding.messageEditText.text.toString()
+
+            if (email.isNotEmpty() && name.isNotEmpty() && message.isNotEmpty()) {
+                viewModel.sendContactUs(email, name, message)
+            } else {
+                showToast(requireContext(),"Please fill all fields")
+            }
+        }
+    }
+
+    private fun setupObserver() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.contactUsResult.collect { result ->
+                when (result) {
+                    is Result.Loading -> {
+                    }
+
+                    is Result.Success -> {
+                        showToast(requireContext(), "Message sent successfully!")
+                    }
+
+                    is Result.Error -> {
+                        showToast(requireContext(), "Error: ${result.error}")
+                    }
                 }
             }
         }

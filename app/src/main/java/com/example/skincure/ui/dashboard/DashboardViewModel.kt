@@ -3,10 +3,10 @@ package com.example.skincure.ui.dashboard
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
+import com.example.skincure.data.repository.Repository
 import com.google.firebase.auth.FirebaseUser
 
-class DashboardViewModel() : ViewModel() {
+class DashboardViewModel(private val repository: Repository) : ViewModel() {
     private val _user = MutableLiveData<FirebaseUser?>()
     val user: LiveData<FirebaseUser?> get() = _user
 
@@ -19,7 +19,7 @@ class DashboardViewModel() : ViewModel() {
 
     private fun fetchUser() {
         _loading.value = true
-        val currentUser = FirebaseAuth.getInstance().currentUser
+        val currentUser = repository.getCurrentUser()
 
         currentUser?.reload()?.addOnCompleteListener { task ->
             if (task.isSuccessful) {

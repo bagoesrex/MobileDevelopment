@@ -1,9 +1,12 @@
 package com.example.skincure.data.remote.retrofit
 
+import com.example.skincure.data.remote.response.ContactUsRequest
+import com.example.skincure.data.remote.response.ContactUsResponse
 import com.example.skincure.data.remote.response.NewsResponse
 import com.example.skincure.data.remote.response.PredictHistoriesResponse
 import com.example.skincure.data.remote.response.PredictUploadResponse
 import okhttp3.MultipartBody
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
@@ -24,5 +27,10 @@ interface ApiService {
 
     @GET("api/news")
     suspend fun getAllNews(): NewsResponse
+
+    @POST("api/contactus")
+    suspend fun contactUs(
+        @Body request: ContactUsRequest
+    ): ContactUsResponse
 }
 
