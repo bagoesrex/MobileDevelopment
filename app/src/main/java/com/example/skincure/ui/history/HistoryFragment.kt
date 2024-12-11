@@ -1,8 +1,6 @@
 package com.example.skincure.ui.history
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +15,8 @@ import com.example.skincure.R
 import com.example.skincure.databinding.FragmentHistoryBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
+import com.google.firebase.auth.FirebaseAuth
+import com.example.skincure.data.Result
 
 class HistoryFragment : Fragment() {
 
@@ -27,15 +27,25 @@ class HistoryFragment : Fragment() {
         ViewModelFactory(Injection.provideRepository(requireContext()))
     }
 
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
 
         setupView()
         setupRecyclerView()
         setupObserver()
+
+        val uid = firebaseAuth.currentUser?.uid
+        Log.d("HistoryFragment", "User ID: $uid")
+        if (uid != null) {
+            viewModel.getHistoriesPredict(uid)
+        } else {
+            Log.e("HistoryFragment", "User is not authenticated")
+        }
 
         return binding.root
     }
@@ -56,26 +66,21 @@ class HistoryFragment : Fragment() {
 
     private fun setupObserver() {
         binding.shimmerViewContainer.startShimmer()
-        viewModel.historyList.observe(viewLifecycleOwner) { favList ->
-            favList.let {
-                Handler(Looper.getMainLooper()).postDelayed({
+        viewModel.historiesPredictResult.observe(viewLifecycleOwner) { result ->
+            Log.d("HistoryFragment", "HistoriesPredictResult: $result")
+            when {
+                result.isNotEmpty() -> {
                     binding.shimmerViewContainer.stopShimmer()
                     binding.shimmerViewContainer.visibility = View.GONE
                     binding.historyRecyclerView.visibility = View.VISIBLE
-                    historyAdapter.submitList(it)
-                }, 500)
+                    historyAdapter.submitList(result)
+                }
+                else -> {
+                    binding.shimmerViewContainer.stopShimmer()
+                    binding.shimmerViewContainer.visibility = View.GONE
+                }
             }
-            Log.d("HistoryFragment", "History List: $favList")
         }
-        viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
-            errorMessage.let {
-                binding.shimmerViewContainer.stopShimmer()
-                binding.shimmerViewContainer.visibility = View.GONE
-                binding.historyRecyclerView.visibility = View.GONE
-            }
-            Log.e("HistoryFragment", errorMessage)
-        }
-        viewModel.fetchHistory()
     }
 
     private fun setupRecyclerView() {
@@ -83,11 +88,11 @@ class HistoryFragment : Fragment() {
 
         historyAdapter = HistoryAdapter { data ->
             val bundle = Bundle().apply {
-                putString(EXTRA_CAMERAX_IMAGE, data["imageUri"] as? String)
-                putString(EXTRA_NAME, data["diseaseName"] as? String)
-                putString(EXTRA_DESCRIPTION, data["description"] as? String)
-                putString(EXTRA_DATE, data["timestamp"] as? String)
-                putString(EXTRA_SCORE, data["score"] as? String)
+                putString(EXTRA_CAMERAX_IMAGE, data.imageUrl)
+                putString(EXTRA_NAME, data.result)
+                putString(EXTRA_DESCRIPTION, data.description)
+                putString(EXTRA_DATE, data.createdAt)
+                putString(EXTRA_SCORE, data.confidenceScore)
             }
             findNavController().navigate(R.id.action_home_to_resultDetail, bundle)
         }

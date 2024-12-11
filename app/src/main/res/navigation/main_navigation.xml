@@ -141,6 +141,9 @@
         <argument
             android:name="imageUri"
             app:argType="string" />
+        <action
+            android:id="@+id/action_resultDetail_to_home"
+            app:destination="@id/home" />
     </fragment>
     <fragment
         android:id="@+id/information"

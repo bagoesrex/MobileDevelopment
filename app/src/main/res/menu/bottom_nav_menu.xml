@@ -16,8 +16,7 @@
     <item
         android:id="@+id/favorite"
         android:icon="@drawable/ic_fav"
-        android:enabled="false"
-        android:title="soon" />
+        android:title="@string/favorite" />
     <item
         android:id="@+id/profile"
         android:icon="@drawable/ic_person"

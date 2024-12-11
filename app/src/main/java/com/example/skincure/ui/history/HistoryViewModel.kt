@@ -4,39 +4,36 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import androidx.lifecycle.viewModelScope
+import com.example.skincure.data.Result
+import com.example.skincure.data.remote.response.HistoriesItem
+import com.example.skincure.data.repository.Repository
+import kotlinx.coroutines.launch
 
-class HistoryViewModel : ViewModel() {
-    private val _historyList = MutableLiveData<List<Map<String, Any>>>()
-    val historyList: LiveData<List<Map<String, Any>>> get() = _historyList
+class HistoryViewModel(private var repository: Repository) : ViewModel() {
 
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String> get() = _error
+    private val _historiesPredictResult = MutableLiveData<List<HistoriesItem>>()
+    val historiesPredictResult: LiveData<List<HistoriesItem>> = _historiesPredictResult
 
-    fun fetchHistory() {
-        val db = FirebaseFirestore.getInstance()
-        val auth = FirebaseAuth.getInstance()
-        val userId = auth.currentUser?.uid
+    fun getHistoriesPredict(uid: String) {
+        viewModelScope.launch {
+            try {
+                val result = repository.getPredictHistories(uid)
 
-        userId?.let {
-            db.collection("users").document(it).collection("history")
-                .get()
-                .addOnSuccessListener { documents ->
-                    val favList = mutableListOf<Map<String, Any>>()
-                    for (document in documents) {
-                        val data = document.data
-                        favList.add(data)
+                when (result) {
+                    is Result.Success -> {
+                        _historiesPredictResult.value = result.data.histories
                     }
-
-                    _historyList.value = favList
+                    is Result.Error -> {
+                        Log.e("HistoryViewModel", "Error")
+                        _historiesPredictResult.value = emptyList()
+                    }
+                    Result.Loading -> TODO()
                 }
-                .addOnFailureListener { e ->
-                    Log.e("Firestore", "Error getting documents", e)
-                    _error.value = "Failed to fetch history."
-                }
-        } ?: run {
-            _error.value = "User not logged in!"
+            } catch (e: Exception) {
+                Log.e("HistoryViewModel", "Unexpected error: ${e.message}")
+                _historiesPredictResult.value = emptyList()
+            }
         }
     }
 }

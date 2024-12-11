@@ -70,7 +70,7 @@ class ViewModelFactory(
                 CameraViewModel(repository) as T
             }
             modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
-                HistoryViewModel() as T
+                HistoryViewModel(repository) as T
             }
             modelClass.isAssignableFrom(DashboardViewModel::class.java) -> {
                 DashboardViewModel() as T

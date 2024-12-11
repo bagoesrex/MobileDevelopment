@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.data.local.FavoriteResultDao
 import com.example.skincure.data.remote.response.NewsResponse
+import com.example.skincure.data.remote.response.PredictHistoriesResponse
 import com.example.skincure.data.remote.response.PredictUploadResponse
 import com.example.skincure.data.remote.retrofit.ApiService
 import com.google.firebase.auth.FirebaseAuth
@@ -107,6 +108,25 @@ class Repository(
         return withContext(Dispatchers.IO) {
             try {
                 val response = apiService.getAllNews()
+
+                utilResult.Success(response)
+            } catch (e: IOException) {
+                utilResult.Error("Network error: ${e.message}")
+            } catch (e: HttpException) {
+                utilResult.Error("HTTP error: ${e.message}")
+            } catch (e: Exception) {
+                utilResult.Error("An unexpected error occurred: ${e.message}")
+            }
+        }
+    }
+
+    suspend fun getPredictHistories(
+        uid: String
+    ): utilResult<PredictHistoriesResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.getPredictHistories(uid)
+                Log.d("Repository", "HistoriesPredictResult: $response")
 
                 utilResult.Success(response)
             } catch (e: IOException) {
