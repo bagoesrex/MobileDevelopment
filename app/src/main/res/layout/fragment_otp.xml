@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/background_grad"
     tools:context=".ui.otp.OtpFragment">
 
     <TextView
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="108dp"
         android:text="@string/verify_email"
+        android:textColor="@color/white"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text=""
+        android:textColor="@color/white"
         android:textAlignment="center"
         android:textSize="20sp"
         android:layout_marginHorizontal="16dp"
@@ -37,7 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/resend_verification"
-        android:backgroundTint="@color/primary"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/dark_yellow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textDescription" />
@@ -60,7 +64,8 @@
         android:layout_height="60dp"
         android:layout_marginTop="24dp"
         android:text="@string/confirm"
-        android:backgroundTint="@color/primary"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/dark_yellow"
         android:elevation="8dp"
         app:cornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
