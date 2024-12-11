@@ -64,7 +64,7 @@ class ViewModelFactory(
                 FavoriteViewModel(repository) as T
             }
             modelClass.isAssignableFrom(ContactUsViewModel::class.java) -> {
-                ContactUsViewModel() as T
+                ContactUsViewModel(repository) as T
             }
             modelClass.isAssignableFrom(CameraViewModel::class.java) -> {
                 CameraViewModel(repository) as T
@@ -73,7 +73,7 @@ class ViewModelFactory(
                 HistoryViewModel(repository) as T
             }
             modelClass.isAssignableFrom(DashboardViewModel::class.java) -> {
-                DashboardViewModel() as T
+                DashboardViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }

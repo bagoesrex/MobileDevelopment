@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.data.local.FavoriteResultDao
+import com.example.skincure.data.remote.response.ContactUsRequest
+import com.example.skincure.data.remote.response.ContactUsResponse
 import com.example.skincure.data.remote.response.NewsResponse
 import com.example.skincure.data.remote.response.PredictHistoriesResponse
 import com.example.skincure.data.remote.response.PredictUploadResponse
@@ -26,6 +28,11 @@ class Repository(
     private val apiService: ApiService,
     private val dao: FavoriteResultDao
 ) {
+
+    fun getCurrentUser(): FirebaseUser? {
+        return auth.currentUser
+    }
+
 
     suspend fun loginWithEmailPassword(email: String, password: String): Result<FirebaseUser> {
         return try {
@@ -135,6 +142,17 @@ class Repository(
                 utilResult.Error("HTTP error: ${e.message}")
             } catch (e: Exception) {
                 utilResult.Error("An unexpected error occurred: ${e.message}")
+            }
+        }
+    }
+
+    suspend fun sendContactUs(request: ContactUsRequest): utilResult<ContactUsResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = apiService.contactUs(request)
+                utilResult.Success(response)
+            } catch (e: Exception) {
+                utilResult.Error(e.toString())
             }
         }
     }
