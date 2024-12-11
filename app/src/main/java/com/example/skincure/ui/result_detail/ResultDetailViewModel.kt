@@ -47,7 +47,7 @@ class ResultDetailViewModel(private var repository: Repository) : ViewModel() {
         }
     }
 
-    fun getResultByImageUri(imageUri: String): LiveData<FavoriteResult?> {
+    fun getResultByImageUri(imageUri: String): LiveData<FavoriteResult> {
         return repository.getResultByImageUri(imageUri)
     }
 

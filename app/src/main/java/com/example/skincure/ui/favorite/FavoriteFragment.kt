@@ -63,7 +63,8 @@ class FavoriteFragment : Fragment() {
                 putString(EXTRA_CAMERAX_IMAGE, fav.imageUri)
                 putString(EXTRA_NAME, fav.diseaseName)
                 putString(EXTRA_DESCRIPTION, fav.description)
-                putLong(EXTRA_DATE, fav.timestamp)
+                putString(EXTRA_DATE, fav.timestamp)
+                putString(EXTRA_SCORE, fav.predictionScore.toString())
             }
             findNavController().navigate(R.id.action_favorite_to_resultDetail, bundle)
         }
@@ -89,6 +90,7 @@ class FavoriteFragment : Fragment() {
         const val EXTRA_NAME = "Name"
         const val EXTRA_DESCRIPTION = "Description"
         const val EXTRA_DATE = "Date"
+        const val EXTRA_SCORE = "Score"
     }
 
     override fun onDestroyView() {
