@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.skincure.data.Result
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentContactUsBinding
@@ -41,16 +42,8 @@ class ContactUsFragment : Fragment() {
     }
 
     private fun setupView() {
-        (requireActivity() as AppCompatActivity).apply {
-            setSupportActionBar(binding.toolbarId.toolbar)
-            supportActionBar?.apply {
-                title = getString(R.string.contact_us)
-                setDisplayHomeAsUpEnabled(true)
-                setHomeAsUpIndicator(R.drawable.ic_back)
-                binding.toolbarId.toolbar.setNavigationOnClickListener {
-                    binding.root.findNavController().popBackStack()
-                }
-            }
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
         }
 
         binding.submitButton.setOnClickListener {
