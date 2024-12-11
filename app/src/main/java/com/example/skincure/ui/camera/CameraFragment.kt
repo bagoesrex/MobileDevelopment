@@ -72,6 +72,16 @@ class CameraFragment : Fragment() {
 
         binding.galleryLayout.setOnClickListener { startGallery() }
         binding.captureButton.setOnClickListener { takePhoto() }
+        binding.switchLayout.setOnClickListener { switchCamera() }
+    }
+
+    private fun switchCamera() {
+        cameraSelector = if (cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA) {
+            CameraSelector.DEFAULT_FRONT_CAMERA
+        } else {
+            CameraSelector.DEFAULT_BACK_CAMERA
+        }
+        startCamera()
     }
 
     private fun startGallery() {
