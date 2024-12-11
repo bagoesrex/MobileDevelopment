@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.signup.SignUpFragment"
-    android:background="@drawable/background_gradient">
+    android:background="@drawable/background_grad">
 
     <TextView
         android:id="@+id/title"
@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:alpha="0"
+        android:fontFamily="@font/hammersmith_one"
         android:text="@string/create_account"
-        android:textSize="30sp"
         android:textColor="@color/white"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,14 +27,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:fontFamily="@font/hammersmith_one"
         android:text="@string/name"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/emailEditTextLayout"
         app:layout_constraintEnd_toStartOf="@+id/title"
-        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintHorizontal_bias="0.727"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintVertical_bias="0.081" />
@@ -55,13 +55,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name">
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:hintAnimationEnabled="false"
+        app:hintTextColor="@color/black">
 
         <com.example.skincure.helper.NameEditText
             android:id="@+id/ed_register_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edittext_outline"
             android:hint="@string/name"
+            android:textColor="@color/black"
             android:inputType="textPersonName"
             tools:ignore="RtlSymmetry,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -74,7 +78,7 @@
         android:text="@string/email"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:fontFamily="@font/hammersmith_one"
         android:textStyle="bold"
         android:alpha="0"
         app:layout_constraintBottom_toTopOf="@+id/emailEditTextLayout"
@@ -100,13 +104,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/nameEditTextLayout"
-        app:layout_constraintTop_toBottomOf="@+id/title">
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:hintAnimationEnabled="false"
+        app:hintTextColor="@color/black">
 
         <com.example.skincure.helper.EmailEditText
             android:id="@+id/ed_register_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edittext_outline"
             android:hint="@string/email"
+            android:textColor="@color/black"
             android:inputType="textEmailAddress"
             tools:ignore="RtlSymmetry,SpeakableTextPresentCheck" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -120,7 +128,7 @@
         android:text="@string/password"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:fontFamily="@font/hammersmith_one"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -143,12 +151,16 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/emailEditTextLayout"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        tools:ignore="PrivateResource">
+        tools:ignore="PrivateResource"
+        app:hintAnimationEnabled="false"
+        app:hintTextColor="@color/black">
 
         <com.example.skincure.helper.PasswordEditText
             android:id="@+id/ed_register_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edittext_outline"
+            android:textColor="@color/black"
             android:hint="@string/password"
             android:inputType="textPassword"
             tools:ignore="RtlSymmetry,SpeakableTextPresentCheck" />
@@ -162,7 +174,7 @@
         android:text="@string/confirm_password"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:fontFamily="@font/hammersmith_one"
         android:textStyle="bold"
         android:alpha="0"
         app:layout_constraintEnd_toEndOf="parent"
@@ -186,12 +198,16 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/passwordEditTextLayout"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout"
-        tools:ignore="PrivateResource">
+        tools:ignore="PrivateResource"
+        app:hintAnimationEnabled="false"
+        app:hintTextColor="@color/black">
 
         <com.example.skincure.helper.ConfirmPasswordEditText
             android:id="@+id/ed_register_confirmation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edittext_outline"
+            android:textColor="@color/black"
             android:hint="@string/password"
             android:inputType="textPassword"
             tools:ignore="RtlSymmetry,SpeakableTextPresentCheck" />
@@ -208,7 +224,7 @@
         android:elevation="8dp"
         android:text="@string/signup"
         android:textColor="@color/black"
-        android:fontFamily="sans-serif-condensed-medium"
+        android:fontFamily="@font/hammersmith_one"
         android:textStyle="bold"
         android:textSize="18sp"
         app:cornerRadius="30dp"
@@ -239,7 +255,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="@string/sign_up_with"
-            android:fontFamily="sans-serif-condensed-medium"
+            android:fontFamily="@font/hammersmith_one"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="18sp" />
