@@ -134,4 +134,6 @@
     <string name="delete_account">Delete account</string>
     <string name="confirm_delete_account">Are you sure you want to delete your account permanently?</string>
     <string name="deleted_account">Bye, Account successfully deleted</string>
+    <string name="retry">Retry</string>
+    <string name="upload_failed">Upload Failed</string>
 </resources>

@@ -46,7 +46,13 @@ class HomeFragment : Fragment() {
             selectedFragmentIndex = savedInstanceState.getInt("selectedFragmentIndex", 0)
         }
 
-        binding.bottomNavigationView.selectedItemId = selectedFragmentIndex
+        binding.bottomNavigationView.selectedItemId = when (selectedFragmentIndex) {
+            0 -> R.id.home
+            1 -> R.id.history
+            2 -> R.id.favorite
+            3 -> R.id.profile
+            else -> R.id.home
+        }
 
         loadFragment(selectedFragmentIndex)
         setupView()
@@ -60,7 +66,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupView() {
-
         binding.cameraFab.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_camera)
         }
@@ -68,25 +73,25 @@ class HomeFragment : Fragment() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.home -> {
-                    loadFragment(0)
+                    selectedFragmentIndex = 0
+                    loadFragment(selectedFragmentIndex)
                     true
                 }
-
                 R.id.history -> {
-                    loadFragment(1)
+                    selectedFragmentIndex = 1
+                    loadFragment(selectedFragmentIndex)
                     true
                 }
-
                 R.id.favorite -> {
-                    loadFragment(2)
+                    selectedFragmentIndex = 2
+                    loadFragment(selectedFragmentIndex)
                     true
                 }
-
                 R.id.profile -> {
-                    loadFragment(3)
+                    selectedFragmentIndex = 3
+                    loadFragment(selectedFragmentIndex)
                     true
                 }
-
                 else -> false
             }
         }

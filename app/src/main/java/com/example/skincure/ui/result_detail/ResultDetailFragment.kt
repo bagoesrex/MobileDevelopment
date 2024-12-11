@@ -119,6 +119,12 @@ class ResultDetailFragment : Fragment() {
     }
 
     private fun observeData() {
+
+        binding.resultLayout.visibility = View.VISIBLE
+        binding.shimmerLayout.visibility = View.GONE
+        binding.retryButton.visibility = View.GONE
+
+
         val timestamp = timestampString
         val formattedDate = dateFormatter(timestamp)
 
@@ -174,9 +180,21 @@ class ResultDetailFragment : Fragment() {
 
                 is Result.Error -> {
                     Log.e(TAG, "Upload failed: ${result.error}")
+
+                    showToast(requireContext(), getString(R.string.upload_failed))
+
+                    binding.retryButton.apply {
+                        visibility = View.VISIBLE
+                        setOnClickListener {
+                            uploadImage()
+                            binding.shimmerLayout.visibility = View.VISIBLE
+                            visibility = View.GONE
+                        }
+                    }
                 }
 
                 is Result.Loading -> {
+                    binding.shimmerLayout.visibility = View.VISIBLE
                 }
             }
         }
