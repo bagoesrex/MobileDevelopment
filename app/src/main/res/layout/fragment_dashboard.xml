@@ -114,7 +114,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -196,7 +195,7 @@
                     android:layout_marginHorizontal="50dp"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center|start"
-                    android:text="@string/favorite_result"
+                    android:text="Soon"
                     android:textColor="#FFFFFF"
                     android:textSize="30sp"
                     app:layout_constraintBottom_toBottomOf="parent"
