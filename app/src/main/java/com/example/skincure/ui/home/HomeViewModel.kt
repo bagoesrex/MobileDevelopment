@@ -8,27 +8,5 @@ import com.google.firebase.auth.FirebaseUser
 
 class HomeViewModel : ViewModel() {
 
-    private val _user = MutableLiveData<FirebaseUser?>()
-    val user: LiveData<FirebaseUser?> get() = _user
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> get() = _loading
-
-    init {
-        fetchUser()
-    }
-
-    private fun fetchUser() {
-        _loading.value = true
-        val currentUser = FirebaseAuth.getInstance().currentUser
-
-        currentUser?.reload()?.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                _user.value = currentUser
-            } else {
-                _user.value = null
-            }
-            _loading.value = false
-        }
-    }
 }

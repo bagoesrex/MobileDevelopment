@@ -89,7 +89,7 @@ class HistoryFragment : Fragment() {
                 putString(EXTRA_DATE, data["timestamp"] as? String)
                 putString(EXTRA_SCORE, data["score"] as? String)
             }
-            findNavController().navigate(R.id.action_history_to_resultDetail, bundle)
+            findNavController().navigate(R.id.action_home_to_resultDetail, bundle)
         }
         binding.historyRecyclerView.adapter = historyAdapter
     }
