@@ -8,6 +8,7 @@ import com.example.skincure.data.repository.Repository
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.camera.CameraViewModel
 import com.example.skincure.ui.contactus.ContactUsViewModel
+import com.example.skincure.ui.dashboard.DashboardViewModel
 import com.example.skincure.ui.favorite.FavoriteViewModel
 import com.example.skincure.ui.history.HistoryViewModel
 import com.example.skincure.ui.home.HomeViewModel
@@ -70,6 +71,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(HistoryViewModel::class.java) -> {
                 HistoryViewModel() as T
+            }
+            modelClass.isAssignableFrom(DashboardViewModel::class.java) -> {
+                DashboardViewModel() as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
