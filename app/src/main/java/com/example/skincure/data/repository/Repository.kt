@@ -67,7 +67,7 @@ class Repository(
         return dao.deleteByImageUri(imageUri)
     }
 
-    fun getResultByImageUri(imageUri: String): LiveData<FavoriteResult?> {
+    fun getResultByImageUri(imageUri: String): LiveData<FavoriteResult> {
         return dao.getResultByImageUri(imageUri)
     }
 

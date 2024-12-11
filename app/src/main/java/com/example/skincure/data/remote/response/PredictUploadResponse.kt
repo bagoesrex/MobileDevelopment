@@ -7,6 +7,9 @@ data class PredictUploadResponse(
 	@field:SerializedName("confidence_score")
 	val score: Double,
 
+	@field:SerializedName("image_url")
+	val imageUrl: String,
+
 	@field:SerializedName("result")
 	val result: String,
 

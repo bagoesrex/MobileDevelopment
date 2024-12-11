@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.databinding.FavoriteItemBinding
+import com.example.skincure.utils.dateFormatter
 import com.squareup.picasso.Picasso
 
 
@@ -23,8 +24,11 @@ class FavoriteAdapter(
             binding.descriptionTextView.text = fav.description
             Picasso.get()
                 .load(fav.imageUri)
+                .placeholder(android.R.drawable.ic_menu_gallery)
+                .error(android.R.drawable.stat_notify_error)
                 .into(binding.favsImageView)
-            val timestamp = fav.timestamp
+            val formattedDate = dateFormatter(fav.timestamp)
+            binding.createdTextView.text = formattedDate
 
 //            val formattedDate = DateUtils.formatTimestamp((timestamp as Long))
 //            binding.createdTextView.text = formattedDate

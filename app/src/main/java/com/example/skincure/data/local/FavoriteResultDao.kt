@@ -28,7 +28,7 @@ interface FavoriteResultDao {
     suspend fun getEventById(id: Long): FavoriteResult?
 
     @Query("SELECT * FROM result WHERE imageUri = :imageUri LIMIT 1")
-    fun getResultByImageUri(imageUri: String): LiveData<FavoriteResult?>
+    fun getResultByImageUri(imageUri: String): LiveData<FavoriteResult>
 
     @Query("SELECT * FROM result")
     suspend fun getAllEvents(): List<FavoriteResult>

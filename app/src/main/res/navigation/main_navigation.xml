@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_home_to_resultDetail"
             app:destination="@id/resultDetail" />
+        <action
+            android:id="@+id/action_favorite_to_resultDetail"
+            app:destination="@id/resultDetail" />
     </fragment>
     <fragment
         android:id="@+id/otp"

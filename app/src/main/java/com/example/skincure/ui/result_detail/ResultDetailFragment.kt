@@ -49,6 +49,7 @@ class ResultDetailFragment : Fragment() {
 
     private var currentImageUri: Uri? = null
 
+    private var imageUrl: String = ""
     private var name: String = ""
     private var description: String = ""
     private var timestampString: String = ""
@@ -174,10 +175,12 @@ class ResultDetailFragment : Fragment() {
                 is Result.Success -> {
                     val response = result.data
 
+                    imageUrl = response.imageUrl
                     name = response.result
                     description = response.description
                     score = response.score.toString()
                     timestampString = response.createdAt
+
                     observeData()
                 }
 
@@ -232,8 +235,12 @@ class ResultDetailFragment : Fragment() {
         inflater.inflate(R.menu.appbar_menu, menu)
         saveMenuItem = menu.findItem(R.id.save_result).setOnMenuItemClickListener {
             if (!isSaved) {
-                saveDataToRoom()
-
+//                saveDataToRoom(imageUrl)
+                currentImageUri?.let { uri ->
+                    saveDataToRoom(uri.toString())
+                } ?: run {
+                    Log.e(TAG, "No image URI available for saving.")
+                }
                 saveMenuItem.icon = resources.getDrawable(R.drawable.ic_save, null)
                 isSaved = true
             } else {
@@ -246,21 +253,20 @@ class ResultDetailFragment : Fragment() {
         }
     }
 
-    private fun saveDataToRoom() {
-        viewModel.imageUrl.observe(viewLifecycleOwner, Observer { imageUri ->
-            if (imageUri != null) {
+    private fun saveDataToRoom(imageUrl: String) {
+            if (imageUrl != null) {
                 val result = FavoriteResult(
                     id = 0,
-                    imageUri = imageUri,
+                    imageUri = imageUrl,
+                    predictionScore = score.toDoubleOrNull() ?: 0.0,
                     diseaseName = name,
                     description = description,
-                    timestamp = System.currentTimeMillis()
+                    timestamp = timestampString
                 )
                 viewModel.insertResult(result)
             } else {
                 Log.e(TAG, "image uri null.")
             }
-        })
     }
 
     private fun deleteDataFromRoom() {
