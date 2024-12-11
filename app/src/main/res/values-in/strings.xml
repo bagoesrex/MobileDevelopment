@@ -129,4 +129,7 @@
     <string name="invalid_input">Cek kembali input anda!</string>
     <string name="required_field">Field tidak boleh kosong</string>
     <string name="history">Riwayat</string>
+    <string name="delete_account">Hapus akun</string>
+    <string name="confirm_delete_account">Apakah Anda yakin ingin menghapus akun Anda secara permanen?</string>
+    <string name="deleted_account">Bye, Akun berhasil dihapus</string>
 </resources>

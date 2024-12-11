@@ -74,6 +74,19 @@ class SettingsFragment : Fragment() {
                 }
             )
         }
+
+        binding.deleteUserButton.setOnClickListener {
+            showConfirmationDialog(
+                requireContext(),
+                getString(R.string.confirm_delete_account),
+                onConfirm = {
+                    viewModel.deleteAccount()
+                    val userPreferences = UserPreferences(requireContext())
+                    userPreferences.clearToken()
+                },
+                onCancel = {}
+            )
+        }
     }
 
     private fun observeViewModel() {
@@ -84,6 +97,15 @@ class SettingsFragment : Fragment() {
             if (success) {
                 findNavController().navigate(R.id.action_settings_to_mainBoard)
             }
+        }
+        viewModel.deleteSuccess.observe(viewLifecycleOwner) { success ->
+            if (success) {
+                showToast(requireContext(), getString(R.string.deleted_account), 3000)
+                findNavController().navigate(R.id.action_settings_to_mainBoard)
+            }
+        }
+        viewModel.isDeleting.observe(viewLifecycleOwner) { isDeleting ->
+            showLoading(isDeleting)
         }
         viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
             message?.let {
