@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentInformationBinding
 import com.example.skincure.di.Injection
@@ -33,16 +34,8 @@ class InformationFragment : Fragment() {
     }
 
     private fun setupView() {
-        (requireActivity() as AppCompatActivity).apply {
-            setSupportActionBar(binding.toolbarId.toolbar)
-            supportActionBar?.apply {
-                title = getString(R.string.information)
-                setDisplayHomeAsUpEnabled(true)
-                setHomeAsUpIndicator(R.drawable.ic_back)
-                binding.toolbarId.toolbar.setNavigationOnClickListener {
-                    binding.root.findNavController().popBackStack()
-                }
-            }
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 

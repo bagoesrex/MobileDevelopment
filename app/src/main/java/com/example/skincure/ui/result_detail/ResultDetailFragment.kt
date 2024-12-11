@@ -9,17 +9,12 @@ import android.text.SpannableString
 import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.data.Result
@@ -45,7 +40,6 @@ class ResultDetailFragment : Fragment() {
         ViewModelFactory(Injection.provideRepository(requireContext()))
     }
     private var isSaved: Boolean = false
-    private lateinit var saveMenuItem: MenuItem
 
     private var currentImageUri: Uri? = null
 
@@ -78,17 +72,26 @@ class ResultDetailFragment : Fragment() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun setupView() {
-        (requireActivity() as AppCompatActivity).apply {
-            setSupportActionBar(binding.toolbarId.toolbar)
-            supportActionBar?.apply {
-                title = getString(R.string.result_detail)
-                setDisplayHomeAsUpEnabled(true)
-                setHomeAsUpIndicator(R.drawable.ic_back)
-                binding.toolbarId.toolbar.setNavigationOnClickListener {
-                    binding.root.findNavController().popBackStack()
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        binding.saveButton.setOnClickListener {
+            if (!isSaved) {
+//                saveDataToRoom(imageUrl)
+                currentImageUri?.let { uri ->
+                    saveDataToRoom(uri.toString())
+                } ?: run {
+                    Log.e(TAG, "No image URI available for saving.")
                 }
+                binding.saveButton.setImageResource(R.drawable.ic_save)
+                isSaved = true
+            } else {
+                deleteDataFromRoom()
+
+                binding.saveButton.setImageResource(R.drawable.ic_save_border)
+                isSaved = false
             }
-            setHasOptionsMenu(true)
         }
 
         val imageUriString = arguments?.getString(EXTRA_CAMERAX_IMAGE)
@@ -112,7 +115,7 @@ class ResultDetailFragment : Fragment() {
             viewModel.getResultByImageUri(it).observe(viewLifecycleOwner) { result ->
                 if (result != null) {
                     isSaved = true
-                    saveMenuItem.icon = resources.getDrawable(R.drawable.ic_save, null)
+                    binding.saveButton.setImageResource(R.drawable.ic_save)
                 }
             }
         }
@@ -128,6 +131,7 @@ class ResultDetailFragment : Fragment() {
 
     private fun observeData() {
 
+        binding.saveButton.visibility = View.VISIBLE
         binding.resultLayout.visibility = View.VISIBLE
         binding.shimmerLayout.visibility = View.GONE
         binding.retryButton.visibility = View.GONE
@@ -225,31 +229,6 @@ class ResultDetailFragment : Fragment() {
             }
         } else {
             showToast(requireContext(), "EXPIRED TOKEN")
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    @SuppressLint("UseCompatLoadingForDrawables")
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.appbar_menu, menu)
-        saveMenuItem = menu.findItem(R.id.save_result).setOnMenuItemClickListener {
-            if (!isSaved) {
-//                saveDataToRoom(imageUrl)
-                currentImageUri?.let { uri ->
-                    saveDataToRoom(uri.toString())
-                } ?: run {
-                    Log.e(TAG, "No image URI available for saving.")
-                }
-                saveMenuItem.icon = resources.getDrawable(R.drawable.ic_save, null)
-                isSaved = true
-            } else {
-                deleteDataFromRoom()
-
-                saveMenuItem.icon = resources.getDrawable(R.drawable.ic_save_border, null)
-                isSaved = false
-            }
-            true
         }
     }
 

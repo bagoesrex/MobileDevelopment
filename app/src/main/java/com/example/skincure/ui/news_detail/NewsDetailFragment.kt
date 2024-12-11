@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentNewsDetailBinding
 import com.example.skincure.di.Injection
@@ -36,13 +37,8 @@ class NewsDetailFragment : Fragment() {
     }
 
     private fun setupView() {
-        (requireActivity() as AppCompatActivity).apply {
-            setSupportActionBar(binding.toolbarId.toolbar)
-            supportActionBar?.apply {
-                title = getString(R.string.news_detail)
-                setDisplayHomeAsUpEnabled(true)
-                setHomeAsUpIndicator(R.drawable.ic_back)
-            }
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
         }
 
         val imageUriString = arguments?.getString(EXTRA_CAMERAX_IMAGE)

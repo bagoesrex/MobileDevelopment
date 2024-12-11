@@ -46,13 +46,7 @@ class FavoriteFragment : Fragment() {
 
 
     private fun setupView() {
-        (requireActivity() as AppCompatActivity).apply {
-            setSupportActionBar(binding.toolbarId.toolbar)
-            supportActionBar?.apply {
-                title = ""
-                binding.toolbarId.toolbarTitle.text = getString(R.string.favorite)
-            }
-        }
+
     }
 
     private fun setupRecyclerView() {

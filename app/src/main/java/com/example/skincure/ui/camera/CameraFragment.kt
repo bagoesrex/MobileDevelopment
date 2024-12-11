@@ -57,19 +57,9 @@ class CameraFragment : Fragment() {
     }
 
     private fun setupView() {
-        (requireActivity() as AppCompatActivity).apply {
-            setSupportActionBar(binding.toolbarId.toolbar)
-            supportActionBar?.apply {
-                title = getString(R.string.camera_tittle)
-                setDisplayHomeAsUpEnabled(true)
-                setHomeAsUpIndicator(R.drawable.ic_back)
-                binding.toolbarId.toolbar.setNavigationOnClickListener {
-                    binding.root.findNavController().popBackStack()
-                }
-            }
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
         }
-
-
         binding.galleryLayout.setOnClickListener { startGallery() }
         binding.captureButton.setOnClickListener { takePhoto() }
     }
