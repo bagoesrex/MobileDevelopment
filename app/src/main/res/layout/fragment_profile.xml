@@ -27,7 +27,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            app:tint="?attr/android:textColor"/>
+            app:tint="@color/primary"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -35,6 +35,7 @@
             android:fontFamily="sans-serif-condensed-medium"
             android:textSize="20sp"
             android:text="@string/profile"
+            android:textColor="@color/primary"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -11,6 +11,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -134,30 +136,41 @@ class ResultDetailFragment : Fragment() {
 
         binding.saveButton.visibility = View.VISIBLE
         binding.resultLayout.visibility = View.VISIBLE
+        binding.percentageCard.visibility = View.VISIBLE
+        binding.nameCard.visibility = View.VISIBLE
+        binding.dateCard.visibility = View.VISIBLE
+        binding.pecentageTextView.visibility = View.VISIBLE
+        binding.nameCard.visibility = View.VISIBLE
         binding.shimmerLayout.visibility = View.GONE
         binding.retryButton.visibility = View.GONE
+
+
+        val percentageBar: View = binding.percentageBar
+
+        val percentage = score.toDoubleOrNull() ?: 0.0
+
+        percentageBar.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                val parentWidth = (percentageBar.parent as View).width
+                val width = (percentage * parentWidth / 100).toInt()
+                val layoutParams = percentageBar.layoutParams as LinearLayout.LayoutParams
+                layoutParams.width = width
+                percentageBar.layoutParams = layoutParams
+                percentageBar.viewTreeObserver.removeOnPreDrawListener(this)
+                return true
+            }
+        })
 
 
         val timestamp = timestampString
         val formattedDate = dateFormatter(timestamp)
 
-        binding.nameTextView.text = buildString {
-            append("Hasil analysis: ")
-            append(name)
-        }
-        binding.scorePredictionTextView.text = buildString {
-            append("Prediction Score: ")
-            val score = score.toDoubleOrNull() ?: 0.0
-            append(score.toInt())
-            append("%")
-        }
-        binding.timestampTextView.text = buildString {
-            append("Created At: ")
-            append(formattedDate)
-        }
+        binding.nameTextView.text = name
+        binding.timestampTextView.text = formattedDate
 
-        val result =
-            description.replace(Regex("(Penyebab:|Pencegahan:|Pengobatan:|Penjelasan:)"), "\n$1")
+
+        val result = description.replaceFirst(Regex("(?s).*?(Penyebab:)"), "$1")
+
         val spannableString = SpannableString(result)
         val regex = Regex("(Kondisi:|Penyebab:|Pencegahan:|Pengobatan:|Penjelasan:)")
         val matches = regex.findAll(result)
@@ -234,19 +247,19 @@ class ResultDetailFragment : Fragment() {
     }
 
     private fun saveDataToRoom(imageUrl: String) {
-            if (imageUrl != null) {
-                val result = FavoriteResult(
-                    id = 0,
-                    imageUri = imageUrl,
-                    predictionScore = score.toDoubleOrNull() ?: 0.0,
-                    diseaseName = name,
-                    description = description,
-                    timestamp = timestampString
-                )
-                viewModel.insertResult(result)
-            } else {
-                Log.e(TAG, "image uri null.")
-            }
+        if (imageUrl != null) {
+            val result = FavoriteResult(
+                id = 0,
+                imageUri = imageUrl,
+                predictionScore = score.toDoubleOrNull() ?: 0.0,
+                diseaseName = name,
+                description = description,
+                timestamp = timestampString
+            )
+            viewModel.insertResult(result)
+        } else {
+            Log.e(TAG, "image uri null.")
+        }
     }
 
     private fun deleteDataFromRoom() {
