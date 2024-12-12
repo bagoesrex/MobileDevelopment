@@ -263,54 +263,35 @@ class SignUpFragment : Fragment() {
     }
 
     private fun playAnimation() {
-        val title = ObjectAnimator.ofFloat(binding.title, View.ALPHA, 1f).setDuration(300)
-        val nameText = ObjectAnimator.ofFloat(binding.name, View.ALPHA, 1f).setDuration(300)
-        val nameInput = ObjectAnimator.ofFloat(binding.nameEditTextLayout, View.ALPHA, 1f).setDuration(300)
-        val emailText = ObjectAnimator.ofFloat(binding.email, View.ALPHA, 1f).setDuration(300)
-        val emailInput = ObjectAnimator.ofFloat(binding.emailEditTextLayout, View.ALPHA, 1f).setDuration(300)
-        val passwordText = ObjectAnimator.ofFloat(binding.password, View.ALPHA, 1f).setDuration(300)
-        val passwordInput = ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(300)
-        val passwordConfirmText = ObjectAnimator.ofFloat(binding.confirmPassword, View.ALPHA, 1f).setDuration(300)
-        val passwordConfirmInput = ObjectAnimator.ofFloat(binding.confirmationEditTextLayout, View.ALPHA, 1f).setDuration(300)
-        val line = ObjectAnimator.ofFloat(binding.line, View.ALPHA, 1f).setDuration(300)
+        val title = ObjectAnimator.ofFloat(binding.title, View.ALPHA, 1f).setDuration(500)
+        val nameText = ObjectAnimator.ofFloat(binding.name, View.ALPHA, 1f).setDuration(500)
+        val nameInput = ObjectAnimator.ofFloat(binding.nameEditTextLayout, View.ALPHA, 1f).setDuration(500)
+        val emailText = ObjectAnimator.ofFloat(binding.email, View.ALPHA, 1f).setDuration(500)
+        val emailInput = ObjectAnimator.ofFloat(binding.emailEditTextLayout, View.ALPHA, 1f).setDuration(500)
+        val passwordText = ObjectAnimator.ofFloat(binding.password, View.ALPHA, 1f).setDuration(500)
+        val passwordInput = ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(500)
+        val passwordConfirmText = ObjectAnimator.ofFloat(binding.confirmPassword, View.ALPHA, 1f).setDuration(500)
+        val passwordConfirmInput = ObjectAnimator.ofFloat(binding.confirmationEditTextLayout, View.ALPHA, 1f).setDuration(500)
+        val line = ObjectAnimator.ofFloat(binding.line, View.ALPHA, 1f).setDuration(500)
 
         val inputFields = AnimatorSet().apply {
-            playSequentially(nameText, nameInput, emailText, emailInput, passwordText, passwordInput,passwordConfirmText, passwordConfirmInput, line)
+            playTogether(nameText, nameInput, emailText, emailInput, passwordText, passwordInput,passwordConfirmText, passwordConfirmInput, line)
         }
 
-        val registerButton = AnimatorSet().apply {
-            playTogether(
-                ObjectAnimator.ofFloat(binding.registerButton, View.ALPHA, 1f).setDuration(500),
-                ObjectAnimator.ofFloat(binding.registerButton, View.TRANSLATION_X, -300f, 0f).setDuration(700)
-            )
-        }
-
-        val googleLoginGroup = AnimatorSet().apply {
-            playTogether(
-                ObjectAnimator.ofFloat(binding.googleLoginGroup, View.ALPHA, 1f).setDuration(500),
-                ObjectAnimator.ofFloat(binding.googleLoginGroup, View.TRANSLATION_X, 300f, 0f).setDuration(700)
-            )
-        }
-
-        val loginButton = AnimatorSet().apply {
+        val together = AnimatorSet().apply {
             playTogether(
                 ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(500),
-                ObjectAnimator.ofFloat(binding.loginButton, View.TRANSLATION_Y, 300f, 0f).setDuration(700)
+                ObjectAnimator.ofFloat(binding.loginButton, View.TRANSLATION_Y, 300f, 0f).setDuration(500),
+                ObjectAnimator.ofFloat(binding.googleLoginGroup, View.ALPHA, 1f).setDuration(500),
+                ObjectAnimator.ofFloat(binding.googleLoginGroup, View.TRANSLATION_X, 300f, 0f).setDuration(500),
+                ObjectAnimator.ofFloat(binding.registerButton, View.ALPHA, 1f).setDuration(500),
+                ObjectAnimator.ofFloat(binding.registerButton, View.TRANSLATION_X, -300f, 0f).setDuration(500)
+
             )
         }
 
-        val buttons = AnimatorSet().apply {
-            playTogether(registerButton, googleLoginGroup, loginButton)
-        }
-
-
         AnimatorSet().apply {
-            playSequentially(title, inputFields, buttons)
-            start()
-        }
-
-        AnimatorSet().apply {
-            playSequentially(title, inputFields, buttons)
+            playSequentially(title, inputFields, together)
             start()
         }
     }

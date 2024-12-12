@@ -19,7 +19,7 @@
         android:title="@string/favorite" />
     <item
         android:id="@+id/profile"
-        android:icon="@drawable/ic_person"
-        android:title="@string/profile" />
+        android:icon="@drawable/ic_setting"
+        android:title="@string/setting" />
 
 </menu>
