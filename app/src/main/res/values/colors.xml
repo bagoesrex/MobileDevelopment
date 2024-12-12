@@ -13,4 +13,5 @@
     <color name="black_custom">#1E687D</color>
     <color name="shimmer_color">#E0E0E0</color>
     <color name="bottom_bar_color">#A4FFFF</color>"
+    <color name="background_card">#EFEFEF</color>
 </resources>

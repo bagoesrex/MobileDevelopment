@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/background"
     tools:context=".ui.profile.ProfileFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -86,7 +87,7 @@
         android:layout_marginTop="12dp"
         android:fontFamily="sans-serif-medium"
         android:text="@string/delete_image"
-        android:textColor="#DD2C00"
+        android:textColor="#B21F00"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@+id/button_galeri"
         app:layout_constraintStart_toStartOf="@+id/button_galeri"
@@ -94,11 +95,13 @@
         android:alpha="0"
         tools:alpha="100"/>
 
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/button_save"
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="156dp"
+        android:alpha="0"
         android:backgroundTint="@color/primary"
         android:text="@string/save"
         android:textColor="?attr/colorOnSecondary"
@@ -107,9 +110,7 @@
         app:layout_constraintEnd_toEndOf="@+id/textInputEditTextAge"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/textInputEditTextAge"
-        android:alpha="0"
-        tools:alpha="100"/>
-
+        tools:alpha="100" />
 
     <TextView
         android:id="@+id/tvName"

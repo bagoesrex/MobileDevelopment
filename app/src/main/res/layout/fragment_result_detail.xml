@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/secondary"
+    android:background="?attr/background"
     tools:context=".ui.result_detail.ResultDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +26,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5" />
+            app:layout_constraintVertical_bias="0.5"
+            app:tint="?attr/android:textColor"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
