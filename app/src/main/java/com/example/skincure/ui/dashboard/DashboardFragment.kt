@@ -119,13 +119,19 @@ class DashboardFragment : Fragment() {
             } else {
                 val pref = UserPreferences(requireContext())
                 val namePref = pref.getUserName()
-                val welcomeMessage = "Hi, ${namePref?.ifEmpty { getString(R.string.welcome_text) }}"
-                binding.usernameTextView.text = welcomeMessage
+                if (namePref == null){
+                    val welcomeMessage = "Hi, ${getString(R.string.welcome_text)}"
+                    binding.usernameTextView.text = welcomeMessage
+                }
                 binding.profileButton.setImageResource(R.drawable.ic_person)
             }
         }
 
         historyViewModel.historiesCount.observe(viewLifecycleOwner) { count ->
+            binding.historyTextView.text = count.toString()
+        }
+
+        historyViewModel.historyCount.observe(viewLifecycleOwner) { count ->
             binding.historyTextView.text = count.toString()
         }
 

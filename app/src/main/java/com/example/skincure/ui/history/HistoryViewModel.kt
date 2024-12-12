@@ -41,5 +41,7 @@ class HistoryViewModel(private var repository: Repository) : ViewModel() {
         }
     }
 
+    val historyCount: LiveData<Int> = repository.getHistoryCount()
+
     val history: LiveData<PagingData<HistoriesItem>> = repository.getHistory().cachedIn(viewModelScope)
 }

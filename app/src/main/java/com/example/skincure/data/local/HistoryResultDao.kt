@@ -1,5 +1,6 @@
 package com.example.skincure.data.local
 
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
@@ -20,4 +21,7 @@ interface HistoryResultDao {
 
     @Query("DELETE FROM histories")
     suspend fun deleteStory()
+
+    @Query("SELECT COUNT(*) FROM histories")
+    fun getHistoryCount(): LiveData<Int>
 }
