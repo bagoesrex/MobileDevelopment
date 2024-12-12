@@ -100,6 +100,9 @@
         <action
             android:id="@+id/action_home_to_chatbot"
             app:destination="@id/chatbot" />
+        <action
+            android:id="@+id/action_home_to_learnmore"
+            app:destination="@id/learnmore" />
     </fragment>
     <fragment
         android:id="@+id/otp"
@@ -234,4 +237,8 @@
         android:name="com.example.skincure.ui.chatbot.ChatbotFragment"
         android:label="fragment_chatbot"
         tools:layout="@layout/fragment_chatbot" />
+    <fragment
+        android:id="@+id/learnmore"
+        android:name="com.example.skincure.ui.learnmore.LearnMoreFragment"
+        android:label="LearnMoreFragment" />
 </navigation>
