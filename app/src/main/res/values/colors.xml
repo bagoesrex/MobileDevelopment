@@ -14,5 +14,6 @@
     <color name="shimmer_color">#E0E0E0</color>
     <color name="bottom_bar_color">#A4FFFF</color>"
     <color name="blue">#3b5998</color>
+    <color name="placeholder">#D2D2D2</color>
     <color name="background_card">#EFEFEF</color>
 </resources>

@@ -5,10 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.skincure.R
 import com.example.skincure.data.remote.response.NewsResponseItem
 import com.example.skincure.databinding.NewsItemBinding
+import com.example.skincure.utils.LoadImage
 import com.example.skincure.utils.dateFormatter
-import com.squareup.picasso.Picasso
 
 class NewsAdapter(
     private val onItemClick: (NewsResponseItem) -> Unit
@@ -22,9 +23,12 @@ class NewsAdapter(
         fun bind(news: NewsResponseItem) {
             binding.tittleTextView.text = news.name
             binding.descriptionTextView.text = news.description
-            Picasso.get()
-                .load(news.image)
-                .into(binding.newsImageView)
+            LoadImage.load(
+                context = binding.root.context,
+                imageView = binding.newsImageView,
+                imageUrl = news.image,
+                placeholder = R.color.placeholder,
+            )
             binding.dateTextView.text = dateFormatter(news.createdAt)
 
             binding.root.setOnClickListener {

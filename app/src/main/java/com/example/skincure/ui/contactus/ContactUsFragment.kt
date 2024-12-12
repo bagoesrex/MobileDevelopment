@@ -5,13 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.data.Result
-import com.example.skincure.R
 import com.example.skincure.databinding.FragmentContactUsBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
@@ -30,7 +27,6 @@ class ContactUsFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentContactUsBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 

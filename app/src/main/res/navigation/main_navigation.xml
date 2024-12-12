@@ -89,6 +89,12 @@
             android:id="@+id/action_home_to_newsDetail"
             app:destination="@id/newsDetail" />
         <action
+            android:id="@+id/action_home_to_contactUs"
+            app:destination="@id/contactUs" />
+        <action
+            android:id="@+id/action_home_to_information"
+            app:destination="@id/information" />
+      <action
             android:id="@+id/action_settings_to_mainBoard"
             app:destination="@id/mainBoard" />
     </fragment>

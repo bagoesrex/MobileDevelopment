@@ -61,9 +61,7 @@ class LoginFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
 
         setupListeners()
-
         observeLoginState()
-
         playAnimation()
     }
 

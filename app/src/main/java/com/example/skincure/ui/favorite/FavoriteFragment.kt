@@ -1,15 +1,11 @@
 package com.example.skincure.ui.favorite
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.skincure.R
@@ -37,19 +33,14 @@ class FavoriteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupView()
         setupRecyclerView()
         setupObserver()
 
         viewModel.getAllFavorite()
     }
 
-    private fun setupView() {
-    }
-
     private fun setupRecyclerView() {
         binding.favsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
         favAdapter = FavoriteAdapter { fav ->
             val bundle = Bundle().apply {
                 putString(EXTRA_CAMERAX_IMAGE, fav.imageUri)
@@ -65,16 +56,13 @@ class FavoriteFragment : Fragment() {
 
     private fun setupObserver() {
         binding.shimmerViewContainer.startShimmer()
-        viewModel.favoriteList.observe(viewLifecycleOwner, Observer { favList ->
-            favList?.let {
-                    _binding?.let { binding ->
-                        binding.shimmerViewContainer.stopShimmer()
-                        binding.shimmerViewContainer.visibility = View.GONE
-                        binding.favsRecyclerView.visibility = View.VISIBLE
-                        favAdapter.submitList(it)
-                    }
-            }
-        })
+
+        viewModel.favoriteList.observe(viewLifecycleOwner) { favList ->
+            binding.shimmerViewContainer.stopShimmer()
+            binding.shimmerViewContainer.visibility = View.GONE
+            binding.favsRecyclerView.visibility = View.VISIBLE
+            favAdapter.submitList(favList)
+        }
     }
 
     companion object {

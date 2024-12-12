@@ -5,10 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.skincure.R
@@ -57,7 +55,6 @@ class HistoryFragment : Fragment() {
     private fun setupObserver() {
         binding.shimmerViewContainer.startShimmer()
         viewModel.historiesPredictResult.observe(viewLifecycleOwner) { result ->
-            Log.d("HistoryFragment", "HistoriesPredictResult: $result")
             when {
                 result.isNotEmpty() -> {
                     binding.shimmerViewContainer.stopShimmer()
@@ -75,7 +72,6 @@ class HistoryFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.historyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
         historyAdapter = HistoryAdapter { data ->
             val bundle = Bundle().apply {
                 putString(EXTRA_CAMERAX_IMAGE, data.imageUrl)

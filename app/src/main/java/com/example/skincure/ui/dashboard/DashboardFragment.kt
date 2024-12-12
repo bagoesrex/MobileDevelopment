@@ -1,8 +1,6 @@
 package com.example.skincure.ui.dashboard
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -23,8 +21,8 @@ import com.example.skincure.ui.news.NewsFragment.Companion.EXTRA_CAMERAX_IMAGE
 import com.example.skincure.ui.news.NewsFragment.Companion.EXTRA_DESCRIPTION
 import com.example.skincure.ui.news.NewsFragment.Companion.EXTRA_TITLE
 import com.example.skincure.ui.news.NewsViewModel
+import com.example.skincure.utils.LoadImage
 import com.google.firebase.auth.FirebaseAuth
-import com.squareup.picasso.Picasso
 
 class DashboardFragment : Fragment() {
 
@@ -107,13 +105,12 @@ class DashboardFragment : Fragment() {
                 binding.usernameTextView.text = welcomeMessage
                 val photoUrl = user.photoUrl
                 if (photoUrl != null) {
-                    Picasso.get()
-                        .load(photoUrl)
-                        .placeholder(R.drawable.ic_person)
-                        .error(R.drawable.ic_person)
-                        .fit()
-                        .centerCrop()
-                        .into(binding.profileButton)
+                    LoadImage.load(
+                        context = binding.root.context,
+                        imageView = binding.profileButton,
+                        imageUrl = photoUrl.toString(),
+                        placeholder = R.color.placeholder,
+                    )
                 }
             } else {
                 val pref = UserPreferences(requireContext())

@@ -9,7 +9,6 @@ import android.text.SpannableString
 import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
@@ -23,11 +22,11 @@ import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentResultDetailBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
+import com.example.skincure.utils.LoadImage
 import com.example.skincure.utils.dateFormatter
 import com.example.skincure.utils.reduceFileImage
 import com.example.skincure.utils.showToast
 import com.example.skincure.utils.uriToFile
-import com.squareup.picasso.Picasso
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -78,7 +77,6 @@ class ResultDetailFragment : Fragment() {
 
         binding.saveButton.setOnClickListener {
             if (!isSaved) {
-//                saveDataToRoom(imageUrl)
                 currentImageUri?.let { uri ->
                     saveDataToRoom(uri.toString())
                 } ?: run {
@@ -99,10 +97,12 @@ class ResultDetailFragment : Fragment() {
 
         currentImageUri = imageUri
         currentImageUri?.let {
-            Picasso.get()
-                .load(it)
-                .placeholder(R.drawable.ic_gallery)
-                .into(binding.resultImageView)
+            LoadImage.load(
+                context = binding.root.context,
+                imageView = binding.resultImageView,
+                imageUrl = it.toString(),
+                placeholder = R.color.placeholder,
+            )
         }
 
         name = arguments?.getString(EXTRA_NAME) ?: name
@@ -124,7 +124,8 @@ class ResultDetailFragment : Fragment() {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().navigate(R.id.action_resultDetail_to_home)
+//                    findNavController().navigate(R.id.action_resultDetail_to_home)
+                    findNavController().navigateUp()
                 }
             })
     }

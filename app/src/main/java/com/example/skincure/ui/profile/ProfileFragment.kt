@@ -36,7 +36,6 @@ class ProfileFragment : Fragment() {
     private lateinit var userPreferences: UserPreferences
     private var loadingDialog: AlertDialog? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -46,9 +45,13 @@ class ProfileFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         userPreferences = UserPreferences(requireContext())
 
-        setupView()
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupView()
     }
 
     private fun setupView() {
