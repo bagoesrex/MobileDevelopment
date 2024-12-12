@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName
 data class PredictHistoriesResponse(
 
 	@field:SerializedName("histories")
-	val histories: List<HistoriesItem>
+	val histories: List<HistoriesItem>,
+
+	val count: Int
 )
 
 data class HistoriesItem(

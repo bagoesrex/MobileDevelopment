@@ -31,22 +31,20 @@ class FavoriteFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-
-        setupView()
-        setupRecyclerView()
-        setupObserver()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setupView()
+        setupRecyclerView()
+        setupObserver()
+
         viewModel.getAllFavorite()
     }
 
-
     private fun setupView() {
-
     }
 
     private fun setupRecyclerView() {
@@ -69,14 +67,12 @@ class FavoriteFragment : Fragment() {
         binding.shimmerViewContainer.startShimmer()
         viewModel.favoriteList.observe(viewLifecycleOwner, Observer { favList ->
             favList?.let {
-                Handler(Looper.getMainLooper()).postDelayed({
                     _binding?.let { binding ->
                         binding.shimmerViewContainer.stopShimmer()
                         binding.shimmerViewContainer.visibility = View.GONE
                         binding.favsRecyclerView.visibility = View.VISIBLE
                         favAdapter.submitList(it)
                     }
-                }, 500)
             }
         })
     }

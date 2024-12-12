@@ -15,14 +15,16 @@ class HistoryViewModel(private var repository: Repository) : ViewModel() {
     private val _historiesPredictResult = MutableLiveData<List<HistoriesItem>>()
     val historiesPredictResult: LiveData<List<HistoriesItem>> = _historiesPredictResult
 
+    private val _historiesCount = MutableLiveData<Int>()
+    val historiesCount: LiveData<Int> = _historiesCount
+
     fun getHistoriesPredict(uid: String) {
         viewModelScope.launch {
             try {
-                val result = repository.getPredictHistories(uid)
-
-                when (result) {
+                when (val result = repository.getPredictHistories(uid)) {
                     is Result.Success -> {
                         _historiesPredictResult.value = result.data.histories
+                        _historiesCount.value = result.data.histories.size
                     }
                     is Result.Error -> {
                         Log.e("HistoryViewModel", "Error")
