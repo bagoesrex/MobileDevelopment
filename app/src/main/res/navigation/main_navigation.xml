@@ -82,6 +82,12 @@
         <action
             android:id="@+id/action_favorite_to_resultDetail"
             app:destination="@id/resultDetail" />
+        <action
+            android:id="@+id/action_home_to_dashboard"
+            app:destination="@id/dashboard" />
+        <action
+            android:id="@+id/action_home_to_newsDetail"
+            app:destination="@id/newsDetail" />
     </fragment>
     <fragment
         android:id="@+id/otp"
@@ -206,4 +212,9 @@
             android:id="@+id/action_history_to_resultDetail"
             app:destination="@id/resultDetail" />
     </fragment>
+    <fragment
+        android:id="@+id/dashboard"
+        android:name="com.example.skincure.ui.dashboard.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
 </navigation>
