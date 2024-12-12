@@ -1,17 +1,26 @@
 package com.example.skincure.ui.dashboard
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.skincure.R
 import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentDashboardBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
+import com.example.skincure.ui.news.NewsAdapter
+import com.example.skincure.ui.news.NewsFragment.Companion.EXTRA_CAMERAX_IMAGE
+import com.example.skincure.ui.news.NewsFragment.Companion.EXTRA_DESCRIPTION
+import com.example.skincure.ui.news.NewsFragment.Companion.EXTRA_TITLE
+import com.example.skincure.ui.news.NewsViewModel
 import com.squareup.picasso.Picasso
 
 class DashboardFragment : Fragment() {
@@ -24,6 +33,11 @@ class DashboardFragment : Fragment() {
         )
     }
 
+    private lateinit var newsAdapter: NewsAdapter
+    private val newsViewModel: NewsViewModel by viewModels {
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,24 +45,22 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
 
         setupView()
+        setupRecyclerView()
         setupObserver()
-
         return binding.root
     }
 
     private fun setupView() {
-        binding.settingCard.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_settings)
-        }
+
         binding.profileButton.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_profile)
         }
 
-        binding.cameraCard.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_camera)
+        binding.newsCard.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_news)
         }
 
-        binding.newsCard.setOnClickListener {
+        binding.newsLinkTextView.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_news)
         }
 
@@ -88,6 +100,34 @@ class DashboardFragment : Fragment() {
                 binding.profileButton.setImageResource(R.drawable.ic_person)
             }
         }
+
+        newsViewModel.newsResult.observe(viewLifecycleOwner) { result ->
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.newsRecyclerView.visibility = View.VISIBLE
+                newsAdapter.submitList(result)
+            }, 500)
+            Log.d("NewsFragment", "News result: $result")
+        }
+        newsViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+            binding.newsRecyclerView.visibility = View.GONE
+            Log.e("HistoryFragment", errorMessage)
+        }
+        newsViewModel.getAllNews()
+    }
+
+    private fun setupRecyclerView() {
+        binding.newsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        newsAdapter = NewsAdapter { news ->
+            val bundle = Bundle().apply {
+                putString(EXTRA_TITLE, news.name)
+                putString(EXTRA_CAMERAX_IMAGE, news.image)
+                putString(EXTRA_DESCRIPTION, news.description)
+            }
+            findNavController().navigate(R.id.action_news_to_newsDetail, bundle)
+        }
+
+        binding.newsRecyclerView.adapter = newsAdapter
     }
 
     private fun showLoading(isLoading: Boolean) {
