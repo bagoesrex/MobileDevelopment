@@ -20,7 +20,7 @@ android {
         versionName = "1.0"
 
         buildConfigField("String", "BASE_URL", "\"https://skincure-backend-v2-1002330865172.asia-southeast1.run.app\"")
-
+        buildConfigField ("String", "apiKey", "\"AIzaSyDyIRDBU_mot7xRbLqNngZAS1H_kilQ9m0\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -115,4 +115,7 @@ dependencies {
 
     //shimmer
     implementation (libs.shimmer)
+
+    //generative AI
+    implementation(libs.generativeai)
 }
