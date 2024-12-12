@@ -1,5 +1,6 @@
 package com.example.skincure.utils
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.Button
@@ -7,13 +8,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.skincure.R
 
-fun showConfirmationDialog(
+@SuppressLint("MissingInflatedId")
+fun showVerificationDialog (
     context: Context,
     message: String,
     onConfirm: () -> Unit,
     onCancel: () -> Unit
-) {
-    val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_confirmation, null)
+    ) {
+    val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_verification, null)
     val dialog = AlertDialog.Builder(context).create()
 
     dialog.setView(dialogView)
@@ -24,7 +26,7 @@ fun showConfirmationDialog(
     val logoutButton = dialogView.findViewById<Button>(R.id.btn_logout)
 
     title.text = buildString {
-        append("CONFIRM LOGOUT")
+        append("EMAIL VERIFICATION")
     }
     messageView.text = message
 
