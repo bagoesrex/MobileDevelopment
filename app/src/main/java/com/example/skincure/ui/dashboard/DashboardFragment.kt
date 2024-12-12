@@ -88,6 +88,10 @@ class DashboardFragment : Fragment() {
         binding.chatbotButton.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_chatbot)
         }
+
+        binding.dashboardButton.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_learnmore)
+        }
     }
 
     private fun setupObserver() {

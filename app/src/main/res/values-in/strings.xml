@@ -132,4 +132,21 @@
     <string name="delete_account">Hapus akun</string>
     <string name="confirm_delete_account">Apakah Anda yakin ingin menghapus akun Anda secara permanen?</string>
     <string name="deleted_account">Bye, Akun berhasil dihapus</string>
+    <string name="home">Beranda</string>
+    <string name="retry">Coba lagi</string>
+    <string name="upload_failed">Unggahan Gagal</string>
+    <string name="how_to_scan_my_skin">Bagaimana cara memindai kulit saya?</string>
+    <string name="step_1">LANGKAH 1</string>
+    <string name="cardtext1">Pertama di halaman beranda, Anda akan melihat tombol navigasi di bagian bawah dengan ikon kamera di tengah, klik tombol itu dan Anda akan diarahkan ke halaman Kamera.</string>
+    <string name="step_2">LANGKAH 2</string>
+    <string name="cardtext2">Kedua, saat Anda berada di halaman kamera untuk pertama kalinya, Anda akan diminta untuk mengizinkan akses kamera untuk digunakan dalam aplikasi.</string>
+    <string name="cardtext_1_1">1. Tombol 1 Anda selalu mengizinkan akses kamera saat menggunakan aplikasi</string>
+    <string name="cardtext_1_2">2. Tombol 2 Anda hanya mengizinkan waktu ini, dan akan dimintai izin jika Anda menggunakannya lagi.</string>
+    <string name="step_3">LANGKAH 3</string>
+    <string name="cardtext3">Ketiga, setelah Anda memberikan izin, Anda dapat mengunggah gambar dengan akses galeri, kamera depan dan belakang. Berikut penjelasan tombol-tombolnya:</string>
+    <string name="cardtext_3_1">1. Tombol untuk mengakses galeri dan mengunggah foto dari galeri</string>
+    <string name="cardtext_3_2">2. Tombol untuk mengambil gambar dengan kamera dan mengunggahnya untuk prediksi.</string>
+    <string name="cardtext_3_3">3. Tombol untuk mengganti kamera jika Anda ingin mengambil gambar dengan kamera depan</string>
+    <string name="step_4">LANGKAH 4</string>
+    <string name="cardtext4">Terakhir, Anda akan mendapatkan hasil pemindaian kulit Anda. Anda dapat menambahkannya ke favorit untuk memudahkan menemukan hasil pemindaian dan menandainya.</string>
 </resources>

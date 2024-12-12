@@ -136,4 +136,18 @@
     <string name="deleted_account">Bye, Account successfully deleted</string>
     <string name="retry">Retry</string>
     <string name="upload_failed">Upload Failed</string>
+    <string name="how_to_scan_my_skin">How to scan my skin?</string>
+    <string name="step_1">STEP 1</string>
+    <string name="cardtext1">First on the home page you see a navigation button at the bottom with a camera icon in the middle,click on that button and you will be directed to the Camera page.</string>
+    <string name="step_2">STEP 2</string>
+    <string name="cardtext2">Second, when you are on the camera page for the first time, you will be asked to allow camera access to be used in the application.</string>
+    <string name="cardtext_1_1">1. Button 1 you always allow camera access when using the application</string>
+    <string name="cardtext_1_2">2. Your button 2 only allows this time, and will be asked for permission if you use it again.</string>
+    <string name="step_3">STEP 3</string>
+    <string name="cardtext3">Third, when you have given permission you can upload images with gallery access, front and rear cameras. Here is the explanation of the buttons:</string>
+    <string name="cardtext_3_1">1. Button to access the gallery and upload photos from the gallery</string>
+    <string name="cardtext_3_2">2. Button to take a picture with the camera and upload it for prediction.</string>
+    <string name="cardtext_3_3">3. Button to switch camera if you want to take pictures with the front camera</string>
+    <string name="step_4">STEP 4</string>
+    <string name="cardtext4">Finally, you will get the result of your skin scan. You can add it to your favorites to make it easier to find the scan results and mark them.</string>
 </resources>
