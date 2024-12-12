@@ -33,20 +33,22 @@ class HistoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHistoryBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setupView()
         setupRecyclerView()
         setupObserver()
 
         val uid = firebaseAuth.currentUser?.uid
-        Log.d("HistoryFragment", "User ID: $uid")
         if (uid != null) {
             viewModel.getHistoriesPredict(uid)
         } else {
             Log.e("HistoryFragment", "User is not authenticated")
         }
-
-        return binding.root
     }
 
     private fun setupView() {

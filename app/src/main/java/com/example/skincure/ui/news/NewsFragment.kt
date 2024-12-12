@@ -32,12 +32,15 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNewsBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         setupView()
         setupRecyclerView()
         setupObserver()
-
-        return binding.root
     }
 
     private fun setupView() {
@@ -64,19 +67,15 @@ class NewsFragment : Fragment() {
     private fun setupObserver() {
         binding.shimmerViewContainer.startShimmer()
         viewModel.newsResult.observe(viewLifecycleOwner) { result ->
-            Handler(Looper.getMainLooper()).postDelayed({
-                binding.shimmerViewContainer.stopShimmer()
-                binding.shimmerViewContainer.visibility = View.GONE
-                binding.newsRecyclerView.visibility = View.VISIBLE
-                newsAdapter.submitList(result)
-            }, 500)
-            Log.d("NewsFragment", "News result: $result")
+            binding.shimmerViewContainer.stopShimmer()
+            binding.shimmerViewContainer.visibility = View.GONE
+            binding.newsRecyclerView.visibility = View.VISIBLE
+            newsAdapter.submitList(result)
         }
         viewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             binding.shimmerViewContainer.stopShimmer()
             binding.shimmerViewContainer.visibility = View.GONE
             binding.newsRecyclerView.visibility = View.GONE
-            Log.e("HistoryFragment", errorMessage)
         }
         viewModel.getAllNews()
     }

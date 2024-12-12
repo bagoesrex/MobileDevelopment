@@ -86,6 +86,10 @@ class Repository(
         return dao.getAllEvents()
     }
 
+    suspend fun getFavoriteCount(): Int {
+        return dao.getFavoriteCount()
+    }
+
     suspend fun predictUpload(
         photo: MultipartBody.Part,
     ): utilResult<PredictUploadResponse> {

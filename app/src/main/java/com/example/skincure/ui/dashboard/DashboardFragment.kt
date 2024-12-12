@@ -16,11 +16,14 @@ import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentDashboardBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
+import com.example.skincure.ui.favorite.FavoriteViewModel
+import com.example.skincure.ui.history.HistoryViewModel
 import com.example.skincure.ui.news.NewsAdapter
 import com.example.skincure.ui.news.NewsFragment.Companion.EXTRA_CAMERAX_IMAGE
 import com.example.skincure.ui.news.NewsFragment.Companion.EXTRA_DESCRIPTION
 import com.example.skincure.ui.news.NewsFragment.Companion.EXTRA_TITLE
 import com.example.skincure.ui.news.NewsViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 
 class DashboardFragment : Fragment() {
@@ -38,26 +41,46 @@ class DashboardFragment : Fragment() {
         ViewModelFactory(Injection.provideRepository(requireContext()))
     }
 
+    private val historyViewModel: HistoryViewModel by viewModels {
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
+
+    private val favViewModel: FavoriteViewModel by viewModels {
+        ViewModelFactory(Injection.provideRepository(requireContext()))
+    }
+
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
         setupView()
         setupRecyclerView()
         setupObserver()
-        return binding.root
+        val uid = firebaseAuth.currentUser?.uid
+        if (uid != null) {
+            historyViewModel.getHistoriesPredict(uid)
+        } else {
+            Log.e("HistoryFragment", "User is not authenticated")
+        }
+
+        favViewModel.getFavoriteCount()
     }
 
     private fun setupView() {
 
         binding.profileButton.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_profile)
-        }
-
-        binding.newsCard.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_news)
         }
 
         binding.newsLinkTextView.setOnClickListener {
@@ -101,17 +124,25 @@ class DashboardFragment : Fragment() {
             }
         }
 
+        historyViewModel.historiesCount.observe(viewLifecycleOwner) { count ->
+            binding.historyTextView.text = count.toString()
+        }
+
+        favViewModel.favoriteCount.observe(viewLifecycleOwner) { count ->
+            binding.favoriteTextView.text = count.toString()
+        }
+
         newsViewModel.newsResult.observe(viewLifecycleOwner) { result ->
-            Handler(Looper.getMainLooper()).postDelayed({
+            if (result.isNotEmpty()) {
+                val latestNews = result.take(3)
                 binding.newsRecyclerView.visibility = View.VISIBLE
-                newsAdapter.submitList(result)
-            }, 500)
-            Log.d("NewsFragment", "News result: $result")
+                newsAdapter.submitList(latestNews)
+            }
         }
-        newsViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
-            binding.newsRecyclerView.visibility = View.GONE
-            Log.e("HistoryFragment", errorMessage)
-        }
+//        newsViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
+//            binding.newsRecyclerView.visibility = View.GONE
+//            Log.e("HistoryFragment", errorMessage)
+//        }
         newsViewModel.getAllNews()
     }
 
@@ -124,7 +155,7 @@ class DashboardFragment : Fragment() {
                 putString(EXTRA_CAMERAX_IMAGE, news.image)
                 putString(EXTRA_DESCRIPTION, news.description)
             }
-            findNavController().navigate(R.id.action_news_to_newsDetail, bundle)
+            findNavController().navigate(R.id.action_home_to_newsDetail, bundle)
         }
 
         binding.newsRecyclerView.adapter = newsAdapter

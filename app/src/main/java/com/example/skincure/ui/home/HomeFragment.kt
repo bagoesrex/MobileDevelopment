@@ -37,10 +37,14 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         if (!isInternetAvailable(requireContext())) {
             showToast(requireContext(), getString(R.string.no_internet))
-            return binding.root
         }
 
         if (savedInstanceState != null) {
@@ -57,8 +61,6 @@ class HomeFragment : Fragment() {
 
         loadFragment(selectedFragmentIndex)
         setupView()
-
-        return binding.root
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

@@ -32,4 +32,7 @@ interface FavoriteResultDao {
 
     @Query("SELECT * FROM result")
     suspend fun getAllEvents(): List<FavoriteResult>
+
+    @Query("SELECT COUNT(*) FROM result")
+    suspend fun getFavoriteCount(): Int
 }
