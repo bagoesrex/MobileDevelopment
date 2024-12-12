@@ -2,8 +2,8 @@ package com.example.skincure.ui.history
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.skincure.data.remote.response.HistoriesItem
 import com.example.skincure.databinding.HistoryItemBinding
@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso
 
 class HistoryAdapter(
     private val onItemClick: (HistoriesItem) -> Unit,
-) : ListAdapter<HistoriesItem, HistoryAdapter.HistoryViewHolder>(DIFF_CALLBACK) {
+) : PagingDataAdapter<HistoriesItem, HistoryAdapter.HistoryViewHolder>(DIFF_CALLBACK) {
 
     class HistoryViewHolder(
         private val binding: HistoryItemBinding,
@@ -51,7 +51,9 @@ class HistoryAdapter(
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         val histories = getItem(position)
-        holder.bind(histories)
+        if (histories != null) {
+            holder.bind(histories)
+        }
     }
 
     companion object {

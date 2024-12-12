@@ -14,6 +14,6 @@ object Injection {
         val database = AppDatabase.getDatabase(context)
         val dao = database.resultDao()
         val apiService = ApiConfig.getApiService(pref)
-        return Repository.getInstance(auth, apiService,dao)
+        return Repository.getInstance(auth, apiService,dao, db = database)
     }
 }

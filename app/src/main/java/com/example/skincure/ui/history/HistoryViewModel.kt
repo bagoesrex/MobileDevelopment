@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.skincure.data.Result
 import com.example.skincure.data.remote.response.HistoriesItem
 import com.example.skincure.data.repository.Repository
@@ -38,4 +40,6 @@ class HistoryViewModel(private var repository: Repository) : ViewModel() {
             }
         }
     }
+
+    val history: LiveData<PagingData<HistoriesItem>> = repository.getHistory().cachedIn(viewModelScope)
 }

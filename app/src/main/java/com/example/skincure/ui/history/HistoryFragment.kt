@@ -8,12 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentHistoryBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
+import com.example.skincure.utils.isInternetAvailable
+import com.example.skincure.utils.showToast
 import com.google.firebase.auth.FirebaseAuth
+import retrofit2.HttpException
 
 class HistoryFragment : Fragment() {
 
@@ -54,21 +58,42 @@ class HistoryFragment : Fragment() {
 
     private fun setupObserver() {
         binding.shimmerViewContainer.startShimmer()
-        viewModel.historiesPredictResult.observe(viewLifecycleOwner) { result ->
-            when {
-                result.isNotEmpty() -> {
-                    binding.shimmerViewContainer.stopShimmer()
-                    binding.shimmerViewContainer.visibility = View.GONE
-                    binding.historyRecyclerView.visibility = View.VISIBLE
-                    historyAdapter.submitList(result)
-                }
-                else -> {
-                    binding.shimmerViewContainer.stopShimmer()
-                    binding.shimmerViewContainer.visibility = View.GONE
-                }
+        viewModel.history.observe(viewLifecycleOwner) { result ->
+            if (result != null) { {
+                Log.d("HomeFragment", "PagingData is empty.")
+                binding.shimmerViewContainer.stopShimmer()
+                binding.shimmerViewContainer.visibility = View.GONE
+            }
+                binding.shimmerViewContainer.stopShimmer()
+                binding.shimmerViewContainer.visibility = View.GONE
+                binding.historyRecyclerView.visibility = View.VISIBLE
+                historyAdapter.submitData(lifecycle, result)
             }
         }
-    }
+        historyAdapter.addLoadStateListener { loadState ->
+            if (loadState.append.endOfPaginationReached) {
+                binding.shimmerViewContainer.stopShimmer()
+                binding.shimmerViewContainer.visibility = View.GONE
+                binding.historyRecyclerView.visibility = View.VISIBLE
+            }
+            if (loadState.refresh is LoadState.Error) {
+                val error = (loadState.refresh as LoadState.Error).error
+                val errorMessage = when (error) {
+                    is HttpException -> {
+                        val errorBody = error.response()?.errorBody()?.string()
+                        errorBody ?: "API sedang eror"
+                    }
+                    else -> {
+                        if (!isInternetAvailable(requireContext())) {
+                            "Gagal Refresh Story, No internet"
+                        } else {
+                            "Koneksi sedang eror"
+                        }
+                    }
+                }
+                showToast(requireContext(), errorMessage)
+            }
+    }}
 
     private fun setupRecyclerView() {
         binding.historyRecyclerView.layoutManager = LinearLayoutManager(requireContext())

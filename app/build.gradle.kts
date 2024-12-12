@@ -109,6 +109,9 @@ dependencies {
     implementation (libs.androidx.room.runtime)
     ksp (libs.androidx.room.compiler)
     implementation (libs.room.ktx)
+    implementation("androidx.paging:paging-common-ktx:3.3.5")
+    implementation(libs.androidx.room.paging)
+    implementation("androidx.paging:paging-runtime-ktx:3.3.5")
 
     //shimmer
     implementation (libs.shimmer)
