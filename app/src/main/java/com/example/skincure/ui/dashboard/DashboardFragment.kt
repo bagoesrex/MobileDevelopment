@@ -88,11 +88,6 @@ class DashboardFragment : Fragment() {
         binding.chatbotButton.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_chatbot)
         }
-
-        binding.favoriteCard.setOnClickListener {
-//                findNavController().navigate(R.id.action_home_to_favorite)
-//            findNavController().navigate(R.id.action_home_to_history)
-        }
     }
 
     private fun setupObserver() {
@@ -113,7 +108,7 @@ class DashboardFragment : Fragment() {
                         context = binding.root.context,
                         imageView = binding.profileButton,
                         imageUrl = photoUrl.toString(),
-                        placeholder = R.color.placeholder,
+                        placeholder = R.color.primary,
                     )
                 }
             } else {

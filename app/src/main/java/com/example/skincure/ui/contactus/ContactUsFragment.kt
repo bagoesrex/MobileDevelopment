@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.skincure.R
 import com.example.skincure.data.Result
 import com.example.skincure.databinding.FragmentContactUsBinding
 import com.example.skincure.di.Injection
@@ -64,6 +65,7 @@ class ContactUsFragment : Fragment() {
 
                     is Result.Success -> {
                         showToast(requireContext(), "Message sent successfully!")
+                        findNavController().navigateUp()
                     }
 
                     is Result.Error -> {
