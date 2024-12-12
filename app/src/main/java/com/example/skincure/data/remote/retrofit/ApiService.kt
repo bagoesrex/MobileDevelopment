@@ -25,6 +25,12 @@ interface ApiService {
         @Query("uid") uid: String
     ): PredictHistoriesResponse
 
+    @GET("api/predict/histories")
+    suspend fun getPredictHistory(
+        @Query("page") page: String,
+        @Query("size") size: Int
+    ): PredictHistoriesResponse
+
     @GET("api/news")
     suspend fun getAllNews(): NewsResponse
 

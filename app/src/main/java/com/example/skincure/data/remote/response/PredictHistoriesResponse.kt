@@ -1,5 +1,7 @@
 package com.example.skincure.data.remote.response
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class PredictHistoriesResponse(
@@ -10,10 +12,14 @@ data class PredictHistoriesResponse(
 	val count: Int
 )
 
+@Entity(tableName = "histories")
 data class HistoriesItem(
 
 	@field:SerializedName("result")
 	val result: String,
+
+	@PrimaryKey(autoGenerate = true)
+	val id: Long = 0,
 
 	@field:SerializedName("uid")
 	val uid: String,

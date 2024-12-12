@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.skincure.data.remote.response.HistoriesItem
 
-@Database(entities = [FavoriteResult::class], version = 3)
+@Database(entities = [FavoriteResult::class, ResultRemoteKeys::class, HistoriesItem::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun resultDao(): FavoriteResultDao
+    abstract fun remoteKeysDao(): ResultRemoteKeysDao
+    abstract fun historyDao(): HistoryResultDao
 
     companion object {
         @Volatile
