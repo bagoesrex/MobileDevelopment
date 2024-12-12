@@ -15,6 +15,7 @@ import com.example.skincure.databinding.FragmentNewsDetailBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.ui.result_detail.ResultDetailFragment.Companion.EXTRA_CAMERAX_IMAGE
+import com.example.skincure.utils.LoadImage
 import com.squareup.picasso.Picasso
 
 class NewsDetailFragment : Fragment() {
@@ -51,10 +52,12 @@ class NewsDetailFragment : Fragment() {
         binding.descriptionTextView.text = description
 
         imageUri?.let {
-            Picasso.get()
-                .load(it)
-                .placeholder(R.drawable.ic_gallery)
-                .into(binding.newsImageView)
+            LoadImage.load(
+                context = binding.root.context,
+                imageView = binding.newsImageView,
+                imageUrl = it.toString(),
+                placeholder = R.color.placeholder,
+            )
         }
     }
 

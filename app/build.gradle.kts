@@ -76,6 +76,7 @@ dependencies {
 
     //picasso
     implementation (libs.picasso)
+    implementation (libs.picasso.transformations)
 
     //navigation
     implementation (libs.androidx.navigation.fragment.ktx)

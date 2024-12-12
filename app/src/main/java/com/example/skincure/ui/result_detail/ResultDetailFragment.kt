@@ -23,6 +23,7 @@ import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentResultDetailBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
+import com.example.skincure.utils.LoadImage
 import com.example.skincure.utils.dateFormatter
 import com.example.skincure.utils.reduceFileImage
 import com.example.skincure.utils.showToast
@@ -99,10 +100,12 @@ class ResultDetailFragment : Fragment() {
 
         currentImageUri = imageUri
         currentImageUri?.let {
-            Picasso.get()
-                .load(it)
-                .placeholder(R.drawable.ic_gallery)
-                .into(binding.resultImageView)
+            LoadImage.load(
+                context = binding.root.context,
+                imageView = binding.resultImageView,
+                imageUrl = it.toString(),
+                placeholder = R.color.placeholder,
+            )
         }
 
         name = arguments?.getString(EXTRA_NAME) ?: name
@@ -124,7 +127,8 @@ class ResultDetailFragment : Fragment() {
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().navigate(R.id.action_resultDetail_to_home)
+//                    findNavController().navigate(R.id.action_resultDetail_to_home)
+                    findNavController().navigateUp()
                 }
             })
     }

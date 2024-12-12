@@ -45,11 +45,11 @@ class SettingsFragment : Fragment() {
         }
 
         binding.contactButton.setOnClickListener {
-            findNavController().navigate(R.id.action_settings_to_contactUs)
+            findNavController().navigate(R.id.action_home_to_contactUs)
         }
 
         binding.informationButton.setOnClickListener {
-            findNavController().navigate(R.id.action_settings_to_information)
+            findNavController().navigate(R.id.action_home_to_information)
         }
 
         binding.logoutButton.setOnClickListener {

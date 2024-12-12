@@ -10,6 +10,7 @@ import com.example.skincure.data.remote.response.NewsResponse
 import com.example.skincure.data.remote.response.PredictHistoriesResponse
 import com.example.skincure.data.remote.response.PredictUploadResponse
 import com.example.skincure.data.remote.retrofit.ApiService
+import com.example.skincure.utils.safeApiCall
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
@@ -93,71 +94,29 @@ class Repository(
     suspend fun predictUpload(
         photo: MultipartBody.Part,
     ): utilResult<PredictUploadResponse> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = apiService.predictUpload(photo)
-
-                if (response.statusCode == 200) {
-                    Log.d("responses", response.toString())
-                    utilResult.Success(response)
-                } else {
-                    Log.d("responsen", response.toString())
-                    utilResult.Error("error")
-                }
-            } catch (e: IOException) {
-                utilResult.Error("Network error: ${e.message}")
-            } catch (e: HttpException) {
-                utilResult.Error("HTTP error: ${e.message}")
-            } catch (e: Exception) {
-                utilResult.Error("An unexpected error occurred: ${e.message}")
-            }
+        return safeApiCall {
+            apiService.predictUpload(photo)
         }
     }
 
     suspend fun getAllNews(
     ): utilResult<NewsResponse> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = apiService.getAllNews()
-
-                utilResult.Success(response)
-            } catch (e: IOException) {
-                utilResult.Error("Network error: ${e.message}")
-            } catch (e: HttpException) {
-                utilResult.Error("HTTP error: ${e.message}")
-            } catch (e: Exception) {
-                utilResult.Error("An unexpected error occurred: ${e.message}")
-            }
+        return safeApiCall {
+            apiService.getAllNews()
         }
     }
 
     suspend fun getPredictHistories(
         uid: String
     ): utilResult<PredictHistoriesResponse> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = apiService.getPredictHistories(uid)
-                Log.d("Repository", "HistoriesPredictResult: $response")
-
-                utilResult.Success(response)
-            } catch (e: IOException) {
-                utilResult.Error("Network error: ${e.message}")
-            } catch (e: HttpException) {
-                utilResult.Error("HTTP error: ${e.message}")
-            } catch (e: Exception) {
-                utilResult.Error("An unexpected error occurred: ${e.message}")
-            }
+        return safeApiCall {
+            apiService.getPredictHistories(uid)
         }
     }
 
     suspend fun sendContactUs(request: ContactUsRequest): utilResult<ContactUsResponse> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val response = apiService.contactUs(request)
-                utilResult.Success(response)
-            } catch (e: Exception) {
-                utilResult.Error(e.toString())
-            }
+        return safeApiCall {
+            apiService.contactUs(request)
         }
     }
 
