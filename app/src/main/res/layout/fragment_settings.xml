@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="100dp"
     android:background="?attr/background"
     tools:context=".ui.setting.SettingsFragment">
 
@@ -19,7 +20,7 @@
         android:textSize="16sp"
         app:icon="@drawable/ic_deleted"
         app:iconGravity="textEnd"
-        app:iconPadding="200dp"
+        app:iconPadding="300dp"
         app:iconSize="25dp"
         app:iconTint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/logoutButton"

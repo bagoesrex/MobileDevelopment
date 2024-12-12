@@ -16,7 +16,7 @@ import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.ui.dashboard.DashboardFragment
 import com.example.skincure.ui.favorite.FavoriteFragment
 import com.example.skincure.ui.history.HistoryFragment
-import com.example.skincure.ui.profile.ProfileFragment
+import com.example.skincure.ui.setting.SettingsFragment
 import com.example.skincure.utils.isInternetAvailable
 import com.example.skincure.utils.showToast
 
@@ -123,7 +123,7 @@ class HomeFragment : Fragment() {
             0 -> DashboardFragment()
             1 -> HistoryFragment()
             2 -> FavoriteFragment()
-            3 -> ProfileFragment()
+            3 -> SettingsFragment()
             else -> DashboardFragment()
         }
         replaceFragment(selectedFragment)
