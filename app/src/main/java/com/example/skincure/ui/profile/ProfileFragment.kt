@@ -12,10 +12,8 @@ import android.view.ViewGroup
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import com.example.skincure.R
 import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentProfileBinding
@@ -37,7 +35,6 @@ class ProfileFragment : Fragment() {
     private lateinit var userPreferences: UserPreferences
     private var loadingDialog: AlertDialog? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -47,14 +44,16 @@ class ProfileFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         userPreferences = UserPreferences(requireContext())
 
-        setupView()
-
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupView()
+    }
+
     private fun setupView() {
-
-
 
         binding.buttonGaleri.setOnClickListener {
             pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))

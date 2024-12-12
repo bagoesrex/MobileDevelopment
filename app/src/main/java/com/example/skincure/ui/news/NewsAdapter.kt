@@ -10,7 +10,6 @@ import com.example.skincure.data.remote.response.NewsResponseItem
 import com.example.skincure.databinding.NewsItemBinding
 import com.example.skincure.utils.LoadImage
 import com.example.skincure.utils.dateFormatter
-import com.squareup.picasso.Picasso
 
 class NewsAdapter(
     private val onItemClick: (NewsResponseItem) -> Unit

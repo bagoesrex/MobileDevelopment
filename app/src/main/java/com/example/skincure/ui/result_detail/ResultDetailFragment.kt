@@ -9,7 +9,6 @@ import android.text.SpannableString
 import android.text.style.StyleSpan
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
@@ -28,7 +27,6 @@ import com.example.skincure.utils.dateFormatter
 import com.example.skincure.utils.reduceFileImage
 import com.example.skincure.utils.showToast
 import com.example.skincure.utils.uriToFile
-import com.squareup.picasso.Picasso
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -79,7 +77,6 @@ class ResultDetailFragment : Fragment() {
 
         binding.saveButton.setOnClickListener {
             if (!isSaved) {
-//                saveDataToRoom(imageUrl)
                 currentImageUri?.let { uri ->
                     saveDataToRoom(uri.toString())
                 } ?: run {

@@ -10,11 +10,8 @@ import com.example.skincure.ui.contactus.ContactUsViewModel
 import com.example.skincure.ui.dashboard.DashboardViewModel
 import com.example.skincure.ui.favorite.FavoriteViewModel
 import com.example.skincure.ui.history.HistoryViewModel
-import com.example.skincure.ui.home.HomeViewModel
 import com.example.skincure.ui.login.LoginViewModel
-import com.example.skincure.ui.mainboard.MainBoardViewModel
 import com.example.skincure.ui.news.NewsViewModel
-import com.example.skincure.ui.news_detail.NewsDetailViewModel
 import com.example.skincure.ui.otp.OtpViewModel
 import com.example.skincure.ui.profile.ProfileViewModel
 import com.example.skincure.ui.result_detail.ResultDetailViewModel
@@ -47,17 +44,8 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(OtpViewModel::class.java) -> {
                 OtpViewModel() as T
             }
-            modelClass.isAssignableFrom(NewsDetailViewModel::class.java) -> {
-                NewsDetailViewModel() as T
-            }
             modelClass.isAssignableFrom(NewsViewModel::class.java) -> {
                 NewsViewModel(repository) as T
-            }
-            modelClass.isAssignableFrom(MainBoardViewModel::class.java) -> {
-                MainBoardViewModel() as T
-            }
-            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
-                HomeViewModel() as T
             }
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
                 FavoriteViewModel(repository) as T

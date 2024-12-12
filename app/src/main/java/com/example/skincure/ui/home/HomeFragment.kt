@@ -6,16 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentHomeBinding
-import com.example.skincure.di.Injection
-import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.ui.dashboard.DashboardFragment
 import com.example.skincure.ui.favorite.FavoriteFragment
 import com.example.skincure.ui.history.HistoryFragment
-import com.example.skincure.ui.profile.ProfileFragment
 import com.example.skincure.ui.setting.SettingsFragment
 import com.example.skincure.utils.isInternetAvailable
 import com.example.skincure.utils.showToast
@@ -24,11 +20,6 @@ class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HomeViewModel by viewModels {
-        ViewModelFactory(
-            Injection.provideRepository(requireContext()),
-        )
-    }
 
     private var selectedFragmentIndex = 0
 
@@ -74,27 +65,36 @@ class HomeFragment : Fragment() {
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
+
+            if (item.itemId == binding.bottomNavigationView.selectedItemId) {
+                return@setOnItemSelectedListener false
+            }
+
             when (item.itemId) {
                 R.id.home -> {
                     selectedFragmentIndex = 0
                     loadFragment(selectedFragmentIndex)
                     true
                 }
+
                 R.id.history -> {
                     selectedFragmentIndex = 1
                     loadFragment(selectedFragmentIndex)
                     true
                 }
+
                 R.id.favorite -> {
                     selectedFragmentIndex = 2
                     loadFragment(selectedFragmentIndex)
                     true
                 }
+
                 R.id.profile -> {
                     selectedFragmentIndex = 3
                     loadFragment(selectedFragmentIndex)
                     true
                 }
+
                 else -> false
             }
         }

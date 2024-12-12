@@ -10,7 +10,6 @@ import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.databinding.FavoriteItemBinding
 import com.example.skincure.utils.LoadImage
 import com.example.skincure.utils.dateFormatter
-import com.squareup.picasso.Picasso
 
 
 class FavoriteAdapter(
