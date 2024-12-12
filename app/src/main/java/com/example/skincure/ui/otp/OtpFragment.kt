@@ -1,5 +1,6 @@
 package com.example.skincure.ui.otp
 
+import android.content.Context
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -36,13 +37,18 @@ class OtpFragment : Fragment() {
         return binding.root
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        auth = FirebaseAuth.getInstance()
+        val user = auth.currentUser
+        userEmail = user?.email.toString()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
 
-        val user = FirebaseAuth.getInstance().currentUser
-        userEmail = user?.email.toString()
         setupListeners()
 
         checkEmailVerification()
