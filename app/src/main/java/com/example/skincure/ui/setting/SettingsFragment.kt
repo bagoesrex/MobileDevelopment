@@ -15,6 +15,7 @@ import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
 import com.example.skincure.utils.createLoadingDialog
 import com.example.skincure.utils.showConfirmationDialog
+import com.example.skincure.utils.showDeleteDialog
 import com.example.skincure.utils.showToast
 
 class SettingsFragment : Fragment() {
@@ -70,7 +71,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.deleteUserButton.setOnClickListener {
-            showConfirmationDialog(
+            showDeleteDialog(
                 requireContext(),
                 getString(R.string.confirm_delete_account),
                 onConfirm = {

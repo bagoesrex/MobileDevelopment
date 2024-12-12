@@ -94,6 +94,9 @@ class Repository(
         return dao.getFavoriteCount()
     }
 
+    fun getHistoryCount(): LiveData<Int> = db.historyDao().getHistoryCount()
+
+
     suspend fun predictUpload(
         photo: MultipartBody.Part,
     ): utilResult<PredictUploadResponse> {
