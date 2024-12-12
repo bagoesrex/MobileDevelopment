@@ -97,6 +97,9 @@
       <action
             android:id="@+id/action_settings_to_mainBoard"
             app:destination="@id/mainBoard" />
+        <action
+            android:id="@+id/action_home_to_chatbot"
+            app:destination="@id/chatbot" />
     </fragment>
     <fragment
         android:id="@+id/otp"
@@ -226,4 +229,9 @@
         android:name="com.example.skincure.ui.dashboard.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/chatbot"
+        android:name="com.example.skincure.ui.chatbot.ChatbotFragment"
+        android:label="fragment_chatbot"
+        tools:layout="@layout/fragment_chatbot" />
 </navigation>

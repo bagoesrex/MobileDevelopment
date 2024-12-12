@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentHomeBinding
+import com.example.skincure.ui.chatbot.ChatbotFragment
 import com.example.skincure.ui.dashboard.DashboardFragment
 import com.example.skincure.ui.favorite.FavoriteFragment
 import com.example.skincure.ui.history.HistoryFragment

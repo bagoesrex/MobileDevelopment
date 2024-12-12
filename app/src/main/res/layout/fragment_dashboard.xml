@@ -232,7 +232,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/news_card"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/dashboard_card">
+                    app:layout_constraintTop_toBottomOf="@id/chatbot_card">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -291,7 +291,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/favorite_card"
-                    app:layout_constraintTop_toBottomOf="@id/dashboard_card">
+                    app:layout_constraintTop_toBottomOf="@id/chatbot_card">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -339,6 +339,84 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/chatbot_card"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/primary"
+                    android:layout_marginHorizontal="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dashboard_card">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/chatbot_button"
+                            style="@style/RoundedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="20dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="sans-serif-condensed-medium"
+                            android:text="Use Now"
+                            android:textColor="@color/primary"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:strokeColor="@color/primary"
+                            app:strokeWidth="1dp" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/chatbot_text_view"
+                            style="bold"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:gravity="center|start"
+                            android:textStyle="bold"
+                            android:text="Chat Bot"
+                            android:textColor="#FFFFFF"
+                            android:textSize="25sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:layout_marginTop="10dp"
+                            android:id="@+id/chatbot_image_view"
+                            android:layout_width="35dp"
+                            android:layout_marginStart="7dp"
+                            android:layout_height="35dp"
+                            android:src="@drawable/ic_chatbot"
+                            app:layout_constraintStart_toEndOf="@id/chatbot_text_view"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="sans-serif-condensed-light"
+                            android:gravity="center|start"
+                            android:justificationMode="inter_character"
+                            android:text="Ask about skin health concerns"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/chatbot_text_view" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
