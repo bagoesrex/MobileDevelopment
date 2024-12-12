@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentProfileBinding
@@ -54,6 +55,9 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setupView() {
+        binding.backButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
 
         binding.buttonGaleri.setOnClickListener {
             pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))

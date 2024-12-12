@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
@@ -64,6 +65,10 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_home_to_camera)
         }
 
+        binding.apply{
+            bottomNavigationView.itemIconTintList = ContextCompat.getColorStateList(requireContext(), R.color.black)
+            bottomNavigationView.itemTextColor = ContextCompat.getColorStateList(requireContext(), R.color.black)
+        }
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
 
             if (item.itemId == binding.bottomNavigationView.selectedItemId) {

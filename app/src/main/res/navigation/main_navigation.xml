@@ -94,6 +94,9 @@
         <action
             android:id="@+id/action_home_to_information"
             app:destination="@id/information" />
+      <action
+            android:id="@+id/action_settings_to_mainBoard"
+            app:destination="@id/mainBoard" />
     </fragment>
     <fragment
         android:id="@+id/otp"
