@@ -15,7 +15,15 @@
         <item name="android:color">#00000000</item>
     </style>
     
-    <style name="Theme.SkinCure" parent="Base.Theme.SkinCure" />
+    <style name="Theme.SkinCure" parent="Base.Theme.SkinCure">
+
+    </style>
+
+    <style name="Theme.SplashScreen" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
     <style name="CustomButton" parent="Widget.AppCompat.Button">
         <item name="android:backgroundTint">@color/primary</item>
