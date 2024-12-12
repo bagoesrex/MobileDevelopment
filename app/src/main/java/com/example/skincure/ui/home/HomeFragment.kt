@@ -66,8 +66,8 @@ class HomeFragment : Fragment() {
         }
 
         binding.apply{
-            bottomNavigationView.itemIconTintList = ContextCompat.getColorStateList(requireContext(), R.color.black)
-            bottomNavigationView.itemTextColor = ContextCompat.getColorStateList(requireContext(), R.color.black)
+            bottomNavigationView.itemIconTintList = ContextCompat.getColorStateList(requireContext(), R.color.white)
+            bottomNavigationView.itemTextColor = ContextCompat.getColorStateList(requireContext(), R.color.white)
         }
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
 
