@@ -104,19 +104,14 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginBottom="15dp"
-        android:backgroundTint="@color/red"
-        android:elevation="8dp"
         android:text="@string/log_out"
-        android:textColor="@color/white"
-        app:cornerRadius="30dp"
         app:icon="@drawable/ic_logout"
         app:iconGravity="textEnd"
-        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.915" />
-
+        app:layout_constraintVertical_bias="0.915"
+        style="@style/CustomExtendedFAB" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,4 +21,20 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50dp</item>
     </style>
+
+    <style name="CustomExtendedFAB" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="backgroundTint">@color/red</item>
+        <item name="strokeColor">@color/glass</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:textColor">@color/glass</item>
+        <item name="android:textSize">16sp</item>
+        <item name="iconTint">@color/glass</item>
+        <item name="android:elevation">8dp</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Custom.FAB</item>
+    </style>
+
+    <style name="ShapeAppearance.Custom.FAB" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">30dp</item>
+    </style>
 </resources>

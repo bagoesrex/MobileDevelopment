@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentWelcomeBinding
+import com.example.skincure.utils.showVerificationDialog
 import com.google.firebase.auth.FirebaseAuth
 
 class WelcomeFragment : Fragment() {
@@ -61,14 +62,15 @@ class WelcomeFragment : Fragment() {
     }
 
     private fun showEmailVerificationPrompt() {
-        AlertDialog.Builder(requireContext())
-            .setTitle(getString(R.string.verification_email_title))
-            .setMessage(getString(R.string.verification_email_message))
-            .setPositiveButton(getString(R.string.verification_email_positive_button)) { _, _ ->
+        showVerificationDialog(
+            requireContext(),
+            getString(R.string.verification_email_message),
+            onConfirm = {
                 findNavController().navigate(R.id.action_welcome_to_otp)
+            }, onCancel = {
+                findNavController().navigate(R.id.action_welcome_to_mainBoard)
             }
-            .setNegativeButton(getString(R.string.verification_email_negative_button), null)
-            .show()
+        )
     }
 
     override fun onStart() {
