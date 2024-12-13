@@ -33,6 +33,9 @@
             app:destination="@id/home"
             app:popUpTo="@id/mainBoard"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_login_to_mainBoard"
+            app:destination="@id/mainBoard" />
 
 
     </fragment>
@@ -52,6 +55,9 @@
         <action
             android:id="@+id/action_signUp_to_otp"
             app:destination="@id/otp" />
+        <action
+            android:id="@+id/action_signUp_to_mainBoard"
+            app:destination="@id/mainBoard" />
     </fragment>
     <fragment
         android:id="@+id/home"

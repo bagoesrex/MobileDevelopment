@@ -60,8 +60,15 @@ class FavoriteFragment : Fragment() {
         viewModel.favoriteList.observe(viewLifecycleOwner) { favList ->
             binding.shimmerViewContainer.stopShimmer()
             binding.shimmerViewContainer.visibility = View.GONE
-            binding.favsRecyclerView.visibility = View.VISIBLE
-            favAdapter.submitList(favList)
+
+            if (favList.isNullOrEmpty()) {
+                binding.emptyLayout.visibility = View.VISIBLE
+                binding.favsRecyclerView.visibility = View.GONE
+            } else {
+                binding.emptyLayout.visibility = View.GONE
+                binding.favsRecyclerView.visibility = View.VISIBLE
+                favAdapter.submitList(favList)
+            }
         }
     }
 

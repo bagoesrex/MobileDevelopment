@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -63,6 +64,14 @@ class LoginFragment : Fragment() {
         setupListeners()
         observeLoginState()
         playAnimation()
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    findNavController().navigate(R.id.action_login_to_mainBoard)
+                }
+            })
     }
 
     private fun setupListeners() {
@@ -174,7 +183,8 @@ class LoginFragment : Fragment() {
                     val idToken = task.result?.token
                     idToken?.let {
                         userPreferences.saveToken(it)
-                        Log.d("token", it
+                        Log.d(
+                            "token", it
                         )
                     }
                     if (currentUser.isEmailVerified) {
@@ -279,10 +289,13 @@ class LoginFragment : Fragment() {
     private fun playAnimation() {
         val title = ObjectAnimator.ofFloat(binding.title, View.ALPHA, 1f).setDuration(500)
         val emailText = ObjectAnimator.ofFloat(binding.email, View.ALPHA, 1f).setDuration(500)
-        val emailInput = ObjectAnimator.ofFloat(binding.emailEditTextLayout, View.ALPHA, 1f).setDuration(500)
+        val emailInput =
+            ObjectAnimator.ofFloat(binding.emailEditTextLayout, View.ALPHA, 1f).setDuration(500)
         val passwordText = ObjectAnimator.ofFloat(binding.password, View.ALPHA, 1f).setDuration(500)
-        val passwordInput = ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(500)
-        val forgotPassword = ObjectAnimator.ofFloat(binding.forgotPassword, View.ALPHA, 1f).setDuration(500)
+        val passwordInput =
+            ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(500)
+        val forgotPassword =
+            ObjectAnimator.ofFloat(binding.forgotPassword, View.ALPHA, 1f).setDuration(500)
 
         val inputFields = AnimatorSet().apply {
             playTogether(emailText, emailInput, passwordText, passwordInput, forgotPassword)
@@ -290,12 +303,15 @@ class LoginFragment : Fragment() {
         val together = AnimatorSet().apply {
             playTogether(
                 ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(500),
-                ObjectAnimator.ofFloat(binding.loginButton, View.TRANSLATION_X, -300f, 0f).setDuration(500),
+                ObjectAnimator.ofFloat(binding.loginButton, View.TRANSLATION_X, -300f, 0f)
+                    .setDuration(500),
                 ObjectAnimator.ofFloat(binding.googleLoginGroup, View.ALPHA, 1f).setDuration(500),
-                ObjectAnimator.ofFloat(binding.googleLoginGroup, View.TRANSLATION_X, 300f, 0f).setDuration(500),
+                ObjectAnimator.ofFloat(binding.googleLoginGroup, View.TRANSLATION_X, 300f, 0f)
+                    .setDuration(500),
                 ObjectAnimator.ofFloat(binding.line, View.ALPHA, 1f).setDuration(500),
                 ObjectAnimator.ofFloat(binding.registerButton, View.ALPHA, 1f).setDuration(500),
-                ObjectAnimator.ofFloat(binding.registerButton, View.TRANSLATION_Y, 300f, 0f).setDuration(500)
+                ObjectAnimator.ofFloat(binding.registerButton, View.TRANSLATION_Y, 300f, 0f)
+                    .setDuration(500)
 
             )
         }

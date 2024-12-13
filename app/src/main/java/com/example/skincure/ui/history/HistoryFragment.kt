@@ -41,7 +41,6 @@ class HistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupView()
         setupRecyclerView()
         setupObserver()
 
@@ -53,47 +52,48 @@ class HistoryFragment : Fragment() {
         }
     }
 
-    private fun setupView() {
-    }
-
     private fun setupObserver() {
         binding.shimmerViewContainer.startShimmer()
+
         viewModel.history.observe(viewLifecycleOwner) { result ->
-            if (result != null) { {
-                Log.d("HomeFragment", "PagingData is empty.")
-                binding.shimmerViewContainer.stopShimmer()
-                binding.shimmerViewContainer.visibility = View.GONE
-            }
-                binding.shimmerViewContainer.stopShimmer()
-                binding.shimmerViewContainer.visibility = View.GONE
-                binding.historyRecyclerView.visibility = View.VISIBLE
-                historyAdapter.submitData(lifecycle, result)
-            }
+            historyAdapter.submitData(lifecycle, result)
         }
+
         historyAdapter.addLoadStateListener { loadState ->
-            if (loadState.append.endOfPaginationReached) {
-                binding.shimmerViewContainer.stopShimmer()
-                binding.shimmerViewContainer.visibility = View.GONE
-                binding.historyRecyclerView.visibility = View.VISIBLE
-            }
-            if (loadState.refresh is LoadState.Error) {
+            if (loadState.refresh is LoadState.Loading) {
+                binding.shimmerViewContainer.visibility = View.VISIBLE
+                binding.historyRecyclerView.visibility = View.GONE
+                binding.emptyLayout.visibility = View.GONE
+            } else if (loadState.refresh is LoadState.Error) {
                 val error = (loadState.refresh as LoadState.Error).error
                 val errorMessage = when (error) {
                     is HttpException -> {
                         val errorBody = error.response()?.errorBody()?.string()
-                        errorBody ?: "API sedang eror"
+                        errorBody ?: "API error"
                     }
                     else -> {
                         if (!isInternetAvailable(requireContext())) {
-                            "Gagal Refresh Story, No internet"
+                            "No internet connection"
                         } else {
-                            "Koneksi sedang eror"
+                            "Connection error"
                         }
                     }
                 }
-                showToast(requireContext(), errorMessage)
+                Log.e("HistoryFragment", "Error: $errorMessage")
+                binding.shimmerViewContainer.visibility = View.GONE
+                binding.historyRecyclerView.visibility = View.GONE
+                binding.emptyLayout.visibility = View.VISIBLE
+            } else {
+                binding.shimmerViewContainer.visibility = View.GONE
+                binding.historyRecyclerView.visibility = View.VISIBLE
+                if (loadState.append.endOfPaginationReached && historyAdapter.itemCount == 0) {
+                    binding.emptyLayout.visibility = View.VISIBLE
+                } else {
+                    binding.emptyLayout.visibility = View.GONE
+                }
             }
-    }}
+        }
+    }
 
     private fun setupRecyclerView() {
         binding.historyRecyclerView.layoutManager = LinearLayoutManager(requireContext())
