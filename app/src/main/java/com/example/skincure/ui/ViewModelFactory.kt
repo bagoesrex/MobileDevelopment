@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.skincure.data.repository.Repository
 import com.example.skincure.di.Injection
+import com.example.skincure.ui.chatbot.ChatbotViewModel
 import com.example.skincure.ui.contactus.ContactUsViewModel
 import com.example.skincure.ui.dashboard.DashboardViewModel
 import com.example.skincure.ui.favorite.FavoriteViewModel
@@ -58,6 +59,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(DashboardViewModel::class.java) -> {
                 DashboardViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(ChatbotViewModel::class.java) -> {
+                ChatbotViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }
