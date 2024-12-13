@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
@@ -23,7 +22,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import com.example.skincure.R
 import com.example.skincure.databinding.FragmentCameraBinding
 import com.example.skincure.utils.createCustomTempFile

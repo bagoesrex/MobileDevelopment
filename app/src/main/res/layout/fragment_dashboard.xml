@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/background"
+    android:background="@color/secondary"
     tools:context=".ui.dashboard.DashboardFragment">
 
     <ImageView
@@ -455,6 +455,7 @@
                         android:layout_height="30dp"
                         android:fontFamily="sans-serif-condensed-light"
                         android:gravity="center|start"
+                        android:visibility="gone"
                         android:text="See all news"
                         android:textColor="@color/blue"
                         android:textSize="15dp"

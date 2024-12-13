@@ -4,16 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
-import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.databinding.FragmentSettingsBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
-import com.example.skincure.utils.createLoadingDialog
 import com.example.skincure.utils.showConfirmationDialog
 import com.example.skincure.utils.showDeleteDialog
 import com.example.skincure.utils.showToast
@@ -25,7 +22,6 @@ class SettingsFragment : Fragment() {
     private val viewModel: SettingsViewModel by viewModels {
         ViewModelFactory(Injection.provideRepository(requireContext()))
     }
-    private var loadingDialog: AlertDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,16 +39,12 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupView() {
-        binding.backButton.setOnClickListener {
-            findNavController().navigateUp()
+        binding.informationButton.setOnClickListener {
+            findNavController().navigate(R.id.action_home_to_information)
         }
 
         binding.contactButton.setOnClickListener {
             findNavController().navigate(R.id.action_home_to_contactUs)
-        }
-
-        binding.informationButton.setOnClickListener {
-            findNavController().navigate(R.id.action_home_to_information)
         }
 
         binding.logoutButton.setOnClickListener {
@@ -61,12 +53,8 @@ class SettingsFragment : Fragment() {
                 getString(R.string.confirm_logout),
                 onConfirm = {
                     viewModel.logout()
-                    val userPreferences = UserPreferences(requireContext())
-                    userPreferences.clearToken()
                 },
-                onCancel = {
-
-                }
+                onCancel = {}
             )
         }
 
@@ -76,8 +64,6 @@ class SettingsFragment : Fragment() {
                 getString(R.string.confirm_delete_account),
                 onConfirm = {
                     viewModel.deleteAccount()
-                    val userPreferences = UserPreferences(requireContext())
-                    userPreferences.clearToken()
                 },
                 onCancel = {}
             )
@@ -88,38 +74,32 @@ class SettingsFragment : Fragment() {
         viewModel.isLoggingOut.observe(viewLifecycleOwner) { isLoggingOut ->
             showLoading(isLoggingOut)
         }
+
         viewModel.logoutSuccess.observe(viewLifecycleOwner) { success ->
             if (success) {
                 findNavController().navigate(R.id.action_settings_to_mainBoard)
             }
         }
+
         viewModel.deleteSuccess.observe(viewLifecycleOwner) { success ->
             if (success) {
                 showToast(requireContext(), getString(R.string.deleted_account), 3000)
                 findNavController().navigate(R.id.action_settings_to_mainBoard)
             }
         }
+
         viewModel.isDeleting.observe(viewLifecycleOwner) { isDeleting ->
             showLoading(isDeleting)
         }
+
         viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
             message?.let {
-                showError(it)
+                showToast(requireContext(), it, 3000)
             }
         }
     }
 
     private fun showLoading(isLoading: Boolean) {
-        if (isLoading) {
-            loadingDialog = loadingDialog ?: createLoadingDialog(requireContext())
-            loadingDialog?.show()
-        } else {
-            loadingDialog?.dismiss()
-        }
-    }
-
-    private fun showError(message: String) {
-        showToast(requireContext(), message, 3000)
     }
 
     override fun onDestroyView() {

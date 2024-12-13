@@ -2,7 +2,6 @@ package com.example.skincure.ui.chatbot
 
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +9,6 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.skincure.data.remote.response.ChatMessage
 import com.example.skincure.databinding.FragmentChatbotBinding
 import com.example.skincure.di.Injection
 import com.example.skincure.ui.ViewModelFactory
@@ -23,6 +21,7 @@ class ChatbotFragment : Fragment() {
     private val viewModel: ChatbotViewModel by viewModels() {
         ViewModelFactory(Injection.provideRepository(requireContext()))
     }
+
     private lateinit var adapter: ChatBotAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var keyboardListener: ViewTreeObserver.OnGlobalLayoutListener
@@ -42,18 +41,14 @@ class ChatbotFragment : Fragment() {
         setupKeyboardListener()
         setupObserve()
 
+        viewModel.currentMessage.observe(viewLifecycleOwner) { message ->
+            binding.messageEditText.setText(message)
+        }
+
         binding.sendButton.setOnClickListener {
             val userMessage = binding.messageEditText.text.toString()
             if (userMessage.isNotEmpty()) {
-                val userChatMessage = ChatMessage(userMessage, true)
-                adapter.submitList(adapter.currentList + userChatMessage)
-
-                binding.chatbotRecyclerView.postDelayed({
-                    binding.chatbotRecyclerView.scrollToPosition(adapter.currentList.size)
-                }, 100)
-
-                binding.messageEditText.text?.clear()
-                viewModel.getResponse(userMessage)
+                viewModel.sendMessage(userMessage)
             }
         }
     }
@@ -67,13 +62,11 @@ class ChatbotFragment : Fragment() {
     }
 
     private fun setupObserve() {
-        viewModel.response.observe(viewLifecycleOwner) { response ->
-            val botChatMessage = ChatMessage(response, false)
-            Log.d("ChatbotFragment", response)
-            adapter.submitList(adapter.currentList + botChatMessage)
+        viewModel.chatMessages.observe(viewLifecycleOwner) { chatMessages ->
+            adapter.submitList(chatMessages)
 
             binding.chatbotRecyclerView.postDelayed({
-                binding.chatbotRecyclerView.scrollToPosition(adapter.currentList.size)
+                binding.chatbotRecyclerView.scrollToPosition(chatMessages.size)
             }, 100)
         }
     }

@@ -11,9 +11,9 @@
     <color name="dark_yellow">#ffdc7f</color>
     <color name="gray">#F5FFFF</color>
     <color name="black_custom">#1E687D</color>
-    <color name="shimmer_color">#E0E0E0</color>
+    <color name="shimmer_color">#6DDDFF</color>
     <color name="bottom_bar_color">#A4FFFF</color>"
     <color name="blue">#3699C6</color>
     <color name="placeholder">#D2D2D2</color>
-    <color name="background_card">#EFEFEF</color>
+    <color name="background_card">#FFFFFF</color>
 </resources>

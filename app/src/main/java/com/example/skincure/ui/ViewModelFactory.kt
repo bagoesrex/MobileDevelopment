@@ -30,20 +30,20 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(ResultDetailViewModel::class.java) -> {
                 ResultDetailViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(SettingsViewModel::class.java) -> {
+                SettingsViewModel(repository) as T
+            }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(repository) as T
             }
             modelClass.isAssignableFrom(SignUpViewModel::class.java) -> {
                 SignUpViewModel(repository) as T
             }
-            modelClass.isAssignableFrom(SettingsViewModel::class.java) -> {
-                SettingsViewModel() as T
-            }
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
-                ProfileViewModel() as T
+                ProfileViewModel(repository) as T
             }
             modelClass.isAssignableFrom(OtpViewModel::class.java) -> {
-                OtpViewModel() as T
+                OtpViewModel(repository) as T
             }
             modelClass.isAssignableFrom(NewsViewModel::class.java) -> {
                 NewsViewModel(repository) as T

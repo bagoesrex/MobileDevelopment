@@ -1,5 +1,7 @@
 package com.example.skincure.data.repository
 
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
@@ -25,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import okhttp3.MultipartBody
 import com.example.skincure.data.Result as utilResult
@@ -34,6 +38,7 @@ class Repository(
     private val apiService: ApiService,
     private val dao: FavoriteResultDao,
     private val db: AppDatabase,
+    private val firestore: FirebaseFirestore
 ) {
 
     private val generativeModel = GenerativeModel(
@@ -52,6 +57,35 @@ class Repository(
     fun getCurrentUser(): FirebaseUser? {
         return auth.currentUser
     }
+
+    suspend fun logout(): Boolean {
+        return try {
+            auth.signOut()
+            true
+        } catch (e: FirebaseAuthException) {
+            Log.e("SettingsRepository", "Logout failed: ${e.message}")
+            false
+        }
+    }
+
+    suspend fun deleteAccount(): Boolean {
+        val user = auth.currentUser
+        return if (user != null) {
+            try {
+                val userRef = firestore.collection("users").document(user.uid)
+                userRef.delete().await()
+
+                user.delete().await()
+                true
+            } catch (e: Exception) {
+                Log.e("SettingsRepository", "Account deletion failed: ${e.message}")
+                false
+            }
+        } else {
+            false
+        }
+    }
+
 
 
     suspend fun loginWithEmailPassword(email: String, password: String): Result<FirebaseUser> {
@@ -148,12 +182,84 @@ class Repository(
             remoteMediator = HistoryRemoteMediator(db, apiService)
         ).liveData
     }
-    suspend fun getDetailHistoryFromDatabase(id: String): HistoriesItem? = db.historyDao().getStoryById(id)
+
+    suspend fun getDetailHistoryFromDatabase(id: String): HistoriesItem? =
+        db.historyDao().getStoryById(id)
+
     suspend fun sendContactUs(request: ContactUsRequest): utilResult<ContactUsResponse> {
         return safeApiCall {
             apiService.contactUs(request)
         }
     }
+
+
+    fun sendEmailVerification(user: FirebaseUser) {
+        user.sendEmailVerification()
+    }
+
+    fun checkEmailVerification(user: FirebaseUser, callback: (Boolean) -> Unit) {
+        user.reload().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                callback(user.isEmailVerified)
+            } else {
+                callback(false)
+            }
+        }
+    }
+
+
+
+
+
+
+    fun updateProfileImage(photoUri: Uri, onSuccess: () -> Unit, onError: () -> Unit) {
+        val user = auth.currentUser
+        val profileUpdates = UserProfileChangeRequest.Builder()
+            .setPhotoUri(photoUri)
+            .build()
+
+        user?.updateProfile(profileUpdates)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onSuccess()
+                } else {
+                    onError()
+                }
+            }
+    }
+
+    fun updateProfileName(newName: String, onSuccess: () -> Unit, onError: () -> Unit) {
+        val user = auth.currentUser
+        val profileUpdates = UserProfileChangeRequest.Builder()
+            .setDisplayName(newName)
+            .build()
+
+        user?.updateProfile(profileUpdates)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onSuccess()
+                } else {
+                    onError()
+                }
+            }
+    }
+
+    fun deleteProfileImage(onSuccess: () -> Unit, onError: () -> Unit) {
+        val user = auth.currentUser
+        val profileUpdates = UserProfileChangeRequest.Builder()
+            .setPhotoUri(null)
+            .build()
+
+        user?.updateProfile(profileUpdates)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    onSuccess()
+                } else {
+                    onError()
+                }
+            }
+    }
+
 
     companion object {
 
@@ -164,9 +270,10 @@ class Repository(
             auth: FirebaseAuth,
             apiService: ApiService,
             dao: FavoriteResultDao,
-            db: AppDatabase
+            db: AppDatabase,
+            firestore: FirebaseFirestore
         ): Repository = instance ?: synchronized(this) {
-            instance ?: Repository(auth, apiService, dao, db)
+            instance ?: Repository(auth, apiService, dao, db, firestore)
         }.also { instance = it }
     }
 }
