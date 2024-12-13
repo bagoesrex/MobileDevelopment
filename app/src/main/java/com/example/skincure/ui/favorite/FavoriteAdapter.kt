@@ -32,7 +32,7 @@ class FavoriteAdapter(
             binding.scoreTextView.text = buildString {
                 append("Prediction Score: ")
                 val score = fav.predictionScore.toString().toDoubleOrNull() ?: 0.0
-                append(score)
+                append(score.toInt())
                 append("%")
             }
             val formattedDate = dateFormatter(fav.timestamp)

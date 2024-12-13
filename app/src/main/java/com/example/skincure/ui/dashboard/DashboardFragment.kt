@@ -118,8 +118,8 @@ class DashboardFragment : Fragment() {
             } else {
                 val pref = UserPreferences(requireContext())
                 val namePref = pref.getUserName()
-                if (namePref == null){
-                    val welcomeMessage = "Hi, ${getString(R.string.welcome_text)}"
+                if (namePref == null) {
+                    val welcomeMessage = getString(R.string.welcome_text)
                     binding.usernameTextView.text = welcomeMessage
                 }
                 binding.profileButton.setImageResource(R.drawable.ic_person)
@@ -143,14 +143,15 @@ class DashboardFragment : Fragment() {
                 val latestNews = result.take(3)
                 binding.newsRecyclerView.visibility = View.VISIBLE
                 newsAdapter.submitList(latestNews)
+                binding.newsLinkTextView.visibility = View.VISIBLE
+            } else {
+                binding.newsLinkTextView.visibility = View.GONE
             }
         }
-//        newsViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
-//            binding.newsRecyclerView.visibility = View.GONE
-//            Log.e("HistoryFragment", errorMessage)
-//        }
+
         newsViewModel.getAllNews()
     }
+
 
     private fun setupRecyclerView() {
         binding.newsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
