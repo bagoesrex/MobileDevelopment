@@ -13,7 +13,7 @@ fun dateFormatter(createdAt: String): String {
         inputFormat.timeZone = TimeZone.getTimeZone("UTC")
 
         val outputFormat = SimpleDateFormat(
-            "HH.mm | yyyy-MM-dd ",
+            "HH.mm | dd MMMM yyyy ",
             Locale.getDefault()
         )
         outputFormat.timeZone = TimeZone.getDefault()

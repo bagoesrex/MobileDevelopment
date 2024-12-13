@@ -29,6 +29,11 @@ class FavoriteAdapter(
                 imageUrl = fav.imageUri.toString(),
                 placeholder = R.color.placeholder,
             )
+            binding.scoreTextView.text = buildString {
+                append("Prediction Score: ")
+                append(fav.predictionScore.toString())
+                append("%")
+            }
             val formattedDate = dateFormatter(fav.timestamp)
             binding.createdTextView.text = formattedDate
 

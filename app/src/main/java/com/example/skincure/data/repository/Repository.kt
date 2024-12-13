@@ -6,6 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
+import com.example.skincure.BuildConfig
 import com.example.skincure.data.local.AppDatabase
 import com.example.skincure.data.local.FavoriteResult
 import com.example.skincure.data.local.FavoriteResultDao
@@ -18,6 +19,8 @@ import com.example.skincure.data.remote.response.PredictHistoriesResponse
 import com.example.skincure.data.remote.response.PredictUploadResponse
 import com.example.skincure.data.remote.retrofit.ApiService
 import com.example.skincure.utils.safeApiCall
+import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.content
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
@@ -32,6 +35,19 @@ class Repository(
     private val dao: FavoriteResultDao,
     private val db: AppDatabase,
 ) {
+
+    private val generativeModel = GenerativeModel(
+        modelName = "gemini-1.5-pro-latest",
+        apiKey = BuildConfig.apiKey
+    )
+
+    suspend fun getGenerativeResponse(message: String): String {
+        val inputContent = content {
+            text(message)
+        }
+        val response = generativeModel.generateContent(inputContent)
+        return response.text ?: "No response"
+    }
 
     fun getCurrentUser(): FirebaseUser? {
         return auth.currentUser

@@ -443,6 +443,7 @@
                         android:fontFamily="sans-serif-medium"
                         android:gravity="center|start"
                         android:text="NEWS"
+                        android:textColor="@color/primary"
                         android:textSize="20sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

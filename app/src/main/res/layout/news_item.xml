@@ -44,6 +44,7 @@
                 android:fontFamily="sans-serif-condensed-medium"
                 android:gravity="center_vertical"
                 android:maxLines="1"
+                android:textColor="@color/primary"
                 android:text="Ini Judul" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -54,6 +55,7 @@
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="start"
                 android:justificationMode="inter_word"
+                android:textColor="@color/primary"
                 android:maxLines="3"
                 android:paddingVertical="5dp"
                 android:text="Kamu sering merasa tidak percaya diri karena pori-pori membesar? Ada beberapa kandungan skincare untuk mengecilkan pori-pori yang mungkin perlu kamu pahami agar tidak salah beli produk."
@@ -65,6 +67,7 @@
                 android:layout_height="20dp"
                 android:fontFamily="sans-serif-light"
                 android:gravity="end|center_vertical"
+                android:textColor="@color/primary"
                 android:maxLines="1"
                 android:text="25 December 2024"
                 android:textSize="12sp"
