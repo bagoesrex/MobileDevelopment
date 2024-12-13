@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="100dp"
-    android:background="?attr/background"
+    android:background="@color/secondary"
+    android:paddingBottom="100dp"
     tools:context=".ui.setting.SettingsFragment">
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -14,6 +14,7 @@
         android:layout_height="48dp"
         android:layout_margin="20dp"
         android:backgroundTint="@color/red"
+        android:drawableTint="@color/white"
         android:text="@string/delete_account"
         android:textAlignment="textStart"
         android:textColor="@color/white"
@@ -47,7 +48,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.5"
-            app:tint="@color/primary"/>
+            app:tint="@color/primary" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
@@ -102,17 +103,18 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/logoutButton"
+        style="@style/CustomExtendedFAB"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginBottom="15dp"
         android:text="@string/log_out"
+        android:textColor="@color/white"
         app:icon="@drawable/ic_logout"
         app:iconGravity="textEnd"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.915"
-        style="@style/CustomExtendedFAB" />
+        app:layout_constraintVertical_bias="0.915" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
