@@ -2,7 +2,6 @@ package com.example.skincure.ui.profile
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.ContentValues.TAG
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -62,9 +61,11 @@ class ProfileFragment : Fragment() {
         binding.buttonGaleri.setOnClickListener {
             pickImage.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
+
         binding.deleteImage.setOnClickListener {
             deleteProfileImage()
         }
+
         binding.buttonSave.setOnClickListener {
             val name = binding.textInputEditTextName.text.toString()
             val age = binding.textInputEditTextAge.text.toString().toIntOrNull()
@@ -73,9 +74,10 @@ class ProfileFragment : Fragment() {
                 saveUserPreferences(name, age)
                 updateProfileName(name)
             } else {
-                showToast(getString(R.string.name_and_age_empty))
+                showToast(requireContext(),getString(R.string.name_and_age_empty))
             }
         }
+
         playAnimation()
         showProfile()
     }
@@ -85,7 +87,7 @@ class ProfileFragment : Fragment() {
             if (uri != null) {
                 updateProfileImage(uri)
             } else {
-                Log.d(TAG, "Image not selected")
+                Log.d("ProfileFragment", "Image not selected")
             }
         }
 
@@ -94,13 +96,11 @@ class ProfileFragment : Fragment() {
         viewModel.updateProfileImage(
             photoUri = photoUri,
             onSuccess = {
-                showToast(getString(R.string.profile_image_update_success))
                 binding.profileImage.setImageURI(photoUri)
                 showLoading(false)
             },
             onError = {
                 showLoading(false)
-                showToast(getString(R.string.profile_image_update_failed))
             }
         )
     }
@@ -114,23 +114,19 @@ class ProfileFragment : Fragment() {
             },
             onError = {
                 showLoading(false)
-                showToast(getString(R.string.update_name_failed))
             }
         )
     }
-
 
     private fun deleteProfileImage() {
         showLoading(true)
         viewModel.deleteProfileImage(
             onSuccess = {
-                showToast(getString(R.string.profile_image_delete_success))
                 binding.profileImage.setImageResource(R.drawable.ic_person)
                 showLoading(false)
             },
             onError = {
                 showLoading(false)
-                showToast(getString(R.string.profile_image_delete_failed))
             }
         )
     }
@@ -166,7 +162,6 @@ class ProfileFragment : Fragment() {
     private fun saveUserPreferences(name: String, age: Int) {
         val preferences = userPreferences
         preferences.saveUser(name, age)
-        showToast(getString(R.string.data_saved))
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -176,15 +171,6 @@ class ProfileFragment : Fragment() {
         } else {
             loadingDialog?.dismiss()
         }
-    }
-
-    private fun showToast(message: String) {
-        showToast(requireContext(), message)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun playAnimation() {
@@ -283,4 +269,8 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

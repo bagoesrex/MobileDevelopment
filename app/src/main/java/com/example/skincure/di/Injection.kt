@@ -6,6 +6,7 @@ import com.example.skincure.data.pref.UserPreferences
 import com.example.skincure.data.remote.retrofit.ApiConfig
 import com.example.skincure.data.repository.Repository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 object Injection {
     fun provideRepository(context: Context): Repository {
@@ -14,6 +15,7 @@ object Injection {
         val database = AppDatabase.getDatabase(context)
         val dao = database.resultDao()
         val apiService = ApiConfig.getApiService(pref)
-        return Repository.getInstance(auth, apiService,dao, db = database)
+        val firestore = FirebaseFirestore.getInstance()
+        return Repository.getInstance(auth, apiService, dao, database, firestore)
     }
 }

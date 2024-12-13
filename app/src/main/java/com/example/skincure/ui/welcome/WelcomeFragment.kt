@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.navigation.fragment.findNavController
 import com.example.skincure.R
 import com.example.skincure.data.pref.UserPreferences
