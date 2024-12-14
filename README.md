@@ -5,4 +5,4 @@
 - https://drive.google.com/file/d/1SKy_pYl-F8h6ta64uhZJ6HicRpSTdLuV/view?usp=sharing
 
 ## App Preview
-<img alt="skincure image" src="https://github.com/user-attachments/assets/1df09f13-4033-4644-9827-6cf4ef8466f8">
+<img alt="skincure image" src="https://github.com/user-attachments/assets/a1cf7588-b437-4367-8e79-6d1beca51e30">
