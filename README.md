@@ -3,3 +3,6 @@
 - Downloadable release APK file :
 - https://drive.google.com/file/d/1RrhGkqKvM6bh5wrN80HPCWiNzf9uwCTb/view?usp=sharing
 - https://drive.google.com/file/d/1SKy_pYl-F8h6ta64uhZJ6HicRpSTdLuV/view?usp=sharing
+
+## App Preview
+<img alt="skincure image" src="https://github.com/user-attachments/assets/1df09f13-4033-4644-9827-6cf4ef8466f8">
